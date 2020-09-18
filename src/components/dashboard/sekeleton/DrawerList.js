@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import {Visibility, BorderColor, Message, Person, ImportExport, TrendingUp, Store, ExpandLess, ExpandMore } from '@material-ui/icons';
+import {Visibility, BorderColor, Message, Person, ImportExport, TrendingUp, Store, ExpandLess, ExpandMore, ViewCarousel } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 
@@ -43,6 +43,11 @@ const itemsList1 = [
         link: "/myspace/users"
     },
     {
+        name: "Banners",
+        icon: ViewCarousel,
+        link: "/myspace/banners",
+    },
+    {
         name: "Messages",
         icon: Message,
         link: "/myspace/messages"
@@ -61,25 +66,22 @@ const itemsList1 = [
         name: "Analytics",
         icon: TrendingUp,
         link: "/myspace/analytics"
-    }
+    },
+    
 ]
 
 const itemsList2 = [
     {
         name: "Product Management",
-        link: "/mysapce/products"
+        link: "/myspace/products"
     },
     {
-        name: "Product Grid",
-        link: "/mysapce/products/grid"
-    },
-    {
-        name: "Product Page",
-        link: "/mysapce/products/:productId"
+        name: "Add Product & Categories",
+        link: "/myspace/products/add"
     },
     {
         name: "Combo Management",
-        link: "/mysapce/products/combo"
+        link: "/myspace/products/combo"
     },
 ]
 

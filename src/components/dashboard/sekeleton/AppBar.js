@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         display: "flex",
         alignItems: "center",
+        '&:hover': {
+            cursor: 'pointer'
+        }
     },
     divider: {
         marginTop: "10px",
@@ -61,16 +64,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function TopAppBar(props) {
+function TopAppBar({props}) {
     const classes = useStyles();
     const logo = "/imgs/logo.png"
-
+    
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-
     return (
         <div className={classes.root} >
             <CssBaseline />
@@ -85,7 +87,7 @@ function TopAppBar(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <div className={classes.mainLogo}>
+                    <div className={classes.mainLogo} >
                         <div className={classes.dashboardDiv}>
                             <Dashboard className={classes.dashboardIcon}/>
                             <span className={classes.dashboardText}>Dashboard</span>

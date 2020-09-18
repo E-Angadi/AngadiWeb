@@ -29,7 +29,7 @@ function Orders() {
     const classes = useStyles();
     return (
         <div className={classes.divAlign}>
-            <Typography variant="h4" className={classes.heading} color='primary' >Orders</Typography>
+            <Typography variant="h5" className={classes.heading} color='primary' >Orders</Typography>
             <Grid container justify='space-between' spacing={3}>
                 <Grid item sm={2}/>
                 <Grid item xs={12} sm={4}>

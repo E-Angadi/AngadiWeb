@@ -40,7 +40,7 @@ function SideDrawer(props) {
     const handleDrawerToggle = () => {
         props.handleOpen()
     };
-
+    
     return (
         <nav className={classes.drawer} aria-label="mailbox folders">
             <Hidden smUp implementation="css">
@@ -51,7 +51,7 @@ function SideDrawer(props) {
                     open={props.open}
                     onClose={handleDrawerToggle}
                     classes={{
-                    paper: classes.drawerPaper,
+                        paper: classes.drawerPaper,
                     }}
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.

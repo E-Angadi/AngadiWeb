@@ -20,8 +20,8 @@ export class AdminRoutes extends Component {
                         <Route exact path='/myspace' component={Orders}/>
                         <Route exact path='/myspace/users' component={Users}/>
                         <Route exact path='/myspace/products' component={ProductManagament}/>
-                        <Route exact path='/myspace/add' component={AddProduct}/>
-                        <Route exact path='/myspace/combo' component={ComboManagement}/>
+                        <Route exact path='/myspace/products/add' component={AddProduct}/>
+                        <Route exact path='/myspace/products/combo' component={ComboManagement}/>
                     </Switch>
                 </MuiThemeProvider>
             </div>

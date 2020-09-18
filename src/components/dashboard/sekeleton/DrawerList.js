@@ -92,10 +92,11 @@ function DrawerList(props) {
     const handleClick = () => {
         setOpen(!open);
     };
+    console.log(props.location.pathname)
     return (
         <List>
             {itemsList1.map(({name, icon: Icon, link}, idx) => {
-                var isSelected = (props.match.path===link);
+                var isSelected = (props.location.pathname===link);
                 return(
                 <ListItem component={Link} to={link} key={idx} button selected={isSelected}>
                     <ListItemIcon><Icon className={classes.iconRoot}/></ListItemIcon>
@@ -112,7 +113,7 @@ function DrawerList(props) {
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     {itemsList2.map(({name, link}, idx) => {
-                        var isSelected = (props.match.path===link);
+                        var isSelected = (props.location.pathname===link);
                         return(
                         <ListItem button key={idx} component={Link} to={link} selected={isSelected} className={classes.nested}>
                             <ListItemText className={classes.itemRoot} primary={name} />

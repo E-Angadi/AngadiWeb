@@ -41,7 +41,7 @@ function AddCategory() {
         <div className={classes.divAlign}>
             <PageHeader title={"Manage Category"} icon={<LibraryAdd fontSize="large" />} subTitle={"Add and edit categories in the listing"} />
             <Grid container justify='center'>
-                <Grid item xs={8}>
+                <Grid item xs={12} sm={8}>
                     <Paper className={classes.paperStyles}>
                         <AddCategoryForm /> 
                     </Paper>

@@ -59,6 +59,8 @@ function AddProductForm() {
             tmp.discount = (fieldValues.discount >= 0) ? '' : 'Discount percentage should be greater than or equal to zero'      
         if('tax' in fieldValues)
             tmp.tax = (fieldValues.tax >= 0) ? '' : 'Tax percentage should be greater than or equal to zero'
+        if('imageData' in fieldValues)
+            tmp.imageData = (values.imageData === '') ? 'Image is required' : ''
         setErrors({
             ...tmp
         })
@@ -204,7 +206,15 @@ function AddProductForm() {
                             <UploadImageButton callbackSave={imageSave}/>  
                         </Grid>
                         <Grid xs={12} item container justify='center'>
-                            <img alt='Product uploaded' src={(values.imageData === '') ? '/imgs/default.jpg' : values.imageData} width={130} height={130} style={{marginBottom: '10px'}}/>
+                            <Grid item>
+                                <Controls.ImageView 
+                                    alt='Product uploaded' 
+                                    src={(values.imageData === '') ? '/imgs/default.jpg' : values.imageData} 
+                                    width={130} 
+                                    height={130} 
+                                    error={errors.imageData}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                     </Grid>

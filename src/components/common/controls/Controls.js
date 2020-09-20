@@ -3,7 +3,7 @@ import Select from "./Select";
 import Button from "./Button";
 import InputArea from './InputArea';
 import Switch from './Switch';
-import Text from './Text';
+import ImageView from './ImageView';
 
 const Controls = {
     Input,
@@ -11,7 +11,7 @@ const Controls = {
     Button,
     InputArea,
     Switch,
-    Text,
+    ImageView,
 }
 
 export default Controls

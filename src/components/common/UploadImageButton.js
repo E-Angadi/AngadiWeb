@@ -15,20 +15,18 @@ export default function UploadImageButton(props) {
     const [open, setOpen] = React.useState(false);
     const [fileObjects, setFileObjects] = React.useState([]);
     const classes = useStyles(props);
-    const {callbackSave} = props;
+    const {text, callbackSave, filesLimit} = props;
 
     return (
         <div>
-            <Control.Button variant="contained" color="primary" className={ classes.uploadbtnStyles} text={'Add Image'} onClick={() => setOpen(true)} />
-                
-
+            <Control.Button variant="contained" color="primary" className={ classes.uploadbtnStyles} text={text ? text : 'Add Image'} onClick={() => setOpen(true)} />
             <DropzoneDialogBase
                 acceptedFiles={['image/*']}
                 fileObjects={fileObjects}
                 cancelButtonText={"cancel"}
                 submitButtonText={"submit"}
                 maxFileSize={5000000}
-                filesLimit={1}
+                filesLimit={filesLimit ? filesLimit : 1}
                 open={open}
                 onAdd={newFileObjs => {
                     console.log('onAdd', newFileObjs);
@@ -37,10 +35,16 @@ export default function UploadImageButton(props) {
                 onDelete={deleteFileObj => {
                     console.log('onDelete', deleteFileObj);
                     var newFileObjs = fileObjects;
-                    newFileObjs.splice(0,1)
-                    setFileObjects(newFileObjs)
+                    var index = newFileObjs.indexOf(deleteFileObj)
+                    if(index !== -1){
+                        newFileObjs.splice(index,1)
+                        setFileObjects(newFileObjs)
+                    }
                 }}
-                onClose={() => setOpen(false)}
+                onClose={() => {
+                    setOpen(false)
+                    callbackSave(fileObjects)
+                }}
                 onSave={() => {
                     console.log('onSave', fileObjects);
                     setOpen(false);

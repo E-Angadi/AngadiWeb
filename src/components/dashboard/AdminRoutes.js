@@ -4,6 +4,7 @@ import Orders from './orders';
 import Users from './users';
 import ProductManagament from './products/Managment';
 import AddProduct from './products/AddProduct';
+import AddCategory from './products/AddCategory';
 import ComboManagement from './products/ComboManagement';
 import AppBar from './sekeleton/AppBar';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -20,7 +21,8 @@ export class AdminRoutes extends Component {
                         <Route exact path='/myspace' component={Orders}/>
                         <Route exact path='/myspace/users' component={Users}/>
                         <Route exact path='/myspace/products' component={ProductManagament}/>
-                        <Route exact path='/myspace/products/add' component={AddProduct}/>
+                        <Route exact path='/myspace/products/addproduct' component={AddProduct}/>
+                        <Route exact path='/myspace/products/addcategory' component={AddCategory}/>
                         <Route exact path='/myspace/products/combo' component={ComboManagement}/>
                     </Switch>
                 </MuiThemeProvider>

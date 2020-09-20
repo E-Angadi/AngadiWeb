@@ -76,8 +76,12 @@ const itemsList2 = [
         link: "/myspace/products"
     },
     {
-        name: "Add Product & Categories",
-        link: "/myspace/products/add"
+        name: "Add Product",
+        link: "/myspace/products/addproduct"
+    },
+    {
+        name: "Add Categories",
+        link: "/myspace/products/addcategory"
     },
     {
         name: "Combo Management",
@@ -92,7 +96,6 @@ function DrawerList(props) {
     const handleClick = () => {
         setOpen(!open);
     };
-    console.log(props.location.pathname)
     return (
         <List>
             {itemsList1.map(({name, icon: Icon, link}, idx) => {

@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     paddingTop: "100%",
   },
+  imageBtnStyles: {
+    marginTop: "10px",
+    marginBottom: "10px",
+  },
 }));
 
 function CategoryCard() {
@@ -45,7 +49,11 @@ function CategoryCard() {
       <CardActions>
         <Grid container justify="center">
           <Grid item>
-            <UploadImageButton text={"Change Image"} callbackSave={imageSave} />
+            <UploadImageButton
+              text={"Change Image"}
+              callbackSave={imageSave}
+              className={classes.imageBtnStyles}
+            />
           </Grid>
         </Grid>
       </CardActions>

@@ -14,14 +14,14 @@ export default function UploadImageButton(props) {
   const [open, setOpen] = React.useState(false);
   const [fileObjects, setFileObjects] = React.useState([]);
   const classes = useStyles(props);
-  const { text, callbackSave, filesLimit } = props;
+  const { text, callbackSave, filesLimit, className } = props;
 
   return (
     <div>
       <Control.Button
         variant="contained"
         color="primary"
-        className={classes.uploadbtnStyles}
+        className={className ? className : classes.uploadbtnStyles}
         text={text ? text : "Add Image"}
         onClick={() => setOpen(true)}
       />

@@ -38,7 +38,8 @@ const initialFValues = {
   visibility: true,
 };
 
-function AddProductForm() {
+function AddProductForm({ withUploadImage = true }) {
+  console.log(withUploadImage);
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)
@@ -213,24 +214,28 @@ function AddProductForm() {
                   error={errors.tax}
                 />
               </Grid>
-              <Grid xs={12} item>
-                <UploadImageButton callbackSave={imageSave} />
-              </Grid>
-              <Grid xs={12} item container justify="center">
-                <Grid item>
-                  <Controls.ImageView
-                    alt="Product uploaded"
-                    src={
-                      values.imageData === ""
-                        ? "/imgs/default.jpg"
-                        : values.imageData
-                    }
-                    width={130}
-                    height={130}
-                    error={errors.imageData}
-                  />
-                </Grid>
-              </Grid>
+              {withUploadImage && (
+                <>
+                  <Grid xs={12} item>
+                    <UploadImageButton callbackSave={imageSave} />
+                  </Grid>
+                  <Grid xs={12} item container justify="center">
+                    <Grid item>
+                      <Controls.ImageView
+                        alt="Product uploaded"
+                        src={
+                          values.imageData === ""
+                            ? "/imgs/default.jpg"
+                            : values.imageData
+                        }
+                        width={130}
+                        height={130}
+                        error={errors.imageData}
+                      />
+                    </Grid>
+                  </Grid>
+                </>
+              )}
             </Grid>
           </Grid>
         </Grid>

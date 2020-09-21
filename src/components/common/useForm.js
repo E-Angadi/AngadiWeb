@@ -1,49 +1,45 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-export default function useForm(initialFValues, validateOnChange = false, validate) {
+export default function useForm(
+  initialFValues,
+  validateOnChange = false,
+  validate
+) {
+  const [values, setValues] = useState(initialFValues);
+  const [errors, setErrors] = useState({});
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-    const [values, setValues] = useState(initialFValues);
-    const [errors, setErrors] = useState({});
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    if (validateOnChange) validate({ [name]: value });
+  };
 
-    const handleInputChange = e => {
-        
-        const { name, value } = e.target
-        
-        setValues({
-            ...values,
-            [name]: value
-        })
-        if (validateOnChange)
-            validate({ [name]: value })
-    }
+  const handleSwitchChange = (e) => {
+    const { name, checked } = e.target;
 
-    const handleSwitchChange = e => {
-        
-        const { name, checked } = e.target
-        
-        setValues({
-            ...values,
-            [name]: checked
-        })
-        if (validateOnChange)
-            validate({ [name]: checked })
-    }
+    setValues({
+      ...values,
+      [name]: checked,
+    });
+    if (validateOnChange) validate({ [name]: checked });
+  };
 
-    const resetForm = () => {
-        setValues(initialFValues);
-        setErrors({})
-    }
+  const resetForm = () => {
+    setValues(initialFValues);
+    setErrors({});
+  };
 
-
-    return {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        handleSwitchChange,
-        resetForm
-
-    }
+  return {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    handleSwitchChange,
+    resetForm,
+  };
 }

@@ -39,7 +39,6 @@ const initialFValues = {
 };
 
 function AddProductForm({ withUploadImage = true }) {
-  console.log(withUploadImage);
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)

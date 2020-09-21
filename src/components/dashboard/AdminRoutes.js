@@ -22,12 +22,17 @@ export class AdminRoutes extends Component {
             <Route exact path="/myspace/users" component={Users} />
             <Route
               exact
-              path="/myspace/products"
+              path="/myspace/products/management"
               component={ProductManagament}
             />
             <Route
               exact
               path="/myspace/products/addproduct"
+              component={AddProduct}
+            />
+            <Route
+              exact
+              path="/myspace/products/addproduct/:productId"
               component={AddProduct}
             />
             <Route

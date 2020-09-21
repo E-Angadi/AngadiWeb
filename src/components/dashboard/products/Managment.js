@@ -75,9 +75,9 @@ const sampleData = [
   },
   {
     id: 2,
-    title: "apple",
+    title: "apple juice",
     category: "floor",
-    units: "kilograms",
+    units: "litres",
     unitValue: "1",
     netPrice: 40,
     imageData: "/imgs/default.jpg",
@@ -88,8 +88,7 @@ const headCells = [
   { id: "title", label: "Title" },
   { id: "category", label: "Category" },
   { id: "netPrice", label: "Display Price" },
-  { id: "units", label: "Measuring Units", disableSorting: true },
-  { id: "unitValue", label: "Value", disableSorting: true },
+  { id: "unitValue", label: "Quantity", disableSorting: true },
   { id: "imageData", label: "Image", disableSorting: true },
   { id: "edit", label: "Edit", disableSorting: true },
 ];
@@ -159,8 +158,7 @@ function Management() {
                 <TableCell>{item.title} </TableCell>
                 <TableCell>{item.category} </TableCell>
                 <TableCell>{item.netPrice} </TableCell>
-                <TableCell>{item.units} </TableCell>
-                <TableCell>{item.unitValue} </TableCell>
+                <TableCell>{`${item.unitValue} ${item.units}`} </TableCell>
                 <TableCell>
                   <img
                     width={"100px"}
@@ -173,7 +171,7 @@ function Management() {
                   <>
                     <IconButton
                       component={Link}
-                      to={`/myspace/products/addproduct`}
+                      to={`/myspace/products/addproduct/${item.id}`}
                     >
                       <Edit />
                     </IconButton>

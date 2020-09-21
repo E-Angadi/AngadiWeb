@@ -41,60 +41,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const base = "/myspace";
+
 const itemsList1 = [
   {
     name: "Orders",
     icon: BorderColor,
-    link: "/myspace",
+    link: `${base}`,
   },
   {
     name: "User Managment",
     icon: Person,
-    link: "/myspace/users",
+    link: `${base}/users`,
   },
   {
     name: "Banners",
     icon: ViewCarousel,
-    link: "/myspace/banners",
+    link: `${base}/banners`,
   },
   {
     name: "Messages",
     icon: Message,
-    link: "/myspace/messages",
+    link: `${base}/messages`,
   },
   {
     name: "Export",
     icon: ImportExport,
-    link: "/myspace/export",
+    link: `${base}/export`,
   },
   {
     name: "Visits",
     icon: Visibility,
-    link: "/myspace/visits",
+    link: `${base}/visits`,
   },
   {
     name: "Analytics",
     icon: TrendingUp,
-    link: "/myspace/analytics",
+    link: `${base}/analytics`,
   },
 ];
 
 const itemsList2 = [
   {
     name: "Product Management",
-    link: "/myspace/products",
+    link: `${base}/products/management`,
   },
   {
     name: "Add Product",
-    link: "/myspace/products/addproduct",
+    link: `${base}/products/addproduct`,
   },
   {
     name: "Add Categories",
-    link: "/myspace/products/addcategory",
+    link: `${base}/products/addcategory`,
   },
   {
     name: "Combo Management",
-    link: "/myspace/products/combo",
+    link: `${base}/products/combo`,
   },
 ];
 
@@ -108,7 +110,12 @@ function DrawerList(props) {
   return (
     <List>
       {itemsList1.map(({ name, icon: Icon, link }, idx) => {
-        var isSelected = props.location.pathname === link;
+        var pathlen = props.location.pathname.split("/");
+        var linklen = link.split("/");
+        var isSelected =
+          (pathlen.length === linklen.length ||
+            pathlen.length === linklen.length + 1) &&
+          props.location.pathname.startsWith(link);
         return (
           <ListItem
             component={Link}
@@ -139,7 +146,14 @@ function DrawerList(props) {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {itemsList2.map(({ name, link }, idx) => {
-            var isSelected = props.location.pathname === link;
+            var pathlen = props.location.pathname.split("/");
+            var linklen = link.split("/");
+            var isSelected =
+              (pathlen.length === linklen.length ||
+                pathlen.length === linklen.length + 1) &&
+              props.location.pathname.startsWith(link);
+            console.log(pathlen);
+            console.log(linklen);
             return (
               <ListItem
                 button

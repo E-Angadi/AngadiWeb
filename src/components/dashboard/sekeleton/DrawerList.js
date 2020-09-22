@@ -110,12 +110,7 @@ function DrawerList(props) {
   return (
     <List>
       {itemsList1.map(({ name, icon: Icon, link }, idx) => {
-        var pathlen = props.location.pathname.split("/");
-        var linklen = link.split("/");
-        var isSelected =
-          (pathlen.length === linklen.length ||
-            pathlen.length === linklen.length + 1) &&
-          props.location.pathname.startsWith(link);
+        var isSelected = props.location.pathname === link;
         return (
           <ListItem
             component={Link}
@@ -152,8 +147,6 @@ function DrawerList(props) {
               (pathlen.length === linklen.length ||
                 pathlen.length === linklen.length + 1) &&
               props.location.pathname.startsWith(link);
-            console.log(pathlen);
-            console.log(linklen);
             return (
               <ListItem
                 button

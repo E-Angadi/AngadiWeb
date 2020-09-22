@@ -12,6 +12,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   table: {
     marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
     "& thead th": {
       fontWeight: "600",
       color: theme.palette.primary.main,

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "240px",
     backgroundColor: "#E4E4E4",
     minHeight: "calc(100vh - 100px)",
-    padding: "0px",
+    paddingBottom: "10px",
     [theme.breakpoints.down("xs")]: {
       marginTop: "50px",
       marginLeft: "0px",

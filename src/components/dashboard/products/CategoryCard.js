@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -8,6 +8,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import UploadImageButton from "../../common/UploadImageButton";
 import CategoryEditDialog from "./CategoryEditDialog";
 import DeleteIconDialog from "../../common/DeleteIconDialog";
+import { connect } from "react-redux";
+import {
+  updateCategoryTitle,
+  updateCategoryImage,
+  deleteCategory,
+} from "../../../store/actions/categoryActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CategoryCard() {
+function CategoryCard({ category }) {
   const classes = useStyles();
+  const [title, setTitle] = useState(category.title);
+  const [imageURL, setImageURL] = useState(category.imageURL);
 
   const imageSave = (filesObj) => {
     console.log(filesObj);
@@ -35,17 +43,13 @@ function CategoryCard() {
       <CardHeader
         action={
           <>
-            <CategoryEditDialog />
+            <CategoryEditDialog title={title} />
             <DeleteIconDialog />
           </>
         }
-        title="Category Title"
+        title={title}
       />
-      <CardMedia
-        className={classes.media}
-        image="/imgs/default.jpg"
-        title="Category Title"
-      />
+      <CardMedia className={classes.media} image={imageURL} title={title} />
       <CardActions>
         <Grid container justify="center">
           <Grid item>
@@ -61,4 +65,13 @@ function CategoryCard() {
   );
 }
 
-export default CategoryCard;
+const matchDispatchToProps = (dispatch) => {
+  return {
+    updateTitle: (category) => dispatch(updateCategoryTitle(category)),
+    updateImage: (category, imageData) =>
+      dispatch(updateCategoryImage(category, imageData)),
+    delete: (category) => dispatch(deleteCategory(category)),
+  };
+};
+
+export default connect(null, matchDispatchToProps)(CategoryCard);

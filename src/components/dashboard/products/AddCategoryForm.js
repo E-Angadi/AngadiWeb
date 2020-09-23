@@ -4,13 +4,15 @@ import { Grid, Typography } from "@material-ui/core";
 import Controls from "../../common/controls/Controls";
 import useForm from "../../common/useForm";
 import UploadImageButton from "../../common/UploadImageButton";
+import { connect } from "react-redux";
+import { createCategory } from "../../../store/actions/categoryActions";
 
 const initialFValues = {
   title: "",
   imageData: "",
 };
 
-function AddCategoryForm() {
+function AddCategoryForm(props) {
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)
@@ -36,6 +38,10 @@ function AddCategoryForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      props.createCategory({
+        title: values.title,
+        imageData: values.imageData,
+      });
       resetForm();
     }
   };
@@ -44,10 +50,12 @@ function AddCategoryForm() {
     console.log("image saved called");
     if (fileobjs.length > 0) {
       setValues({
+        ...values,
         imageData: fileobjs[0].data,
       });
     } else {
       setValues({
+        ...values,
         imageData: "",
       });
     }
@@ -65,7 +73,7 @@ function AddCategoryForm() {
           <Controls.Input
             name="title"
             label="Title"
-            value={values.title}
+            value={values.title || ""}
             onChange={handleInputChange}
             error={errors.title}
           />
@@ -74,7 +82,7 @@ function AddCategoryForm() {
           <UploadImageButton callbackSave={imageSave} />
         </Grid>
       </Grid>
-      <Grid xs={12} direction="row" container justify="center">
+      <Grid direction="row" container justify="center">
         <Grid item>
           <Controls.ImageView
             alt="Product uploaded"
@@ -87,7 +95,7 @@ function AddCategoryForm() {
           />
         </Grid>
       </Grid>
-      <Grid xs={12} direction="row" container>
+      <Grid direction="row" container>
         <Grid item>
           <Controls.Button type="submit" text="Submit" />
         </Grid>
@@ -96,4 +104,10 @@ function AddCategoryForm() {
   );
 }
 
-export default AddCategoryForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createCategory: (category) => dispatch(createCategory(category)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddCategoryForm);

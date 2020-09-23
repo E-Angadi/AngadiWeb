@@ -6,6 +6,9 @@ import { LibraryAdd } from "@material-ui/icons";
 import { Paper } from "@material-ui/core";
 import AddCategoryForm from "./AddCategoryForm";
 import CategoryCard from "./CategoryCard";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddCategory() {
+function AddCategory(props) {
   const classes = useStyles();
   return (
     <div className={classes.divAlign}>
@@ -53,25 +56,28 @@ function AddCategory() {
       </Grid>
       <div className={classes.gridRootStyle}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
-            <CategoryCard />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <CategoryCard />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <CategoryCard />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <CategoryCard />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <CategoryCard />
-          </Grid>
+          {props.categories &&
+            props.categories.map((category) => {
+              return (
+                <Grid key={category.id} item xs={12} sm={4}>
+                  <CategoryCard category={category} />
+                </Grid>
+              );
+            })}
         </Grid>
       </div>
     </div>
   );
 }
 
-export default AddCategory;
+const mapStateToProps = (state) => {
+  console.log(state.firestore.ordered.categories);
+  return {
+    categories: state.firestore.ordered.categories,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "categories" }])
+)(AddCategory);

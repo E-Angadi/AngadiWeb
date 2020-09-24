@@ -2,6 +2,8 @@ import React from "react";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
 import Control from "./controls/Controls";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles({
   uploadbtnStyles: {
@@ -10,11 +12,20 @@ const useStyles = makeStyles({
   },
 });
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function UploadImageButton(props) {
   const [open, setOpen] = React.useState(false);
   const [fileObjects, setFileObjects] = React.useState([]);
   const classes = useStyles(props);
   const { text, callbackSave, filesLimit, className } = props;
+  const [alertOpen, setAlertOpen] = React.useState(false);
+
+  const handleAlertClose = () => {
+    setAlertOpen(false);
+  };
 
   return (
     <div>
@@ -26,16 +37,21 @@ export default function UploadImageButton(props) {
         onClick={() => setOpen(true)}
       />
       <DropzoneDialogBase
+        dialogTitle={"Upload category image"}
         acceptedFiles={["image/*"]}
         fileObjects={fileObjects}
         cancelButtonText={"cancel"}
         submitButtonText={"submit"}
         maxFileSize={5000000}
-        filesLimit={filesLimit ? filesLimit : 1}
         open={open}
         onAdd={(newFileObjs) => {
           console.log("onAdd", newFileObjs);
-          setFileObjects([].concat(fileObjects, newFileObjs));
+          if (fileObjects.length >= filesLimit && filesLimit === 1) {
+            console.log("inside condition");
+            setAlertOpen(true);
+          } else {
+            setFileObjects([].concat(fileObjects, newFileObjs));
+          }
         }}
         onDelete={(deleteFileObj) => {
           console.log("onDelete", deleteFileObj);
@@ -48,16 +64,27 @@ export default function UploadImageButton(props) {
         }}
         onClose={() => {
           setOpen(false);
-          callbackSave(fileObjects);
+          callbackSave(fileObjects, false);
+          setFileObjects([]);
         }}
         onSave={() => {
           console.log("onSave", fileObjects);
           setOpen(false);
-          callbackSave(fileObjects);
+          callbackSave(fileObjects, true);
+          setFileObjects([]);
         }}
         showPreviews={true}
         showFileNamesInPreview={true}
       />
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={6000}
+        onClose={handleAlertClose}
+      >
+        <Alert severity="error">
+          Maximum limit is {filesLimit}, delete old one and add new
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -19,10 +19,10 @@ function DeleteIconDialog(props) {
     setOpen(false);
   };
 
-  const { alertText } = props;
+  const { alertText, callbackDelete } = props;
 
   const handleSubmit = () => {
-    // TODO: Dispatch Change Title Action
+    callbackDelete();
     setOpen(false);
   };
 

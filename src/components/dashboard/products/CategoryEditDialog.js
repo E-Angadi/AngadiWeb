@@ -21,7 +21,7 @@ function CategoryEditDialog(props) {
     setOpen(false);
   };
 
-  const { title } = props;
+  const { title, callbackUpdate } = props;
 
   const initialFValues = {
     title: title ? title : "Category Title",
@@ -46,7 +46,7 @@ function CategoryEditDialog(props) {
   );
 
   const handleSubmit = () => {
-    // TODO: Dispatch Change Title Action
+    callbackUpdate(values.title);
     setOpen(false);
   };
 

@@ -55,12 +55,12 @@ function AddCategory(props) {
         </Grid>
       </Grid>
       <div className={classes.gridRootStyle}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} justify="center">
           {props.categories &&
             props.categories.map((category) => {
               console.log("category");
               return (
-                <Grid key={category.id} item xs={12} sm={4}>
+                <Grid key={category.id} item xs={12} sm={3}>
                   <CategoryCard category={category} />
                 </Grid>
               );
@@ -72,7 +72,6 @@ function AddCategory(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.firestore.ordered.categories);
   return {
     categories: state.firestore.ordered.categories,
   };

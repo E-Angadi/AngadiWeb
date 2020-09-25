@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Paper,
   makeStyles,
@@ -15,6 +15,10 @@ import Controls from "../../common/controls/Controls";
 import useTable from "../../common/useTable";
 import { Link } from "react-router-dom";
 import Edit from "@material-ui/icons/Edit";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { unitsMap } from "../common/constMaps";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -52,38 +56,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// TODO: Remove this sample data and connect it with redux store
-
-const sampleData = [
-  {
-    id: 0,
-    title: "Ravvu",
-    category: "floor",
-    units: "kilograms",
-    unitValue: "1",
-    netPrice: 40,
-    imageData: "/imgs/default.jpg",
-  },
-  {
-    id: 1,
-    title: "Allum",
-    category: "floor",
-    units: "kilograms",
-    unitValue: "1",
-    netPrice: 40,
-    imageData: "/imgs/default.jpg",
-  },
-  {
-    id: 2,
-    title: "apple juice",
-    category: "floor",
-    units: "litres",
-    unitValue: "1",
-    netPrice: 40,
-    imageData: "/imgs/default.jpg",
-  },
-];
-
 const headCells = [
   { id: "title", label: "Title" },
   { id: "category", label: "Category" },
@@ -93,14 +65,20 @@ const headCells = [
   { id: "edit", label: "Edit", disableSorting: true },
 ];
 
-function Management() {
+function Management(props) {
   const classes = useStyles();
-  const [records] = useState(sampleData);
+  const [records, setRecords] = useState([]);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
   });
+
+  useEffect(() => {
+    if (props.products) {
+      setRecords(props.products);
+    }
+  }, [props.products]);
 
   const {
     TblContainer,
@@ -116,7 +94,7 @@ function Management() {
         if (target.value === "") return items;
         else
           return items.filter((x) =>
-            x.title.toLowerCase().includes(target.value)
+            x.title.toLowerCase().includes(target.value.toLowerCase())
           );
       },
     });
@@ -157,14 +135,16 @@ function Management() {
               <TableRow key={item.id}>
                 <TableCell>{item.title} </TableCell>
                 <TableCell>{item.category} </TableCell>
-                <TableCell>{item.netPrice} </TableCell>
-                <TableCell>{`${item.unitValue} ${item.units}`} </TableCell>
+                <TableCell>{item.totalPrice} </TableCell>
+                <TableCell>
+                  {`${item.unitValue} ${unitsMap[item.unitSelect]}`}{" "}
+                </TableCell>
                 <TableCell>
                   <img
                     width={"100px"}
                     height={"100px"}
                     alt={item.title}
-                    src={item.imageData}
+                    src={item.imageURL}
                   />
                 </TableCell>
                 <TableCell>
@@ -187,4 +167,15 @@ function Management() {
   );
 }
 
-export default Management;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    products: state.firestore.ordered.products,
+    categories: state.firestore.ordered.categories,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "products" }, { collection: "categories" }])
+)(Management);

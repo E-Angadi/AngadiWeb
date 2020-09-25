@@ -4,24 +4,15 @@ import { Grid } from "@material-ui/core";
 import Controls from "../../common/controls/Controls";
 import useForm from "../../common/useForm";
 import UploadImageButton from "../../common/UploadImageButton";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { createProduct } from "../../../store/actions/productActions";
+import { getTaxSelect, getUnitSelect } from "../common/constMaps";
 
-const taxSelect = [
-  { id: 0, title: "Percentage" },
-  { id: 1, title: "Amount" },
-];
+const taxSelect = getTaxSelect();
 
-// TODO: change to categories in redux store
-
-const categorySelect = [
-  { id: 0, title: "None" },
-  { id: 1, title: "Floor" },
-  { id: 2, title: "Pickle" },
-];
-
-const unitSelect = [
-  { id: 0, title: "Kilograms" },
-  { id: 1, title: "Litres" },
-];
+const unitSelect = getUnitSelect();
 
 const initialFValues = {
   title: "",
@@ -38,7 +29,7 @@ const initialFValues = {
   visibility: true,
 };
 
-function AddProductForm({ withUploadImage = true }) {
+function AddProductForm(props) {
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)
@@ -57,19 +48,24 @@ function AddProductForm({ withUploadImage = true }) {
         : "Select a category or create new ";
     if ("unitValue" in fieldValues)
       tmp.unitValue =
-        fieldValues.unitValue > 0 ? "" : "Value should be greater then 0";
+        fieldValues.unitValue > 0
+          ? ""
+          : "Value should be a number and greater then 0";
     if ("price" in fieldValues)
-      tmp.price = fieldValues.price > 0 ? "" : "Price should be greater then 0";
+      tmp.price =
+        fieldValues.price > 0
+          ? ""
+          : "Price should be a number and greater then 0";
     if ("discount" in fieldValues)
       tmp.discount =
         fieldValues.discount >= 0
           ? ""
-          : "Discount percentage should be greater than or equal to zero";
+          : "Discount percentage should be a number and greater than or equal to zero";
     if ("tax" in fieldValues)
       tmp.tax =
         fieldValues.tax >= 0
           ? ""
-          : "Tax percentage should be greater than or equal to zero";
+          : "Tax percentage should be a number and greater than or equal to zero";
     if ("imageData" in fieldValues)
       tmp.imageData = values.imageData === "" ? "Image is required" : "";
     setErrors({
@@ -89,10 +85,58 @@ function AddProductForm({ withUploadImage = true }) {
     resetForm,
   } = useForm(initialFValues, true, validate);
 
+  const calculateTotal = (price, discountPercentage, tax, taxSelect) => {
+    var totalPrice = price;
+    if (taxSelect === 0) {
+      totalPrice -= totalPrice * (tax / 100);
+    } else {
+      totalPrice -= tax;
+    }
+    totalPrice -= totalPrice * (discountPercentage / 100);
+    return totalPrice;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      var discount = parseFloat(values.discount, 10);
+      var price = parseFloat(values.price);
+      var unitValue = parseFloat(values.unitValue);
+      var tax = parseFloat(values.tax, 10);
+      var totalPrice = calculateTotal(price, discount, tax, values.taxSelect);
+      var categoryTitle = getCategoryTitle(values.category);
+      // TODO: dont create product if total price is less than zero
+      props.createProduct({
+        ...values,
+        totalPrice: totalPrice,
+        price: price,
+        unitValue: unitValue,
+        discount: discount,
+        tax: tax,
+        category: categoryTitle,
+      });
       resetForm();
+    }
+  };
+
+  const getCategories = () => {
+    const selectCategories = [{ id: 0, title: "None" }];
+    if (props.categories) {
+      for (var i = 0; i < props.categories.length; i++) {
+        selectCategories.push({
+          id: props.categories[i].id,
+          title: props.categories[i].title,
+        });
+      }
+    }
+    return selectCategories;
+  };
+
+  const getCategoryTitle = (id) => {
+    if (props.categories) {
+      for (var category of props.categories) {
+        if (category.id === id) return category.title;
+      }
     }
   };
 
@@ -100,10 +144,12 @@ function AddProductForm({ withUploadImage = true }) {
     console.log("image saved called");
     if (fileobjs.length > 0) {
       setValues({
+        ...values,
         imageData: fileobjs[0].data,
       });
     } else {
       setValues({
+        ...values,
         imageData: "",
       });
     }
@@ -148,7 +194,7 @@ function AddProductForm({ withUploadImage = true }) {
             label="Category"
             value={values.category}
             onChange={handleInputChange}
-            options={categorySelect}
+            options={getCategories()}
             error={errors.category}
           />
         </Grid>
@@ -213,7 +259,7 @@ function AddProductForm({ withUploadImage = true }) {
                   error={errors.tax}
                 />
               </Grid>
-              {withUploadImage && (
+              {!props.withUploadImage && (
                 <>
                   <Grid xs={12} item>
                     <UploadImageButton callbackSave={imageSave} />
@@ -250,4 +296,24 @@ function AddProductForm({ withUploadImage = true }) {
   );
 }
 
-export default AddProductForm;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    categories: state.firestore.ordered.categories,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createProduct: (product) => dispatch(createProduct(product)),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    {
+      collection: "categories",
+    },
+  ])
+)(AddProductForm);

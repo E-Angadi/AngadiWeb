@@ -28,7 +28,11 @@ function DeleteIconDialog(props) {
 
   return (
     <>
-      <IconButton aria-label="deleteforever" onClick={handleClickOpen}>
+      <IconButton
+        aria-label="deleteforever"
+        onClick={handleClickOpen}
+        color="primary"
+      >
         <DeleteForever />
       </IconButton>
       <Dialog

@@ -103,8 +103,9 @@ function AddProductForm(props) {
       var price = parseFloat(values.price);
       var unitValue = parseFloat(values.unitValue);
       var tax = parseFloat(values.tax, 10);
-      var totalPrice = calculateTotal(price, discount, tax, values.taxSelect);
-      var categoryTitle = getCategoryTitle(values.category);
+      var totalPrice = Math.ceil(
+        calculateTotal(price, discount, tax, values.taxSelect)
+      );
       // TODO: dont create product if total price is less than zero
       props.createProduct({
         ...values,
@@ -113,7 +114,6 @@ function AddProductForm(props) {
         unitValue: unitValue,
         discount: discount,
         tax: tax,
-        category: categoryTitle,
       });
       resetForm();
     }
@@ -130,14 +130,6 @@ function AddProductForm(props) {
       }
     }
     return selectCategories;
-  };
-
-  const getCategoryTitle = (id) => {
-    if (props.categories) {
-      for (var category of props.categories) {
-        if (category.id === id) return category.title;
-      }
-    }
   };
 
   const imageSave = (fileobjs) => {
@@ -259,28 +251,24 @@ function AddProductForm(props) {
                   error={errors.tax}
                 />
               </Grid>
-              {!props.withUploadImage && (
-                <>
-                  <Grid xs={12} item>
-                    <UploadImageButton callbackSave={imageSave} />
-                  </Grid>
-                  <Grid xs={12} item container justify="center">
-                    <Grid item>
-                      <Controls.ImageView
-                        alt="Product uploaded"
-                        src={
-                          values.imageData === ""
-                            ? "/imgs/default.jpg"
-                            : values.imageData
-                        }
-                        width={130}
-                        height={130}
-                        error={errors.imageData}
-                      />
-                    </Grid>
-                  </Grid>
-                </>
-              )}
+              <Grid xs={12} item>
+                <UploadImageButton callbackSave={imageSave} />
+              </Grid>
+              <Grid xs={12} item container justify="center">
+                <Grid item>
+                  <Controls.ImageView
+                    alt="Product uploaded"
+                    src={
+                      values.imageData === ""
+                        ? "/imgs/default.jpg"
+                        : values.imageData
+                    }
+                    width={130}
+                    height={130}
+                    error={errors.imageData}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

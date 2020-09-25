@@ -7,18 +7,24 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
-  IconButton,
 } from "@material-ui/core";
 import { Store, Search } from "@material-ui/icons";
 import PageHeader from "../common/PageHeader";
 import Controls from "../../common/controls/Controls";
 import useTable from "../../common/useTable";
 import { Link } from "react-router-dom";
-import Edit from "@material-ui/icons/Edit";
+import ProductEditDialog from "./ProductEditDialog";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { unitsMap } from "../common/constMaps";
+import UploadImageButton from "../../common/UploadImageButton";
+import DeleteIconDialog from "../../common/DeleteIconDialog";
+import {
+  updateProduct,
+  updateProductImage,
+  deleteProduct,
+} from "../../../store/actions/productActions";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -60,9 +66,11 @@ const headCells = [
   { id: "title", label: "Title" },
   { id: "category", label: "Category" },
   { id: "netPrice", label: "Display Price" },
+  { id: "visibility", label: "Visibility" },
   { id: "unitValue", label: "Quantity", disableSorting: true },
   { id: "imageData", label: "Image", disableSorting: true },
   { id: "edit", label: "Edit", disableSorting: true },
+  { id: "delete", label: "Delete", disableSorting: true },
 ];
 
 function Management(props) {
@@ -100,6 +108,44 @@ function Management(props) {
     });
   };
 
+  const getCategories = () => {
+    const selectCategories = [{ id: 0, title: "None" }];
+    if (props.categories) {
+      for (var i = 0; i < props.categories.length; i++) {
+        selectCategories.push({
+          id: props.categories[i].id,
+          title: props.categories[i].title,
+        });
+      }
+    }
+    return selectCategories;
+  };
+
+  const getCategoryTitle = (id) => {
+    if (props.categories) {
+      var categories = getCategories();
+      for (var category of categories) {
+        if (category.id === id) return category.title;
+      }
+    }
+  };
+
+  const handleUpdateImage = (filesObj, update, item) => {
+    if (filesObj.length > 0 && update) {
+      props.updateProductImage(item, filesObj[0].data);
+    }
+  };
+
+  const handleUpdateProduct = (productInfo, item) => {
+    if (productInfo) {
+      props.updateProduct(productInfo, item);
+    }
+  };
+
+  const handleDeleteProduct = (product) => {
+    props.deleteProduct(product);
+  };
+
   return (
     <div className={classes.divAlign}>
       <PageHeader
@@ -134,8 +180,11 @@ function Management(props) {
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.title} </TableCell>
-                <TableCell>{item.category} </TableCell>
+                <TableCell>{getCategoryTitle(item.category)} </TableCell>
                 <TableCell>{item.totalPrice} </TableCell>
+                <TableCell>
+                  {item.visibility ? "Visible" : "Not Visible"}{" "}
+                </TableCell>
                 <TableCell>
                   {`${item.unitValue} ${unitsMap[item.unitSelect]}`}{" "}
                 </TableCell>
@@ -149,13 +198,25 @@ function Management(props) {
                 </TableCell>
                 <TableCell>
                   <>
-                    <IconButton
-                      component={Link}
-                      to={`/myspace/products/addproduct/${item.id}`}
-                    >
-                      <Edit />
-                    </IconButton>
+                    <ProductEditDialog
+                      product={item}
+                      categorySelect={getCategories()}
+                      callbackSave={handleUpdateProduct}
+                    />
+                    <UploadImageButton
+                      rounded={true}
+                      filesLimit={1}
+                      callbackSave={(filesObj, update) =>
+                        handleUpdateImage(filesObj, update, item)
+                      }
+                    />
                   </>
+                </TableCell>
+                <TableCell>
+                  <DeleteIconDialog
+                    alertText={"Are you sure to delete this product?"}
+                    callbackDelete={() => handleDeleteProduct(item)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -168,14 +229,23 @@ function Management(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     products: state.firestore.ordered.products,
     categories: state.firestore.ordered.categories,
   };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProduct: (changedProduct, product) =>
+      dispatch(updateProduct(changedProduct, product)),
+    updateProductImage: (product, ImageData) =>
+      dispatch(updateProductImage(product, ImageData)),
+    deleteProduct: (product) => dispatch(deleteProduct(product)),
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([{ collection: "products" }, { collection: "categories" }])
 )(Management);

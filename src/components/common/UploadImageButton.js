@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Control from "./controls/Controls";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import { IconButton } from "@material-ui/core";
+import Image from "@material-ui/icons/Image";
 
 const useStyles = makeStyles({
   uploadbtnStyles: {
@@ -20,7 +22,7 @@ export default function UploadImageButton(props) {
   const [open, setOpen] = React.useState(false);
   const [fileObjects, setFileObjects] = React.useState([]);
   const classes = useStyles(props);
-  const { text, callbackSave, filesLimit, className } = props;
+  const { text, callbackSave, filesLimit, className, rounded } = props;
   const [alertOpen, setAlertOpen] = React.useState(false);
 
   const handleAlertClose = () => {
@@ -29,13 +31,24 @@ export default function UploadImageButton(props) {
 
   return (
     <div>
-      <Control.Button
-        variant="contained"
-        color="primary"
-        className={className ? className : classes.uploadbtnStyles}
-        text={text ? text : "Add Image"}
-        onClick={() => setOpen(true)}
-      />
+      {!rounded && (
+        <Control.Button
+          variant="contained"
+          color="primary"
+          className={className ? className : classes.uploadbtnStyles}
+          text={text ? text : "Add Image"}
+          onClick={() => setOpen(true)}
+        />
+      )}
+      {rounded && (
+        <IconButton
+          aria-label={"Change Image"}
+          color="primary"
+          onClick={() => setOpen(true)}
+        >
+          <Image />
+        </IconButton>
+      )}
       <DropzoneDialogBase
         dialogTitle={"Upload category image"}
         acceptedFiles={["image/*"]}

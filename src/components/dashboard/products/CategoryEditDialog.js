@@ -52,7 +52,7 @@ function CategoryEditDialog(props) {
 
   return (
     <>
-      <IconButton aria-label="edit" onClick={handleClickOpen}>
+      <IconButton aria-label="edit" onClick={handleClickOpen} color="primary">
         <Edit />
       </IconButton>
       <Dialog

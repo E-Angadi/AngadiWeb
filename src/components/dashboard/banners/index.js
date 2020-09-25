@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ViewCarousel from "@material-ui/icons/ViewCarousel";
 import { makeStyles } from "@material-ui/core/styles";
 import PageHeader from "../common/PageHeader";
 import UploadImageButton from "../../common/UploadImageButton";
 import { Paper, Grid } from "@material-ui/core";
+import DeleteImageButton from "../../common/DeleteIconDialog";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import {
+  createBanner,
+  deleteBanner,
+} from "../../../store/actions/bannerActions";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -32,15 +40,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Banners() {
+function Banners(props) {
   const [images, setImages] = useState([]);
 
-  const callbackSave = (fileObjs) => {
-    var imgs = [];
-    fileObjs.forEach((img) => {
-      imgs.push(img.data);
-    });
-    setImages(imgs);
+  useEffect(() => {
+    if (props.banners) {
+      setImages(props.banners);
+    }
+  }, [props.banners]);
+
+  const handleSave = (filesObj, update) => {
+    if (filesObj.length > 0 && update) {
+      props.addBanner(filesObj[0].data);
+    }
+  };
+
+  const handleDelete = (image) => {
+    props.removeBanner(image);
   };
 
   const classes = useStyles();
@@ -54,8 +70,9 @@ function Banners() {
       <Grid container justify="center">
         <Grid item>
           <UploadImageButton
-            text={"Add/Update Images"}
-            callbackSave={callbackSave}
+            text={"Add Image"}
+            callbackSave={handleSave}
+            filesLimit={1}
           />
         </Grid>
       </Grid>
@@ -72,13 +89,21 @@ function Banners() {
         <Grid container spacing={2}>
           {images &&
             images.map((image) => (
-              <Grid item xs={12} sm={4}>
+              <Grid key={image.id} item xs={12} sm={6}>
                 <Paper>
                   <img
-                    src={image ? image : "/imgs/default.jpg"}
+                    src={image.imageURL ? image.imageURL : "/imgs/default.jpg"}
                     alt={"banner"}
                     width={"100%"}
                   />
+                  <Grid item container justify="center">
+                    <Grid item>
+                      <DeleteImageButton
+                        alertText={"Are you sure to delete this image?"}
+                        callbackDelete={() => handleDelete(image)}
+                      />
+                    </Grid>
+                  </Grid>
                 </Paper>
               </Grid>
             ))}
@@ -88,4 +113,20 @@ function Banners() {
   );
 }
 
-export default Banners;
+const mapStateToProps = (state) => {
+  return {
+    banners: state.firestore.ordered.banners,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addBanner: (ImageData) => dispatch(createBanner(ImageData)),
+    removeBanner: (image) => dispatch(deleteBanner(image)),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([{ collection: "banners" }])
+)(Banners);

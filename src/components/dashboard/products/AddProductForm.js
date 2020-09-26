@@ -16,7 +16,6 @@ import { getTaxSelect, getUnitSelect } from "../common/constMaps";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Button from "../../common/controls/Button";
 import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 
@@ -78,9 +77,9 @@ function AddProductForm(props) {
           : "Price should be a number and greater then 0";
     if ("discount" in fieldValues)
       tmp.discount =
-        fieldValues.discount >= 0
+        fieldValues.discount >= 0 && fieldValues.discount < 100
           ? ""
-          : "Discount percentage should be a number and greater than or equal to zero";
+          : "Discount percentage should be a number and should be between 0 and 100";
     if ("tax" in fieldValues)
       tmp.tax =
         fieldValues.tax >= 0
@@ -112,8 +111,9 @@ function AddProductForm(props) {
     } else {
       totalPrice -= tax;
     }
+    var taxedPrice = totalPrice;
     totalPrice -= totalPrice * (discountPercentage / 100);
-    return totalPrice;
+    return { taxedPrice, totalPrice };
   };
 
   const handleSubmit = (e) => {
@@ -123,15 +123,21 @@ function AddProductForm(props) {
       var price = parseFloat(values.price);
       var unitValue = parseFloat(values.unitValue);
       var tax = parseFloat(values.tax, 10);
-      var totalPrice = Math.ceil(
-        calculateTotal(price, discount, tax, values.taxSelect)
+      var { taxedPrice, totalPrice } = calculateTotal(
+        price,
+        discount,
+        tax,
+        values.taxSelect
       );
+      taxedPrice = Math.ceil(taxedPrice);
+      totalPrice = Math.ceil(totalPrice);
       // TODO: dont create product if total price is less than zero
       props.disableSubmit();
       props.createProduct({
         ...values,
         totalPrice: totalPrice,
         price: price,
+        taxedPrice: taxedPrice,
         unitValue: unitValue,
         discount: discount,
         tax: tax,

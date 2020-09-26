@@ -16,6 +16,9 @@ import { getTaxSelect, getUnitSelect } from "../common/constMaps";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Button from "../../common/controls/Button";
+import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 const taxSelect = getTaxSelect();
 
@@ -164,6 +167,31 @@ function AddProductForm(props) {
       });
     }
   };
+
+  if (getCategories().length <= 1) {
+    return (
+      <>
+        <Grid container justify="center">
+          <Grid item>
+            <Typography component="h5" variant="h4" color="primary">
+              {" "}
+              Add categories before adding products!{" "}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid container justify="center">
+          <Grid item>
+            <Controls.Button
+              component={Link}
+              to="/myspace/products/addcategory"
+              text={"Add categories"}
+              color="primary"
+            />
+          </Grid>
+        </Grid>
+      </>
+    );
+  }
 
   return (
     <>

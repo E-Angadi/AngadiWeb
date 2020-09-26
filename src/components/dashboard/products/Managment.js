@@ -8,6 +8,7 @@ import {
   Toolbar,
   InputAdornment,
   Snackbar,
+  Typography,
 } from "@material-ui/core";
 import { Store, Search } from "@material-ui/icons";
 import PageHeader from "../common/PageHeader";
@@ -62,6 +63,12 @@ const useStyles = makeStyles((theme) => ({
   addProductBtn: {
     marginLeft: theme.spacing(2),
     textAlign: "center",
+  },
+  visible: {
+    color: theme.palette.success.main,
+  },
+  notVisible: {
+    color: theme.palette.warning.main,
   },
 }));
 
@@ -195,7 +202,14 @@ function Management(props) {
                 <TableCell>{getCategoryTitle(item.category)} </TableCell>
                 <TableCell>{item.totalPrice} </TableCell>
                 <TableCell>
-                  {item.visibility ? "Visible" : "Not Visible"}{" "}
+                  <Typography
+                    variant="p"
+                    className={
+                      item.visibility ? classes.visible : classes.notVisible
+                    }
+                  >
+                    {item.visibility ? "Visible" : "Not Visible"}{" "}
+                  </Typography>
                 </TableCell>
                 <TableCell>
                   {`${item.unitValue} ${unitsMap[item.unitSelect]}`}{" "}

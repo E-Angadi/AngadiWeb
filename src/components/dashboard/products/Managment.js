@@ -215,12 +215,7 @@ function Management(props) {
                   {`${item.unitValue} ${unitsMap[item.unitSelect]}`}{" "}
                 </TableCell>
                 <TableCell>
-                  <img
-                    width={"100px"}
-                    height={"100px"}
-                    alt={item.title}
-                    src={item.imageURL}
-                  />
+                  <img width={"100px"} alt={item.title} src={item.imageURL} />
                 </TableCell>
                 <TableCell>
                   <>

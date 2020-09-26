@@ -109,7 +109,6 @@ function AddCategoryForm(props) {
                 values.imageData === "" ? "/imgs/default.jpg" : values.imageData
               }
               width={200}
-              height={200}
               error={errors.imageData}
             />
           </Grid>

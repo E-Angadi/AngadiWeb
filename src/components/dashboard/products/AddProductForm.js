@@ -283,7 +283,6 @@ function AddProductForm(props) {
                           : values.imageData
                       }
                       width={130}
-                      height={130}
                       error={errors.imageData}
                     />
                   </Grid>

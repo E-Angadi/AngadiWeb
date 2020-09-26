@@ -23,7 +23,7 @@ export default function ImageView(props) {
         alt={alt}
         src={src}
         width={width}
-        height={height}
+        height={height ? height : "auto"}
         className={classes.imageStyles}
       />
       <Typography className={classes.errorStyles}>{error} </Typography>

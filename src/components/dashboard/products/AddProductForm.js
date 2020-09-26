@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Form from "../../common/Form";
 import { Grid } from "@material-ui/core";
 import Controls from "../../common/controls/Controls";
@@ -7,8 +7,15 @@ import UploadImageButton from "../../common/UploadImageButton";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-import { createProduct } from "../../../store/actions/productActions";
+import {
+  createProduct,
+  closeSnackbar,
+  disableSubmit,
+} from "../../../store/actions/productActions";
 import { getTaxSelect, getUnitSelect } from "../common/constMaps";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const taxSelect = getTaxSelect();
 
@@ -30,6 +37,16 @@ const initialFValues = {
 };
 
 function AddProductForm(props) {
+  const [sanckbarStatus, setSnackbarStatus] = useState(props.productStatus);
+
+  useEffect(() => {
+    setSnackbarStatus(props.productStatus);
+  }, [props.productStatus]);
+
+  const handleSnackbarClose = () => {
+    props.closeSnackbar();
+  };
+
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)
@@ -107,6 +124,7 @@ function AddProductForm(props) {
         calculateTotal(price, discount, tax, values.taxSelect)
       );
       // TODO: dont create product if total price is less than zero
+      props.disableSubmit();
       props.createProduct({
         ...values,
         totalPrice: totalPrice,
@@ -148,139 +166,162 @@ function AddProductForm(props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Grid container spacing={0} justify="center">
-        <Grid xs={12} sm={6} item>
-          <Controls.Switch
-            name="visibility"
-            label="Product Visibility"
-            value={values.visibility}
-            onChange={handleSwitchChange}
-            color="primary"
-          />
-          <Controls.Input
-            name="title"
-            label="Title"
-            value={values.title}
-            onChange={handleInputChange}
-            error={errors.title}
-          />
-          <Controls.InputArea
-            name="shortDescription"
-            label="Short Description"
-            value={values.shortDescription}
-            onChange={handleInputChange}
-            error={errors.shortDescription}
-            rowsMax={2}
-          />
-          <Controls.InputArea
-            name="longDescription"
-            label="Long Description"
-            value={values.longDescription}
-            onChange={handleInputChange}
-            error={errors.longDescription}
-            rowsMax={5}
-          />
-          <Controls.Select
-            name="category"
-            label="Category"
-            value={values.category}
-            onChange={handleInputChange}
-            options={getCategories()}
-            error={errors.category}
-          />
-        </Grid>
-        <Grid xs={12} sm={6} item>
-          <Grid xs={12} item container>
-            <Grid xs={6} item>
-              <Controls.Select
-                name="unitSelect"
-                label="Select Unit"
-                value={values.unitSelect ? values.unitSelect : 0}
-                onChange={handleInputChange}
-                options={unitSelect}
-                error={errors.uniSelect}
-              />
-            </Grid>
-            <Grid xs={6} item>
-              <Controls.Input
-                name="unitValue"
-                label="Value"
-                value={values.unitValue}
-                onChange={handleInputChange}
-                error={errors.unitValue}
-              />
-            </Grid>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Grid container spacing={0} justify="center">
+          <Grid xs={12} sm={6} item>
+            <Controls.Switch
+              name="visibility"
+              label="Product Visibility"
+              value={values.visibility}
+              onChange={handleSwitchChange}
+              color="primary"
+            />
+            <Controls.Input
+              name="title"
+              label="Title"
+              value={values.title}
+              onChange={handleInputChange}
+              error={errors.title}
+            />
+            <Controls.InputArea
+              name="shortDescription"
+              label="Short Description"
+              value={values.shortDescription}
+              onChange={handleInputChange}
+              error={errors.shortDescription}
+              rowsMax={2}
+            />
+            <Controls.InputArea
+              name="longDescription"
+              label="Long Description"
+              value={values.longDescription}
+              onChange={handleInputChange}
+              error={errors.longDescription}
+              rowsMax={5}
+            />
+            <Controls.Select
+              name="category"
+              label="Category"
+              value={values.category}
+              onChange={handleInputChange}
+              options={getCategories()}
+              error={errors.category}
+            />
           </Grid>
-          <Grid xs={12} item container>
-            <Grid xs={6} item>
-              <Controls.Input
-                name="price"
-                label="Price"
-                value={values.price}
-                onChange={handleInputChange}
-                error={errors.price}
-              />
-            </Grid>
-            <Grid xs={6} item>
-              <Controls.Input
-                name="discount"
-                label="Discount Percentage"
-                value={values.discount}
-                onChange={handleInputChange}
-                error={errors.discount}
-              />
-            </Grid>
+          <Grid xs={12} sm={6} item>
             <Grid xs={12} item container>
               <Grid xs={6} item>
                 <Controls.Select
-                  name="taxSelect"
-                  label="Tax Type"
-                  value={values.taxSelect ? values.taxSelect : 0}
+                  name="unitSelect"
+                  label="Select Unit"
+                  value={values.unitSelect ? values.unitSelect : 0}
                   onChange={handleInputChange}
-                  options={taxSelect}
-                  error={errors.taxSelect}
+                  options={unitSelect}
+                  error={errors.uniSelect}
                 />
               </Grid>
               <Grid xs={6} item>
                 <Controls.Input
-                  name="tax"
-                  label="Tax Value"
-                  value={values.tax}
+                  name="unitValue"
+                  label="Value"
+                  value={values.unitValue}
                   onChange={handleInputChange}
-                  error={errors.tax}
+                  error={errors.unitValue}
                 />
               </Grid>
-              <Grid xs={12} item>
-                <UploadImageButton callbackSave={imageSave} />
+            </Grid>
+            <Grid xs={12} item container>
+              <Grid xs={6} item>
+                <Controls.Input
+                  name="price"
+                  label="Price"
+                  value={values.price}
+                  onChange={handleInputChange}
+                  error={errors.price}
+                />
               </Grid>
-              <Grid xs={12} item container justify="center">
-                <Grid item>
-                  <Controls.ImageView
-                    alt="Product uploaded"
-                    src={
-                      values.imageData === ""
-                        ? "/imgs/default.jpg"
-                        : values.imageData
-                    }
-                    width={130}
-                    height={130}
-                    error={errors.imageData}
+              <Grid xs={6} item>
+                <Controls.Input
+                  name="discount"
+                  label="Discount Percentage"
+                  value={values.discount}
+                  onChange={handleInputChange}
+                  error={errors.discount}
+                />
+              </Grid>
+              <Grid xs={12} item container>
+                <Grid xs={6} item>
+                  <Controls.Select
+                    name="taxSelect"
+                    label="Tax Type"
+                    value={values.taxSelect ? values.taxSelect : 0}
+                    onChange={handleInputChange}
+                    options={taxSelect}
+                    error={errors.taxSelect}
                   />
+                </Grid>
+                <Grid xs={6} item>
+                  <Controls.Input
+                    name="tax"
+                    label="Tax Value"
+                    value={values.tax}
+                    onChange={handleInputChange}
+                    error={errors.tax}
+                  />
+                </Grid>
+                <Grid xs={12} item>
+                  <UploadImageButton callbackSave={imageSave} />
+                </Grid>
+                <Grid xs={12} item container justify="center">
+                  <Grid item>
+                    <Controls.ImageView
+                      alt="Product uploaded"
+                      src={
+                        values.imageData === ""
+                          ? "/imgs/default.jpg"
+                          : values.imageData
+                      }
+                      width={130}
+                      height={130}
+                      error={errors.imageData}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid xs={12} item container>
-          <Grid item xs={12}>
-            <div>
-              <Controls.Button type="submit" text="Submit" />
-            </div>
+          <Grid xs={12} item container alignItems="center">
+            <Grid item>
+              <div>
+                <Controls.Button
+                  disabled={sanckbarStatus.disableSubmit}
+                  type="submit"
+                  text="Submit"
+                />
+              </div>
+            </Grid>
+            <Grid item>
+              <CircularProgress
+                size={30}
+                style={!sanckbarStatus.disableSubmit && { display: "none" }}
+              />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Form>
+      </Form>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={sanckbarStatus.snackbarStatus}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        key={"topright"}
+      >
+        <Alert onClose={handleSnackbarClose} severity={sanckbarStatus.variant}>
+          {sanckbarStatus.message}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 
@@ -288,12 +329,15 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     categories: state.firestore.ordered.categories,
+    productStatus: state.product,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createProduct: (product) => dispatch(createProduct(product)),
+    closeSnackbar: () => dispatch(closeSnackbar()),
+    disableSubmit: () => dispatch(disableSubmit()),
   };
 };
 

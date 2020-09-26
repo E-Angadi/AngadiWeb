@@ -7,6 +7,7 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
+  Snackbar,
 } from "@material-ui/core";
 import { Store, Search } from "@material-ui/icons";
 import PageHeader from "../common/PageHeader";
@@ -24,7 +25,9 @@ import {
   updateProduct,
   updateProductImage,
   deleteProduct,
+  closeSnackbar,
 } from "../../../store/actions/productActions";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -81,6 +84,15 @@ function Management(props) {
       return items;
     },
   });
+  const [sanckbarStatus, setSnackbarStatus] = useState(props.productStatus);
+
+  useEffect(() => {
+    setSnackbarStatus(props.productStatus);
+  }, [props.productStatus]);
+
+  const handleSnackbarClose = () => {
+    props.closeSnackbar();
+  };
 
   useEffect(() => {
     if (props.products) {
@@ -224,6 +236,17 @@ function Management(props) {
         </TblContainer>
         <TblPagination />
       </Paper>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={sanckbarStatus.snackbarStatus}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        key={"topright"}
+      >
+        <Alert onClose={handleSnackbarClose} severity={sanckbarStatus.variant}>
+          {sanckbarStatus.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
@@ -232,6 +255,7 @@ const mapStateToProps = (state) => {
   return {
     products: state.firestore.ordered.products,
     categories: state.firestore.ordered.categories,
+    productStatus: state.product,
   };
 };
 
@@ -242,6 +266,7 @@ const mapDispatchToProps = (dispatch) => {
     updateProductImage: (product, ImageData) =>
       dispatch(updateProductImage(product, ImageData)),
     deleteProduct: (product) => dispatch(deleteProduct(product)),
+    closeSnackbar: () => dispatch(closeSnackbar()),
   };
 };
 

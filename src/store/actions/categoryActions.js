@@ -104,3 +104,15 @@ export const deleteCategory = (category) => {
       });
   };
 };
+
+export const closeSnackbar = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "CLOSE_SNACKBAR_CATEGORY" });
+  };
+};
+
+export const disableSubmit = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "DISABLE_SUBMIT_CATEGORY" });
+  };
+};

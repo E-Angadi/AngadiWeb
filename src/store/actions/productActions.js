@@ -104,3 +104,15 @@ export const deleteProduct = (product) => {
       });
   };
 };
+
+export const closeSnackbar = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "CLOSE_SNACKBAR_PRODUCT" });
+  };
+};
+
+export const disableSubmit = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "DISABLE_SUBMIT_PRODUCT" });
+  };
+};

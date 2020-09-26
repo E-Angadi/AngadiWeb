@@ -8,9 +8,12 @@ import DeleteImageButton from "../../common/DeleteIconDialog";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 import {
   createBanner,
   deleteBanner,
+  closeSnackbar,
 } from "../../../store/actions/bannerActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,12 +45,17 @@ const useStyles = makeStyles((theme) => ({
 
 function Banners(props) {
   const [images, setImages] = useState([]);
+  const [sanckbarStatus, setSnackbarStatus] = useState(props.bannerStatus);
 
   useEffect(() => {
     if (props.banners) {
       setImages(props.banners);
     }
   }, [props.banners]);
+
+  useEffect(() => {
+    setSnackbarStatus(props.bannerStatus);
+  }, [props.bannerStatus]);
 
   const handleSave = (filesObj, update) => {
     if (filesObj.length > 0 && update) {
@@ -60,6 +68,11 @@ function Banners(props) {
   };
 
   const classes = useStyles();
+
+  const handleSnackbarClose = () => {
+    props.closeSnackbar();
+  };
+
   return (
     <div className={classes.divAlign}>
       <PageHeader
@@ -109,13 +122,26 @@ function Banners(props) {
             ))}
         </Grid>
       </div>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={sanckbarStatus.snackbarStatus}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        key={"topright"}
+      >
+        <Alert onClose={handleSnackbarClose} severity={sanckbarStatus.variant}>
+          {sanckbarStatus.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     banners: state.firestore.ordered.banners,
+    bannerStatus: state.banner,
   };
 };
 
@@ -123,6 +149,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addBanner: (ImageData) => dispatch(createBanner(ImageData)),
     removeBanner: (image) => dispatch(deleteBanner(image)),
+    closeSnackbar: () => dispatch(closeSnackbar()),
   };
 };
 

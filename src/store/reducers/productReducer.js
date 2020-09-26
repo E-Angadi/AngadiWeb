@@ -1,31 +1,82 @@
-const initstate = {};
+const initstate = {
+  snackbarStatus: false,
+  message: "",
+  variant: "success",
+  disableSubmit: false,
+};
 
 const productReducer = (state = initstate, action) => {
   switch (action.type) {
     case "CREATE_PRODUCT":
-      console.log("create product", action.product);
-      return state;
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Product created successfully",
+        variant: "success",
+        disableSubmit: false,
+      });
     case "CREATE_PRODUCT_ERR":
       console.log("Error creating product", action.err);
-      return state;
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Error creating product",
+        variant: "error",
+        disableSubmit: false,
+      });
     case "UPDATE_PRODUCT":
-      console.log("update product info", action.product);
-      return state;
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Updated product info",
+        variant: "success",
+        disableSubmit: false,
+      });
     case "UPDATE_PRODUCT_ERR":
-      console.log("Error updating product", action.err);
-      return state;
+      console.log("Error updating product info", action.err);
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Error updating product info",
+        variant: "error",
+        disableSubmit: false,
+      });
     case "UPDATE_PRODUCT_IMAGE":
-      console.log("update product image", action.product);
-      return state;
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Updated product image",
+        variant: "success",
+        disableSubmit: false,
+      });
     case "UPDATE_PRODUCT_IMAGE_ERR":
       console.log("Error updating product image", action.err);
-      return state;
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Error updating product image",
+        variant: "error",
+        disableSubmit: false,
+      });
     case "DELETE_PRODUCT":
-      console.log("delete product", action.product);
-      return state;
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Deleted product",
+        variant: "success",
+        disableSubmit: false,
+      });
     case "DELETE_PRODUCT_ERR":
       console.log("Error deleting product", action.err);
-      return state;
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Error deleting product",
+        variant: "error",
+        disableSubmit: false,
+      });
+    case "CLOSE_SNACKBAR_PRODUCT":
+      return Object.assign({}, state, {
+        ...state,
+        snackbarStatus: false,
+      });
+    case "DISABLE_SUBMIT_PRODUCT":
+      return Object.assign({}, state, {
+        ...state,
+        disableSubmit: true,
+      });
     default:
       return state;
   }

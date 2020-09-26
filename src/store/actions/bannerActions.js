@@ -55,3 +55,9 @@ export const deleteBanner = (image) => {
       });
   };
 };
+
+export const closeSnackbar = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "CLOSE_SNACKBAR_BANNER" });
+  };
+};

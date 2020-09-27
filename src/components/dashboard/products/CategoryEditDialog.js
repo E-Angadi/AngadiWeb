@@ -30,7 +30,10 @@ function CategoryEditDialog(props) {
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)
-      tmp.title = fieldValues.title ? "" : "This field is required.";
+      tmp.title =
+        fieldValues.title && title !== fieldValues.title
+          ? ""
+          : "This field is required.";
 
     setErrors({
       ...tmp,
@@ -46,6 +49,13 @@ function CategoryEditDialog(props) {
   );
 
   const handleSubmit = () => {
+    if (!validate()) {
+      setErrors({
+        ...errors,
+        title: "This field is required",
+      });
+      return;
+    }
     callbackUpdate(values.title);
     setOpen(false);
   };

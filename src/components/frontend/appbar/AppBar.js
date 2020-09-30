@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { Search, Person, ShoppingCart } from "@material-ui/icons";
@@ -14,6 +13,7 @@ import Form from "../../common/Form";
 import Badge from "@material-ui/core/Badge";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import SearchDialog from "./SearchDialog";
+import LeftDrawer from "./LeftDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MyAppBar() {
   const classes = useStyles();
-  const logo = "/imgs/logo.png";
+  const logo = "/imgs/logo1.png";
   const trigger = useScrollTrigger({
     disableHysteresis: true,
   });
@@ -88,9 +88,7 @@ function MyAppBar() {
         className={classes.appBar}
       >
         <Toolbar>
-          <IconButton edge="start" aria-label="menu">
-            <MenuIcon className={classes.menuButton} />
-          </IconButton>
+          <LeftDrawer />
           <Grid container alignItems="center" spacing={2}>
             <Grid item xs={6} sm={2}>
               <Link to="/">
@@ -174,6 +172,7 @@ function MyAppBar() {
                           onChange={handleSearchChange}
                           onSubmit={handleSearch}
                           value={searchText}
+                          className={classes.menuButton}
                         />
                       </Badge>
                     </IconButton>

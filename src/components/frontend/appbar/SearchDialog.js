@@ -71,7 +71,7 @@ function SearchDialog(props) {
             </IconButton>
             <form autoComplete="off" onSubmit={handleSubmit}>
               <Grid container alignItems="center" spacing={2}>
-                <Grid item xs={10}>
+                <Grid item xs={11}>
                   <TextField
                     type="search"
                     margin="normal"
@@ -82,7 +82,7 @@ function SearchDialog(props) {
                     {value}
                   </TextField>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={1}>
                   <IconButton type="submit" color="primary" aria-label="search">
                     <Search />
                   </IconButton>

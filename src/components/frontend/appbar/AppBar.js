@@ -14,6 +14,8 @@ import Badge from "@material-ui/core/Badge";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import SearchDialog from "./SearchDialog";
 import LeftDrawer from "./LeftDrawer";
+import Divider from "@material-ui/core/Divider";
+import CategoryBar from "./CategoryBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,7 +86,7 @@ function MyAppBar() {
     <div className={classes.root}>
       <AppBar
         position={!trigger ? "sticky" : "fixed"}
-        elevation={1}
+        elevation={!trigger ? 0 : 1}
         className={classes.appBar}
       >
         <Toolbar>
@@ -185,6 +187,8 @@ function MyAppBar() {
             </Grid>
           </Grid>
         </Toolbar>
+        <Divider color="primary" />
+        <CategoryBar />
       </AppBar>
     </div>
   );

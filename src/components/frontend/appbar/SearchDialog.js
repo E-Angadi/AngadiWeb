@@ -8,6 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -23,6 +24,28 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
     backgroundColor: "#FFFFFF",
+    borderRadius: "0px",
+  },
+  searchBtn: {
+    width: "40px",
+    height: "40px",
+    marginLeft: "-4px",
+    backgroundColor: theme.palette.primary.light,
+    color: "#FFFFFF",
+    padding: "0px",
+    minWidth: "40px",
+    borderRadius: "0px",
+    "& .MuiButton-label": {
+      width: "20px",
+      margin: "0px",
+    },
+    "& .MuiButton-startIcon": {
+      marginRight: "0px",
+      marginLeft: "0px",
+    },
+  },
+  form: {
+    width: "96%",
   },
 }));
 
@@ -69,13 +92,18 @@ function SearchDialog(props) {
             >
               <ArrowBackIos />
             </IconButton>
-            <form autoComplete="off" onSubmit={handleSubmit}>
-              <Grid container alignItems="center" spacing={2}>
-                <Grid item xs={11}>
+            <form
+              className={classes.form}
+              autoComplete="off"
+              onSubmit={handleSubmit}
+            >
+              <Grid container alignItems="center" spacing={0}>
+                <Grid item xs={10}>
                   <TextField
                     type="search"
                     margin="normal"
                     variant="outlined"
+                    size="small"
                     className={classes.searchInput}
                     onChange={(e) => onChange(e)}
                   >
@@ -83,9 +111,12 @@ function SearchDialog(props) {
                   </TextField>
                 </Grid>
                 <Grid item xs={1}>
-                  <IconButton type="submit" color="primary" aria-label="search">
-                    <Search />
-                  </IconButton>
+                  <Button
+                    type="submit"
+                    aria-label="search"
+                    className={classes.searchBtn}
+                    startIcon={<Search />}
+                  />
                 </Grid>
               </Grid>
             </form>

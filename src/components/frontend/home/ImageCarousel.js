@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   imgStyles: {
     width: "100%",
   },
-  indicatorContainerProps: {
+  indicatorContainerPropsSM: {
     display: "none",
   },
 }));
@@ -45,7 +45,7 @@ function ImageCarousel() {
       <Hidden smUp>
         <Carousel
           indicatorContainerProps={{
-            className: classes.indicatorContainerProps,
+            className: classes.indicatorContainerPropsSM,
           }}
           indicators="false"
           animation="slide"

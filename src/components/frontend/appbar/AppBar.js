@@ -111,6 +111,7 @@ function MyAppBar() {
                       variant="outlined"
                       className={classes.searchInput}
                       onChange={handleSearchChange}
+                      size={"small"}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -187,6 +188,7 @@ function MyAppBar() {
             </Grid>
           </Grid>
         </Toolbar>
+
         <Divider color="primary" />
         <CategoryBar />
       </AppBar>

@@ -1,14 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ImageCarousel from "./ImageCarousel";
+import CategorySwiper from "../category/CategorySwiper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#eaeded",
-    padding: theme.spacing(2),
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1),
-    },
   },
 }));
 
@@ -17,6 +14,7 @@ function Home() {
   return (
     <div className={classes.root}>
       <ImageCarousel />
+      <CategorySwiper />
     </div>
   );
 }

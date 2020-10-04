@@ -11,9 +11,9 @@
     "@testing-library/user-event": "^7.2.1",
     "firebase": "^7.21.0",
     "material-ui-dropzone": "^3.4.0",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-material-ui-carousel": "^2.0.0",
     "react-redux": "^7.2.1",
     "react-redux-firebase": "^3.7.0",
     "react-router": "^5.2.0",
@@ -21,7 +21,8 @@
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
     "redux-firestore": "^0.13.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "swiper": "^6.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

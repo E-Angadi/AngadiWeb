@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     height: "50px",
     display: "inline-block",
     fontSize: "1.2rem",
+    fontWeight: 500,
     [theme.breakpoints.down("md")]: {
       fontSize: "1rem",
     },
@@ -139,6 +140,14 @@ function CategorySwiper() {
           },
           960: {
             slidesPerView: 6.5,
+            spaceBetween: 20,
+          },
+          1280: {
+            slidesPerView: 7,
+            spaceBetween: 20,
+          },
+          1920: {
+            slidesPerView: 9,
             spaceBetween: 20,
           },
         }}

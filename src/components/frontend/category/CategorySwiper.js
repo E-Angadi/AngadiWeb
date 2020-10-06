@@ -1,6 +1,6 @@
 import React from "react";
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-
+import CategoryPaper from "./CategoryPaper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
@@ -27,28 +27,6 @@ const useStyles = makeStyles((theme) => ({
       [theme.breakpoints.down("sm")]: {
         fontSize: 0,
       },
-    },
-  },
-  paperRoot: {
-    padding: theme.spacing(2),
-    color: theme.palette.primary.main,
-    fontWeight: 400,
-    textAlign: "center",
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1),
-    },
-    border: "1px solid rgba(111,114,132,.25)",
-  },
-  paperImg: {
-    width: "100%",
-  },
-  paperTitle: {
-    height: "50px",
-    display: "inline-block",
-    fontSize: "1.2rem",
-    fontWeight: 500,
-    [theme.breakpoints.down("md")]: {
-      fontSize: "1rem",
     },
   },
   titleSpan: {
@@ -108,16 +86,6 @@ const categories = [
     title: "Snacks and Branded Food",
   },
 ];
-
-function CategoryPaper({ title, url }) {
-  const classes = useStyles();
-  return (
-    <Paper elevation={0} className={classes.paperRoot}>
-      <img className={classes.paperImg} src={url} alt={title} />
-      <span className={classes.paperTitle}>{title}</span>
-    </Paper>
-  );
-}
 
 function CategorySwiper() {
   const classes = useStyles();

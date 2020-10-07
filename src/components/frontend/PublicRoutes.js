@@ -4,6 +4,7 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import AppBar from "./appbar/AppBar";
 import Home from "./home/Home";
 import PublicTheme from "./PublicTheme";
+import AllCategories from "./category/AllCategories";
 
 class PublicRoutes extends Component {
   render() {
@@ -12,6 +13,7 @@ class PublicRoutes extends Component {
         <AppBar />
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/categories" component={AllCategories} />
         </Switch>
       </MuiThemeProvider>
     );

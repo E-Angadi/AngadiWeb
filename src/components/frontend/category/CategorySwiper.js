@@ -6,8 +6,9 @@ import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import "swiper/components/scrollbar/scrollbar.scss";
-import { Paper, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -92,7 +93,9 @@ function CategorySwiper() {
   return (
     <div className={classes.white}>
       <span className={classes.titleSpan}>Top Categories</span>
-      <Button className={classes.viewall}>View All</Button>
+      <Button component={Link} to="/categories" className={classes.viewall}>
+        View All
+      </Button>
       <Swiper
         className={classes.root}
         spaceBetween={30}

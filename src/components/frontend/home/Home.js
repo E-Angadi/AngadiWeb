@@ -15,7 +15,7 @@ function Home() {
   return (
     <div className={classes.root}>
       <ImageCarousel />
-      <ProductSwiper />
+      <ProductSwiper title={"Top Deals"} />
       <CategorySwiper />
     </div>
   );

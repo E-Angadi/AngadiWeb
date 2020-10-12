@@ -179,11 +179,12 @@ const data = [
   },
 ];
 
-function ProductSwiper() {
+function ProductSwiper(props) {
   const classes = useStyles();
+  const { title } = props;
   return (
     <div className={classes.white}>
-      <span className={classes.titleSpan}>Top Deals</span>
+      <span className={classes.titleSpan}>{title}</span>
       <Button className={classes.viewall}>View All</Button>
       <Swiper
         className={classes.root}

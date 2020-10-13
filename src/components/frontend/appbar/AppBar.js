@@ -160,7 +160,7 @@ function MyAppBar() {
               </Hidden>
 
               <Grid item>
-                <Link to="/cart" className={classes.link}>
+                <Link to="/checkout/cart" className={classes.link}>
                   <div className={classes.actionDiv}>
                     <IconButton aria-label="cart">
                       <Badge

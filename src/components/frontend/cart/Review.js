@@ -5,6 +5,7 @@ import ProductCard from "../product/ProductHCard";
 import PaymentDetails from "./PaymentDetails";
 import CheckoutStepper from "./CheckoutStepper";
 import { Link } from "react-router-dom";
+import CartAddress from "./CartAddress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,17 +41,41 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     fontWeight: 600,
     marginRight: theme.spacing(1),
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
-    },
+  },
+  rootAddress: {
+    padding: theme.spacing(1),
+    backgroundColor: "#FFFFFF",
+    borderRadius: theme.shape.borderRadius,
   },
 }));
 
-function Cart() {
+function Review() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
+        <Grid item xs={12} lg={8}>
+          <span className={classes.cartTitle}>Select Delivery Address </span>
+          <CartAddress />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <CheckoutStepper activeStep={1} />
+          <PaymentDetails />
+          <div className={classes.proceedBtn}>
+            <Button
+              component={Link}
+              to="/checkout/cart"
+              className={classes.btn}
+              variant="contained"
+              color="primary"
+            >
+              Back
+            </Button>
+            <Button className={classes.btn} variant="contained" color="primary">
+              Make Payment
+            </Button>
+          </div>
+        </Grid>
         <Grid item xs={12} lg={8}>
           <span className={classes.cartTitle}>My Cart({1})</span>
           <div className={classes.root1}>
@@ -59,24 +84,9 @@ function Cart() {
             <ProductCard />
           </div>
         </Grid>
-        <Grid item xs={12} lg={4}>
-          <CheckoutStepper activeStep={0} />
-          <PaymentDetails />
-          <div className={classes.proceedBtn}>
-            <Button
-              component={Link}
-              to="/checkout/review"
-              className={classes.btn}
-              variant="contained"
-              color="primary"
-            >
-              Place Order
-            </Button>
-          </div>
-        </Grid>
       </Grid>
     </div>
   );
 }
 
-export default Cart;
+export default Review;

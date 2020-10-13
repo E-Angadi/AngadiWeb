@@ -7,6 +7,7 @@ import PublicTheme from "./PublicTheme";
 import AllCategories from "./category/AllCategories";
 import Cart from "./cart/Cart";
 import ProductDetails from "./product/ProductDetails";
+import Review from "../frontend/cart/Review";
 
 class PublicRoutes extends Component {
   render() {
@@ -16,7 +17,9 @@ class PublicRoutes extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/categories" component={AllCategories} />
-          <Route exact path="/cart" component={Cart} />
+          <Route exact path="/checkout/cart" component={Cart} />
+          <Route exact path="/checkout/review" component={Review} />
+          <Route exact path="/checkout/payment" component={Review} />
           <Route exact path="/product/:productId" component={ProductDetails} />
         </Switch>
       </MuiThemeProvider>

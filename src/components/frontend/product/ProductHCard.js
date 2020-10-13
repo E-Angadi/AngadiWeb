@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductHCard() {
   const classes = useStyles();
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   const handleAdd = () => {
     plusCount();

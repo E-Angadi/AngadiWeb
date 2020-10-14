@@ -12,6 +12,15 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     position: "relative",
   },
+  fullwidthroot: {
+    backgroundColor: "#FFFFFF",
+    width: "100%",
+    padding: theme.spacing(1),
+    border: "1px solid rgba(111,114,132,.25)",
+    borderRadius: theme.shape.borderRadius,
+    position: "relative",
+    boxSizing: "border-box",
+  },
   addBtn: {
     backgroundColor: theme.palette.primary.main,
     paddingLeft: theme.spacing(2),
@@ -25,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     borderRadius: theme.shape.borderRadius,
     height: "100%",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "11px",
+    },
   },
   iconAddBtn: {
     background:
@@ -118,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const truncateString = (text, limit = 34) => {
+const truncateString = (text, limit) => {
   if (text.length < limit) {
     return text;
   }
@@ -126,7 +138,7 @@ const truncateString = (text, limit = 34) => {
   return slicedText + "...";
 };
 
-function ProductCard({ productData }) {
+function ProductCard({ productData, fullwidth, titleLimit }) {
   const classes = useStyles();
   const [count, setCount] = useState(0);
   const handleAdd = () => {
@@ -139,8 +151,13 @@ function ProductCard({ productData }) {
   const minusCount = () => {
     setCount(count - 1);
   };
+
+  if (!titleLimit) {
+    titleLimit = 34;
+  }
+
   return (
-    <div className={classes.root}>
+    <div className={fullwidth ? classes.fullwidthroot : classes.root}>
       <div className={classes.imgDiv}>
         <img src={productData.img} alt={productData.name} />
         <span className={classes.off}>
@@ -148,7 +165,9 @@ function ProductCard({ productData }) {
           off
         </span>
       </div>
-      <span className={classes.title}>{truncateString(productData.name)}</span>
+      <span className={classes.title}>
+        {truncateString(productData.name, titleLimit)}
+      </span>
       <div className={classes.priceBox}>
         <span className={classes.aprice}>{"₹" + productData.price}</span>
         <span> </span>

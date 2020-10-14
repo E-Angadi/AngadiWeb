@@ -152,6 +152,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const searchFilter = (data, search) => {
+  if (search === "") {
+    return data;
+  }
   const res = data.filter((obj) =>
     obj.name.toLowerCase().includes(search.toLowerCase())
   );

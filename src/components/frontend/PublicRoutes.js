@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import AppBar from "./appbar/AppBar";
 import Home from "./home/Home";
@@ -10,6 +10,7 @@ import ProductDetails from "./product/ProductDetails";
 import Review from "../frontend/cart/Review";
 import CategoryProducts from "../frontend/category/CategoryProducts";
 import SearchProduct from "../frontend/product/SearchProduct";
+import PageNotFound from "./NotFound";
 
 class PublicRoutes extends Component {
   render() {
@@ -29,6 +30,8 @@ class PublicRoutes extends Component {
             component={CategoryProducts}
           />
           <Route exact path="/search/:searchParam" component={SearchProduct} />
+          <Route path="/404" component={PageNotFound} />
+          <Redirect to="/404" />
         </Switch>
       </MuiThemeProvider>
     );

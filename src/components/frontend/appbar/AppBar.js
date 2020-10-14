@@ -8,7 +8,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { Search, Person, ShoppingCart } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Form from "../../common/Form";
 import Badge from "@material-ui/core/Badge";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
@@ -71,6 +71,7 @@ function MyAppBar() {
     disableHysteresis: true,
   });
   const [searchText, SetSearchText] = useState();
+  const history = useHistory();
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -79,6 +80,9 @@ function MyAppBar() {
 
   const handleSearch = (e) => {
     console.log(searchText);
+    if (searchText !== "") {
+      history.push("/search/" + searchText);
+    }
     e.preventDefault();
   };
 

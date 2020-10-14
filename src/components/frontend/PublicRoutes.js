@@ -9,6 +9,7 @@ import Cart from "./cart/Cart";
 import ProductDetails from "./product/ProductDetails";
 import Review from "../frontend/cart/Review";
 import CategoryProducts from "../frontend/category/CategoryProducts";
+import SearchProduct from "../frontend/product/SearchProduct";
 
 class PublicRoutes extends Component {
   render() {
@@ -27,6 +28,7 @@ class PublicRoutes extends Component {
             path="/category/:categoryId"
             component={CategoryProducts}
           />
+          <Route exact path="/search/:searchParam" component={SearchProduct} />
         </Switch>
       </MuiThemeProvider>
     );

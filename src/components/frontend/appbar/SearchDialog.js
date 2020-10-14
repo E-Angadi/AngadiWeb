@@ -67,8 +67,9 @@ function SearchDialog(props) {
   };
 
   const handleSubmit = (e) => {
-    onSubmit(e);
     e.preventDefault();
+    onSubmit(e);
+    handleClose();
   };
 
   return (

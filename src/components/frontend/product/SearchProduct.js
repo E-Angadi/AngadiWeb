@@ -1,49 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
-import CategoriesBox from "./CategoriesBox";
-import ProductGrid from "../product/ProductGrid";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: "#eaeded",
-    padding: theme.spacing(2),
-    minHeight: "100vh",
-    [theme.breakpoints.down("xs")]: {
-      padding: 0,
-    },
-  },
-  main: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    width: "100%",
-  },
-  banner: {
-    height: "auto",
-    marginBottom: theme.spacing(1),
-    borderRadius: theme.shape.borderRadius,
-    width: "100%",
-    minWidth: 0,
-  },
-  description: {
-    display: "flex",
-    justifyContent: "center",
-    padding: theme.spacing(1),
-    fontSize: 18,
-    fontWeight: 300,
-    backgroundColor: "#ffffff",
-    borderRadius: theme.shape.borderRadius,
-    width: "100%",
-    marginBottom: theme.spacing(1),
-    fontStyle: "italic",
-    boxSizing: "border-box",
-  },
-}));
-
-const imgUrl =
-  "https://www.jiomart.com/images/category/220/fresh-fruits-20200704.jpg";
-const cattext =
-  "Nisi aliqua duis ea proident irure. Sit irure laborum irure velit do labore non cillum consectetur sint incididunt officia. Non duis sit do culpa culpa nostrud velit ipsum. Officia irure anim laboris pariatur in proident commodo est qui. Mollit eu quis est anim Lorem irure duis sunt quis laboris. Dolore magna nulla quis est ut labore dolor fugiat ad. Fugiat tempor culpa dolor cillum anim.";
+import CategoriesBox from "../category/CategoriesBox";
+import ProductGrid from "./ProductGrid";
 
 const data = [
   {
@@ -165,8 +124,44 @@ const data = [
   },
 ];
 
-function CategoryProducts() {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "#eaeded",
+    padding: theme.spacing(2),
+    minHeight: "100vh",
+    [theme.breakpoints.down("xs")]: {
+      padding: 0,
+    },
+  },
+  main: {
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    width: "100%",
+  },
+  searchHead: {
+    boxSizing: "border-box",
+    padding: theme.spacing(2),
+    paddingLeft: 0,
+    fontSize: 16,
+    fontWeight: 400,
+  },
+  searchTitle: {
+    fontSize: 20,
+    fontWeight: 600,
+  },
+}));
+
+const searchFilter = (data, search) => {
+  const res = data.filter((obj) =>
+    obj.name.toLowerCase().includes(search.toLowerCase())
+  );
+  return res;
+};
+
+function SearchProduct(props) {
   const classes = useStyles();
+  const search = props.match.params.searchParam;
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
@@ -177,9 +172,11 @@ function CategoryProducts() {
         </Hidden>
         <Grid item xs={12} md={10} container>
           <div className={classes.main}>
-            <img className={classes.banner} src={imgUrl} alt={"Fresh Fruits"} />
-            <div className={classes.description}>{cattext}</div>
-            <ProductGrid data={data} />
+            <span className={classes.searchHead}>
+              Showing all results for{" "}
+              <span className={classes.searchTitle}>{search}</span>
+            </span>
+            <ProductGrid data={searchFilter(data, search)} />
           </div>
         </Grid>
       </Grid>
@@ -187,4 +184,4 @@ function CategoryProducts() {
   );
 }
 
-export default CategoryProducts;
+export default SearchProduct;

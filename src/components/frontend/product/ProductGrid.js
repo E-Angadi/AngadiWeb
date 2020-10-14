@@ -25,126 +25,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const data = [
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-];
-
 const sliceProducts = (data, page, limit) => {
   const startIndex = limit * (page - 1);
   const totalPages = Math.ceil(data.length / limit);
@@ -168,13 +48,14 @@ const getProductCountInPage = (data, page, limit) => {
   }
 };
 
-function ProductGrid() {
+function ProductGrid(props) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(value);
   };
   const pageLimit = 25;
+  const { data } = props;
 
   return (
     <div>

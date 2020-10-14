@@ -11,6 +11,8 @@ import Review from "../frontend/cart/Review";
 import CategoryProducts from "../frontend/category/CategoryProducts";
 import SearchProduct from "../frontend/product/SearchProduct";
 import PageNotFound from "./NotFound";
+import SignIn from "./auth/SignIn";
+import SignUp from "./auth/SignUp";
 
 class PublicRoutes extends Component {
   render() {
@@ -30,6 +32,8 @@ class PublicRoutes extends Component {
             component={CategoryProducts}
           />
           <Route exact path="/search/:searchParam" component={SearchProduct} />
+          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/signup" component={SignUp} />
           <Route path="/404" component={PageNotFound} />
           <Redirect to="/404" />
         </Switch>

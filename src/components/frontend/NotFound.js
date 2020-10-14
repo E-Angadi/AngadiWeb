@@ -25,8 +25,8 @@ function NotFound() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container justify="center" alignItems="center">
-        <Grid item>
+      <Grid container direction="column" justify="center" alignItems="center">
+        <Grid item xs={12}>
           <h2 className={classes.heading}>
             <span className={classes.error}>Error 404</span>
             <br /> Page Not Found!

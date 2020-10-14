@@ -141,7 +141,7 @@ function MyAppBar() {
             >
               <Hidden xsDown>
                 <Grid item>
-                  <Link className={classes.link}>
+                  <Link className={classes.link} to="/signin">
                     <div className={classes.actionDiv}>
                       <IconButton aria-label="signin">
                         <Person className={classes.menuButton} />

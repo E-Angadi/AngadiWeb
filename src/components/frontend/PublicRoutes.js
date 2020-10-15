@@ -13,6 +13,7 @@ import SearchProduct from "../frontend/product/SearchProduct";
 import PageNotFound from "./NotFound";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
+import Footer from "./home/Footer";
 
 class PublicRoutes extends Component {
   render() {
@@ -37,6 +38,7 @@ class PublicRoutes extends Component {
           <Route path="/404" component={PageNotFound} />
           <Redirect to="/404" />
         </Switch>
+        <Footer />
       </MuiThemeProvider>
     );
   }

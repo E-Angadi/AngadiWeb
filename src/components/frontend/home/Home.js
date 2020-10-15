@@ -7,6 +7,7 @@ import ProductSwiper from "../product/ProductSwiper";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#eaeded",
+    paddingBottom: theme.spacing(2),
   },
 }));
 

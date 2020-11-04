@@ -15,6 +15,9 @@ import {
   deleteBanner,
   closeSnackbar,
 } from "../../../store/actions/bannerActions";
+import Form from "../../common/Form";
+import Controls from "../../common/controls/Controls";
+import useForm from "../../common/useForm";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -41,7 +44,25 @@ const useStyles = makeStyles((theme) => ({
   defaultDiv: {
     color: theme.palette.secondary.dark,
   },
+  paperStyles: {
+    margin: "20px",
+    padding: "20px",
+  },
+  bannerImg: {
+    marginTop: theme.spacing(2),
+    width: "98%",
+  },
+  submitBtnStyles: {
+    marginTop: "20px",
+    marginBottom: "20px",
+  },
 }));
+
+const initialFValues = {
+  link: "",
+  imageData: "",
+  mobileImageData: "",
+};
 
 function Banners(props) {
   const [images, setImages] = useState([]);
@@ -57,12 +78,6 @@ function Banners(props) {
     setSnackbarStatus(props.bannerStatus);
   }, [props.bannerStatus]);
 
-  const handleSave = (filesObj, update) => {
-    if (filesObj.length > 0 && update) {
-      props.addBanner(filesObj[0].data);
-    }
-  };
-
   const handleDelete = (image) => {
     props.removeBanner(image);
   };
@@ -73,6 +88,67 @@ function Banners(props) {
     props.closeSnackbar();
   };
 
+  const validate = (fieldValues = values) => {
+    let tmp = { ...errors };
+    if ("link" in fieldValues)
+      tmp.link = fieldValues.link ? "" : "This field is required.";
+    if ("imageData" in fieldValues)
+      tmp.imageData = values.imageData === "" ? "Image is required" : "";
+    if ("mobileImageData" in fieldValues)
+      tmp.mobileImageData =
+        values.mobileImageData === "" ? "Mobile image is required" : "";
+    setErrors({
+      ...tmp,
+    });
+    if (fieldValues === values)
+      return Object.values(tmp).every((x) => x === "");
+  };
+
+  const {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    resetForm,
+  } = useForm(initialFValues, true, validate);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      props.addBanner(values);
+      resetForm();
+    }
+  };
+
+  const imageSave = (fileobjs, update) => {
+    if (fileobjs.length > 0 && update) {
+      setValues({
+        ...values,
+        imageData: fileobjs[0].data,
+      });
+    } else {
+      setValues({
+        ...values,
+        imageData: "",
+      });
+    }
+  };
+
+  const mobileImageSave = (fileobjs, update) => {
+    if (fileobjs.length > 0 && update) {
+      setValues({
+        ...values,
+        mobileImageData: fileobjs[0].data,
+      });
+    } else {
+      setValues({
+        ...values,
+        mobileImageData: "",
+      });
+    }
+  };
+
   return (
     <div className={classes.divAlign}>
       <PageHeader
@@ -80,35 +156,100 @@ function Banners(props) {
         icon={<ViewCarousel fontSize="large" />}
         subTitle={"Add and update display banners"}
       />
-      <Grid container justify="center">
-        <Grid item>
-          <UploadImageButton
-            text={"Add Image"}
-            callbackSave={handleSave}
-            filesLimit={1}
-          />
-        </Grid>
-      </Grid>
-      {images.length === 0 && (
-        <div className={classes.defaultDiv}>
+
+      <Paper className={classes.paperStyles}>
+        <Form onSubmit={handleSubmit}>
           <Grid container justify="center">
+            <Grid item xs={11}>
+              <Controls.Input
+                name="link"
+                label="Link"
+                value={values.link || ""}
+                onChange={handleInputChange}
+                error={errors.link}
+              />
+            </Grid>
+            <Grid
+              xs={12}
+              container
+              alignItems="center"
+              justify="center"
+              spacing={1}
+            >
+              <Grid xs={8}>
+                <Controls.ImageView
+                  alt="Banner Image"
+                  src={
+                    values.imageData === ""
+                      ? "/imgs/1680x320.png"
+                      : values.imageData
+                  }
+                  width={"98%"}
+                  error={errors.imageData}
+                />
+              </Grid>
+              <Grid xs={4}>
+                <Controls.ImageView
+                  alt="Mobile Banner Image"
+                  src={
+                    values.mobileImageData === ""
+                      ? "/imgs/910x380.png"
+                      : values.mobileImageData
+                  }
+                  width={"98%"}
+                  error={errors.mobileImageData}
+                />
+              </Grid>
+            </Grid>
             <Grid item>
-              <p>Add banner images by clicking the button above</p>
+              <UploadImageButton
+                text={"Add Banner"}
+                callbackSave={imageSave}
+                filesLimit={1}
+              />
+            </Grid>
+            <Grid item>
+              <UploadImageButton
+                text={"Add Mobile Banner"}
+                callbackSave={mobileImageSave}
+                filesLimit={1}
+              />
+            </Grid>
+            <Grid item>
+              <Controls.Button
+                className={classes.submitBtnStyles}
+                type="submit"
+                text="Submit"
+              />
             </Grid>
           </Grid>
-        </div>
-      )}
+        </Form>
+      </Paper>
+
       <div className={classes.galleryDiv}>
         <Grid container spacing={2}>
           {images &&
             images.map((image) => (
               <Grid key={image.id} item xs={12} sm={6}>
                 <Paper>
-                  <img
-                    src={image.imageURL ? image.imageURL : "/imgs/default.jpg"}
-                    alt={"banner"}
-                    width={"100%"}
-                  />
+                  <a href={image.link} target="blank">
+                    <img
+                      src={
+                        image.imageURL ? image.imageURL : "/imgs/1680x320.png"
+                      }
+                      alt="banner"
+                      width={"100%"}
+                    />
+                    <img
+                      src={
+                        image.mobileImageURL
+                          ? image.mobileImageURL
+                          : "/imgs/910x380.png"
+                      }
+                      alt="banner"
+                      width={"100%"}
+                    />
+                  </a>
                   <Grid item container justify="center">
                     <Grid item>
                       <DeleteImageButton

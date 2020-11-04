@@ -5,14 +5,14 @@ export const createBanner = (imageData) => {
     var fileId;
     firestore
       .collection("banners")
-      .add({ imageURL: "" })
+      .add({ imageURL: "", mobileImageURL: "", link: imageData.link })
       .then((resp) => {
         fileId = resp.id;
         var storageRef = firebase
           .storage()
           .ref()
-          .child("bannerImages/" + fileId);
-        return storageRef.putString(imageData, "data_url");
+          .child("bannerImages/large/" + fileId);
+        return storageRef.putString(imageData.imageData, "data_url");
       })
       .then((snapshot) => {
         return snapshot.ref.getDownloadURL();
@@ -22,6 +22,22 @@ export const createBanner = (imageData) => {
           .collection("banners")
           .doc(fileId)
           .update({ imageURL: downloadURL });
+      })
+      .then(() => {
+        var storageRef = firebase
+          .storage()
+          .ref()
+          .child("bannerImages/mobile/" + fileId);
+        return storageRef.putString(imageData.mobileImageData, "data_url");
+      })
+      .then((snapshot) => {
+        return snapshot.ref.getDownloadURL();
+      })
+      .then((downloadURL) => {
+        firestore
+          .collection("banners")
+          .doc(fileId)
+          .update({ mobileImageURL: downloadURL });
       })
       .then(() => {
         dispatch({ type: "CREATE_BANNER", imageData });
@@ -44,7 +60,14 @@ export const deleteBanner = (image) => {
         var imageRef = firebase
           .storage()
           .ref()
-          .child("bannerImages/" + image.id);
+          .child("bannerImages/large/" + image.id);
+        return imageRef.delete();
+      })
+      .then(() => {
+        var imageRef = firebase
+          .storage()
+          .ref()
+          .child("bannerImages/mobile/" + image.id);
         return imageRef.delete();
       })
       .then(() => {

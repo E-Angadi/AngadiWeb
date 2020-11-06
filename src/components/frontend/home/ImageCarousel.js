@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Hidden } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SwiperCore, {
@@ -14,21 +14,11 @@ import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import "swiper/components/scrollbar/scrollbar.scss";
 
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Autoplay]);
-
-const imgs = [
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1601011983_33_Web_Home.jpg",
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1600705620_50_Web_Home.jpg",
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1601021887_Buy-Big-Save-Bigger_Web_Home.jpg",
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1601406712_Web-Home.jpg",
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1601403018_Hyderabad_Web.jpg",
-];
-
-const imgsSm = [
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1601402077_Kohinoor_Mobile_Home.jpg",
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1601011959_33_Mobile_Mini_and_Home.jpg",
-  "https://www.jiomart.com/images/cms/aw_rbslider/slides/1600705684_50_Msite_Home_Mini.jpg",
-];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,8 +37,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ImageCarousel() {
+function ImageCarousel(props) {
   const classes = useStyles();
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (props.banners) {
+      setImages(props.banners);
+    }
+  }, [props.banners]);
+
   return (
     <div className={classes.root}>
       <Hidden xsDown>
@@ -65,9 +63,15 @@ function ImageCarousel() {
           autoHeight={true}
           navigation
         >
-          {imgs.map((img, idx) => (
+          {images.map((img, idx) => (
             <SwiperSlide key={idx}>
-              <img className={classes.imgStyles} src={img} alt="banner" />
+              <a target="blank" href={img.link}>
+                <img
+                  className={classes.imgStyles}
+                  src={img.imageURL ? img.imageURL : "/imgs/1680x320.png"}
+                  alt="banner"
+                />
+              </a>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -82,9 +86,19 @@ function ImageCarousel() {
             disableOnInteraction: false,
           }}
         >
-          {imgsSm.map((img, idx) => (
+          {images.map((img, idx) => (
             <SwiperSlide key={idx}>
-              <img className={classes.imgStyles} src={img} alt="banner" />
+              <a href={img.link}>
+                <img
+                  className={classes.imgStyles}
+                  src={
+                    img.mobileImageURL
+                      ? img.mobileImageURL
+                      : "/imgs/910x380.png"
+                  }
+                  alt="banner"
+                />
+              </a>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -93,4 +107,14 @@ function ImageCarousel() {
   );
 }
 
-export default ImageCarousel;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    banners: state.firestore.ordered.banners,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "banners" }])
+)(ImageCarousel);

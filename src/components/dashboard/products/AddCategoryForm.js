@@ -17,6 +17,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const initialFValues = {
   title: "",
   imageData: "",
+  bannerImageData: "",
+  description: "",
 };
 
 function AddCategoryForm(props) {
@@ -34,6 +36,13 @@ function AddCategoryForm(props) {
     let tmp = { ...errors };
     if ("title" in fieldValues)
       tmp.title = fieldValues.title ? "" : "This field is required.";
+    if ("description" in fieldValues)
+      tmp.description = fieldValues.description
+        ? ""
+        : "This field is required.";
+    if ("bannerImageData" in fieldValues)
+      tmp.bannerImageData =
+        values.bannerImageData === "" ? "Banner image is required" : "";
     if ("imageData" in fieldValues)
       tmp.imageData = values.imageData === "" ? "Image is required" : "";
     setErrors({
@@ -57,15 +66,13 @@ function AddCategoryForm(props) {
     if (validate()) {
       props.disableSubmit();
       props.createCategory({
-        title: values.title,
-        imageData: values.imageData,
+        ...values,
       });
       resetForm();
     }
   };
 
   const imageSave = (fileobjs) => {
-    console.log("image saved called");
     if (fileobjs.length > 0) {
       setValues({
         ...values,
@@ -79,6 +86,20 @@ function AddCategoryForm(props) {
     }
   };
 
+  const bannerImageSave = (fileobjs) => {
+    if (fileobjs.length > 0) {
+      setValues({
+        ...values,
+        bannerImageData: fileobjs[0].data,
+      });
+    } else {
+      setValues({
+        ...values,
+        bannerImageData: "",
+      });
+    }
+  };
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -88,7 +109,7 @@ function AddCategoryForm(props) {
               {"Add New Category"}
             </Typography>
           </Grid>
-          <Grid xs={9} item>
+          <Grid xs={12} item>
             <Controls.Input
               name="title"
               label="Title"
@@ -97,11 +118,18 @@ function AddCategoryForm(props) {
               error={errors.title}
             />
           </Grid>
-          <Grid xs={3} item>
-            <UploadImageButton callbackSave={imageSave} />
+          <Grid xs={12} item>
+            <Controls.InputArea
+              name="description"
+              label="Description"
+              value={values.description}
+              onChange={handleInputChange}
+              error={errors.description}
+              rowsMax={5}
+            />
           </Grid>
         </Grid>
-        <Grid direction="row" container justify="center">
+        <Grid direction="row" container justify="center" alignItems="center">
           <Grid item>
             <Controls.ImageView
               alt="Product uploaded"
@@ -112,8 +140,31 @@ function AddCategoryForm(props) {
               error={errors.imageData}
             />
           </Grid>
+          <Grid item>
+            <Controls.ImageView
+              alt="Product uploaded"
+              src={
+                values.bannerImageData === ""
+                  ? "/imgs/1000x200.png"
+                  : values.bannerImageData
+              }
+              width={500}
+              height={100}
+              error={errors.bannerImageData}
+            />
+          </Grid>
         </Grid>
-        <Grid direction="row" container alignItems="center">
+        <Grid direction="row" container justify="center" alignItems="center">
+          <Grid item>
+            <UploadImageButton filesLimit={1} callbackSave={imageSave} />
+          </Grid>
+          <Grid item>
+            <UploadImageButton
+              text="Add Banner Image"
+              filesLimit={1}
+              callbackSave={bannerImageSave}
+            />
+          </Grid>
           <Grid item>
             <Controls.Button
               disabled={sanckbarStatus.disableSubmit}

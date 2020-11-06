@@ -21,20 +21,21 @@ function CategoryEditDialog(props) {
     setOpen(false);
   };
 
-  const { title, callbackUpdate } = props;
+  const { title, description, callbackUpdate } = props;
 
   const initialFValues = {
     title: title ? title : "Category Title",
+    description: description ? description : "Description",
   };
 
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)
-      tmp.title =
-        fieldValues.title && title !== fieldValues.title
-          ? ""
-          : "This field is required.";
-
+      tmp.title = fieldValues.title ? "" : "This field is required.";
+    if ("description" in fieldValues)
+      tmp.description = fieldValues.description
+        ? ""
+        : "This field is required.";
     setErrors({
       ...tmp,
     });
@@ -53,10 +54,11 @@ function CategoryEditDialog(props) {
       setErrors({
         ...errors,
         title: "This field is required",
+        description: "This field is required",
       });
       return;
     }
-    callbackUpdate(values.title);
+    callbackUpdate(values.title, values.description);
     setOpen(false);
   };
 
@@ -79,6 +81,15 @@ function CategoryEditDialog(props) {
             value={values.title}
             onChange={handleInputChange}
             error={errors.title}
+          />
+          <Controls.InputArea
+            name="description"
+            label="Description"
+            value={values.description}
+            onChange={handleInputChange}
+            error={errors.description}
+            rowsMax={5}
+            style={{ width: "100%", marginTop: 8 }}
           />
         </DialogContent>
         <DialogActions>

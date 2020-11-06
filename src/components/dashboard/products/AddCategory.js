@@ -60,7 +60,7 @@ function AddCategory(props) {
             props.categories.map((category) => {
               console.log("category");
               return (
-                <Grid key={category.id} item xs={12} sm={3}>
+                <Grid key={category.id} item xs={12} sm={4}>
                   <CategoryCard category={category} />
                 </Grid>
               );

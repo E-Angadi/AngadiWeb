@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import UploadImageButton from "../../common/UploadImageButton";
@@ -10,9 +11,10 @@ import CategoryEditDialog from "./CategoryEditDialog";
 import DeleteIconDialog from "../../common/DeleteIconDialog";
 import { connect } from "react-redux";
 import {
-  updateCategoryTitle,
+  updateCategoryText,
   updateCategoryImage,
   deleteCategory,
+  updateCategoryBannerImage,
 } from "../../../store/actions/categoryActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,16 +25,33 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     paddingTop: "100%",
   },
+  banner: {
+    width: "100%",
+    height: "auto",
+    paddingTop: "50%",
+  },
   imageBtnStyles: {
     marginTop: "10px",
     marginBottom: "10px",
   },
 }));
 
+const truncateString = (text, limit) => {
+  if (text.length < limit) {
+    return text;
+  }
+  const slicedText = text.slice(0, limit);
+  return slicedText + "...";
+};
+
 function CategoryCard(props) {
   const classes = useStyles();
   const [title, setTitle] = useState(props.category.title);
+  const [description, setDescription] = useState(props.category.description);
   const [imageURL, setImageURL] = useState(props.category.imageURL);
+  const [bannerImageURL, setBannerImageURL] = useState(
+    props.category.bannerImageURL
+  );
 
   const imageSave = (filesObj, update) => {
     if (filesObj.length > 0 && update) {
@@ -40,18 +59,33 @@ function CategoryCard(props) {
     }
   };
 
+  const bannerImageSave = (filesObj, update) => {
+    if (filesObj.length > 0 && update) {
+      props.updateBanner(props.category, filesObj[0].data);
+    }
+  };
+
   useEffect(() => {
     setImageURL(props.category.imageURL);
     setTitle(props.category.title);
-  }, [props.category, props.title]);
+    setDescription(props.category.description);
+    setBannerImageURL(props.category.bannerImageURL);
+  }, [
+    props.category,
+    props.title,
+    props.category.bannerImageURL,
+    props.category.description,
+  ]);
 
-  const handleUpdateTitle = (newTitle) => {
+  const handleUpdateText = (newTitle, newDescription) => {
     setTitle(newTitle);
+    setDescription(newDescription);
     const update = {
       ...props.category,
       title: newTitle,
+      description: newDescription,
     };
-    props.updateTitle(update);
+    props.updateText(update);
   };
 
   const handleDelete = () => {
@@ -65,7 +99,8 @@ function CategoryCard(props) {
           <>
             <CategoryEditDialog
               title={title}
-              callbackUpdate={handleUpdateTitle}
+              description={description}
+              callbackUpdate={handleUpdateText}
             />
             <DeleteIconDialog
               callbackDelete={handleDelete}
@@ -81,12 +116,31 @@ function CategoryCard(props) {
         alt={title}
         title={title}
       />
+      <CardMedia
+        className={classes.banner}
+        image={bannerImageURL ? bannerImageURL : "/imgs/1000x200.png"}
+        alt={title}
+        title={title}
+      />
+      <CardContent>
+        <p style={{ height: 57, overflow: "hidden" }}>
+          {truncateString(description, 100)}
+        </p>
+      </CardContent>
       <CardActions>
         <Grid container justify="center">
           <Grid item>
             <UploadImageButton
               text={"Change Image"}
               callbackSave={imageSave}
+              className={classes.imageBtnStyles}
+              filesLimit={1}
+            />
+          </Grid>
+          <Grid item>
+            <UploadImageButton
+              text={"Change Banner Image"}
+              callbackSave={bannerImageSave}
               className={classes.imageBtnStyles}
               filesLimit={1}
             />
@@ -99,9 +153,11 @@ function CategoryCard(props) {
 
 const matchDispatchToProps = (dispatch) => {
   return {
-    updateTitle: (category) => dispatch(updateCategoryTitle(category)),
+    updateText: (category) => dispatch(updateCategoryText(category)),
     updateImage: (category, imageData) =>
       dispatch(updateCategoryImage(category, imageData)),
+    updateBanner: (category, imageData) =>
+      dispatch(updateCategoryBannerImage(category, imageData)),
     delete: (category) => dispatch(deleteCategory(category)),
   };
 };

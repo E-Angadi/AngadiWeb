@@ -25,15 +25,15 @@ const categoryReducer = (state = initstate, action) => {
     case "UPDATE_CATEGORY_TITLE":
       return Object.assign({}, state, {
         snackbarStatus: true,
-        message: "Updated category title",
+        message: "Updated category",
         variant: "success",
         disableSubmit: false,
       });
     case "UPDATE_CATEGORY_TITLE_ERR":
-      console.log("Error updating category title", action.err);
+      console.log("Error updating category", action.err);
       return Object.assign({}, state, {
         snackbarStatus: true,
-        message: "Error updating category title",
+        message: "Error updating category",
         variant: "error",
         disableSubmit: false,
       });
@@ -49,6 +49,21 @@ const categoryReducer = (state = initstate, action) => {
       return Object.assign({}, state, {
         snackbarStatus: true,
         message: "Error updating category image",
+        variant: "error",
+        disableSubmit: false,
+      });
+    case "UPDATE_CATEGORY_BANNER_IMAGE":
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "updated category banner image",
+        variant: "success",
+        disableSubmit: false,
+      });
+    case "UPDATE_CATEGORY_BANNER_IMAGE_ERR":
+      console.log("Error updating category banner image", action.err);
+      return Object.assign({}, state, {
+        snackbarStatus: true,
+        message: "Error updating category banner image",
         variant: "error",
         disableSubmit: false,
       });

@@ -7,7 +7,9 @@ export const createCategory = (category) => {
       .collection("categories")
       .add({
         title: category.title,
+        description: category.description,
         imageURL: "",
+        bannerImageURL: "",
         createdAt: new Date(),
       })
       .then((resp) => {
@@ -15,7 +17,7 @@ export const createCategory = (category) => {
         var storageRef = firebase
           .storage()
           .ref()
-          .child("categoryImages/" + fileID);
+          .child("categoryImages/images/" + fileID);
 
         return storageRef.putString(category.imageData, "data_url");
       })
@@ -29,6 +31,23 @@ export const createCategory = (category) => {
           .update({ imageURL: downloadURL });
       })
       .then(() => {
+        var storageRef = firebase
+          .storage()
+          .ref()
+          .child("categoryImages/banners/" + fileID);
+
+        return storageRef.putString(category.bannerImageData, "data_url");
+      })
+      .then((snapshot) => {
+        return snapshot.ref.getDownloadURL();
+      })
+      .then((downloadURL) => {
+        firestore
+          .collection("categories")
+          .doc(fileID)
+          .update({ bannerImageURL: downloadURL });
+      })
+      .then(() => {
         dispatch({ type: "CREATE_CATEGORY", category });
       })
       .catch((err) => {
@@ -37,13 +56,13 @@ export const createCategory = (category) => {
   };
 };
 
-export const updateCategoryTitle = (category) => {
+export const updateCategoryText = (category) => {
   return (dispatch, getState, { getFirestore, getFirebase }) => {
     const firestore = getFirestore();
     firestore
       .collection("categories")
       .doc(category.id)
-      .update({ title: category.title })
+      .update({ title: category.title, description: category.description })
       .then(() => {
         dispatch({ type: "UPDATE_CATEGORY_TITLE", category });
       })
@@ -60,7 +79,7 @@ export const updateCategoryImage = (category, imageData) => {
     var storageRef = firebase
       .storage()
       .ref()
-      .child("categoryImages/" + category.id);
+      .child("categoryImages/images/" + category.id);
     storageRef
       .putString(imageData, "data_url")
       .then((snapshot) => {
@@ -81,6 +100,34 @@ export const updateCategoryImage = (category, imageData) => {
   };
 };
 
+export const updateCategoryBannerImage = (category, imageData) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    var storageRef = firebase
+      .storage()
+      .ref()
+      .child("categoryImages/banners/" + category.id);
+    storageRef
+      .putString(imageData, "data_url")
+      .then((snapshot) => {
+        return snapshot.ref.getDownloadURL();
+      })
+      .then((downloadURL) => {
+        return firestore
+          .collection("categories")
+          .doc(category.id)
+          .update({ bannerImageURL: downloadURL });
+      })
+      .then(() => {
+        dispatch({ type: "UPDATE_CATEGORY_BANNER_IMAGE", category });
+      })
+      .catch((err) => {
+        dispatch({ type: "UPDATE_CATEGORY_BANNER_IMAGE_ERR", err });
+      });
+  };
+};
+
 export const deleteCategory = (category) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
@@ -93,7 +140,14 @@ export const deleteCategory = (category) => {
         var imageRef = firebase
           .storage()
           .ref()
-          .child("categoryImages/" + category.id);
+          .child("categoryImages/images/" + category.id);
+        return imageRef.delete();
+      })
+      .then(() => {
+        var imageRef = firebase
+          .storage()
+          .ref()
+          .child("categoryImages/banners/" + category.id);
         return imageRef.delete();
       })
       .then(() => {

@@ -6,14 +6,18 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import rootReducer from "./store/reducers/RootReducer";
 import { createStore, applyMiddleware, compose } from "redux";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import thunk from "redux-thunk";
 import {
   reduxFirestore,
   getFirestore,
   createFirestoreInstance,
 } from "redux-firestore";
-import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
+import {
+  ReactReduxFirebaseProvider,
+  getFirebase,
+  isLoaded,
+} from "react-redux-firebase";
 import firebaseConfig from "./config/firebaseConfig";
 import firebase from "firebase/app";
 
@@ -24,6 +28,12 @@ const store = createStore(
     reduxFirestore(firebase, firebaseConfig)
   )
 );
+
+function AuthIsLoaded({ children }) {
+  const auth = useSelector((state) => state.firebase.auth);
+  if (!isLoaded(auth)) return <div>splash screen...</div>;
+  return children;
+}
 
 const rrfConfig = {
   userProfile: "users",
@@ -44,7 +54,9 @@ ReactDOM.render(
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <BrowserRouter>
-          <App />
+          <AuthIsLoaded>
+            <App />
+          </AuthIsLoaded>
         </BrowserRouter>
       </ReactReduxFirebaseProvider>
     </Provider>

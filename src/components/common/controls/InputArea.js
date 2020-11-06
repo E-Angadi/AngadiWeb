@@ -2,7 +2,15 @@ import React from "react";
 import { TextField } from "@material-ui/core";
 
 export default function InputArea(props) {
-  const { name, label, value, error = null, onChange, rowsMax } = props;
+  const {
+    name,
+    label,
+    value,
+    error = null,
+    onChange,
+    rowsMax,
+    ...rest
+  } = props;
   return (
     <TextField
       variant="outlined"
@@ -15,6 +23,7 @@ export default function InputArea(props) {
       rows={rowsMax}
       InputLabelProps={{ shrink: true }}
       {...(error && { error: true, helperText: error })}
+      {...rest}
     />
   );
 }

@@ -19,7 +19,7 @@ const itemList1 = [
   },
   {
     name: "Shop by Category",
-    link: "/category",
+    link: "/categories",
   },
   {
     name: "All Offers",
@@ -38,7 +38,7 @@ const itemList2 = [
   },
 ];
 
-function LeftDrawerList() {
+function LeftDrawerList(props) {
   const classes = useStyles();
   return (
     <List>

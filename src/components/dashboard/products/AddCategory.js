@@ -58,7 +58,6 @@ function AddCategory(props) {
         <Grid container spacing={2} justify="center">
           {props.categories &&
             props.categories.map((category) => {
-              console.log("category");
               return (
                 <Grid key={category.id} item xs={12} sm={4}>
                   <CategoryCard category={category} />

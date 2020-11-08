@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Breadcrumbs, Link, Hidden } from "@material-ui/core";
 import CategoryPaper from "./CategoryPaper";
 import RouterLink from "react-router-dom/Link";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,39 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const categories = [
-  {
-    url: "https://www.jiomart.com/images/category/6/thumb/0-6.png",
-    title: "Personal Care",
-  },
-  {
-    url: "https://www.jiomart.com/images/category/6/thumb/0-6.png",
-    title: "Personal Care",
-  },
-  {
-    url: "https://www.jiomart.com/images/category/11/thumb/0-11.png",
-    title: "Snacks and Branded Food",
-  },
-  {
-    url: "https://www.jiomart.com/images/category/6/thumb/0-6.png",
-    title: "Personal Care",
-  },
-  {
-    url: "https://www.jiomart.com/images/category/11/thumb/0-11.png",
-    title: "Snacks and Branded Food",
-  },
-  {
-    url: "https://www.jiomart.com/images/category/6/thumb/0-6.png",
-    title: "Personal Care",
-  },
-  {
-    url: "https://www.jiomart.com/images/category/11/thumb/0-11.png",
-    title: "Snacks and Branded Food",
-  },
-];
-
-function AllCategories() {
+function AllCategories(props) {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <div className={classes.divRoot}>
@@ -83,15 +56,29 @@ function AllCategories() {
         </Hidden>
         <div className={classes.title}>Our Categories</div>
         <Grid container spacing={1}>
-          {categories.map(({ title, url }, idx) => (
-            <Grid key={idx} xs={6} sm={4} lg={3} xl={2} item>
-              <CategoryPaper title={title} url={url} />
-            </Grid>
-          ))}
+          {props.categories &&
+            props.categories.map((category) => (
+              <Grid key={category.id} xs={6} sm={4} lg={3} xl={2} item>
+                <CategoryPaper
+                  categoryId={category.id}
+                  title={category.title}
+                  url={category.imageURL}
+                />
+              </Grid>
+            ))}
         </Grid>
       </div>
     </div>
   );
 }
 
-export default AllCategories;
+const mapStateToProps = (state) => {
+  return {
+    categories: state.firestore.ordered.categories,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "categories" }])
+)(AllCategories);

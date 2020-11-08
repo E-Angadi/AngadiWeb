@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import PincodeDialog from "./PincodeDialog";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   catBarRoot: {
@@ -53,38 +56,32 @@ const useStyles = makeStyles((theme) => ({
 
 // TODO: hook actual category with link to category view
 
-const categories = [
-  "Floors",
-  "Natural Oils",
-  "Pulses",
-  "Aayurvedic",
-  "Millets",
-  "Floors",
-  "Natural Oils",
-  "Pulses",
-  "Aayurvedic",
-];
 const catLimit = 8;
 
-function CategoryBar() {
+function CategoryBar(props) {
   const classes = useStyles();
   return (
     <div className={classes.catBarRoot}>
       <PincodeDialog />
       <Hidden xsDown>
-        {categories.map((category, idx) => {
-          if (idx < catLimit) {
-            return (
-              <Link key={idx} className={classes.category} to="/">
-                {category}
-              </Link>
-            );
-          } else {
-            return <div />;
-          }
-        })}
-        {categories.length > catLimit && (
-          <Link className={classes.category} to="/">
+        {props.categories &&
+          props.categories.map((category, idx) => {
+            if (idx < catLimit) {
+              return (
+                <Link
+                  key={category.id}
+                  className={classes.category}
+                  to={"/category/" + category.id}
+                >
+                  {category.title}
+                </Link>
+              );
+            } else {
+              return <div />;
+            }
+          })}
+        {props.categories && props.categories.length > catLimit && (
+          <Link className={classes.category} to="/categories">
             Others
           </Link>
         )}
@@ -93,4 +90,13 @@ function CategoryBar() {
   );
 }
 
-export default CategoryBar;
+const mapStateToProps = (state) => {
+  return {
+    categories: state.firestore.ordered.categories,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "categories" }])
+)(CategoryBar);

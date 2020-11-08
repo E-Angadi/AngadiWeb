@@ -1,5 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,58 +34,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const categories = [
-  "Fruits & Vegetables",
-  "Dairy & Backery",
-  "Staples",
-  "Snacks & Branded Food",
-  "Personal Care",
-  "Home Care",
-  "Baby Care",
-  "Dairy & Backery",
-  "Staples",
-  "Snacks & Branded Food",
-  "Personal Care",
-  "Home Care",
-  "Baby Care",
-  "Fruits & Vegetables",
-  "Dairy & Backery",
-  "Staples",
-  "Snacks & Branded Food",
-  "Personal Care",
-  "Home Care",
-  "Baby Care",
-  "Dairy & Backery",
-  "Staples",
-  "Snacks & Branded Food",
-  "Personal Care",
-  "Home Care",
-  "Baby Care",
-];
-
 const sliceCat = (categories, limit = 15) => {
+  if (!categories) return categories;
   if (categories.length > limit) {
     return categories.slice(0, limit);
   }
   return categories;
 };
 
-function CategoriesBox() {
+function CategoriesBox(props) {
   const classes = useStyles();
-  const scat = sliceCat(categories);
+  const scat = sliceCat(props.categories);
 
   return (
     <div className={classes.root}>
       <span className={classes.heading}>Categories</span>
       <div className={classes.menu}>
-        {scat.map((cat, idx) => (
-          <div key={idx} className={classes.list}>
-            {cat}
-          </div>
-        ))}
+        {scat &&
+          scat.map((cat, idx) => (
+            <div key={idx} className={classes.list}>
+              {cat.title}
+            </div>
+          ))}
       </div>
     </div>
   );
 }
 
-export default CategoriesBox;
+const mapStateToProps = (state) => {
+  return {
+    categories: state.firestore.ordered.categories,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "categories" }])
+)(CategoriesBox);

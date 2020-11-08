@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paperRoot: {
+    width: 170,
     padding: theme.spacing(1),
     color: theme.palette.primary.main,
     fontWeight: 400,
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid rgba(111,114,132,.25)",
   },
   paperImg: {
-    width: "100%",
+    width: 170,
   },
   paperTitle: {
     height: "50px",
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 // TODO: Truckate large category names
 
-function CategoryPaper({ title, url, categoryId }) {
+function CategoryHomePaper({ title, url, categoryId }) {
   const classes = useStyles();
   return (
     <Link to={"/category/" + categoryId}>
@@ -43,4 +44,4 @@ function CategoryPaper({ title, url, categoryId }) {
   );
 }
 
-export default CategoryPaper;
+export default CategoryHomePaper;

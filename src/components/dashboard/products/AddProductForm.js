@@ -18,6 +18,13 @@ import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Clear from "@material-ui/icons/Clear";
+import IconButton from "@material-ui/core/IconButton";
 
 const taxSelect = getTaxSelect();
 
@@ -25,21 +32,25 @@ const unitSelect = getUnitSelect();
 
 const initialFValues = {
   title: "",
-  shortDescription: "",
-  longDescription: "",
+  description: "",
   category: 0,
   unitSelect: 0,
   unitValue: 0,
   price: 0,
+  taxName: "",
   taxSelect: 0,
   discount: 0,
   tax: 0,
   imageData: "",
   visibility: true,
+  special: false,
 };
 
 function AddProductForm(props) {
   const [sanckbarStatus, setSnackbarStatus] = useState(props.productStatus);
+  const [taxes, setTaxes] = useState([
+    { taxName: "", taxSelect: 0, taxAmount: 0 },
+  ]);
 
   useEffect(() => {
     setSnackbarStatus(props.productStatus);
@@ -53,12 +64,8 @@ function AddProductForm(props) {
     let tmp = { ...errors };
     if ("title" in fieldValues)
       tmp.title = fieldValues.title ? "" : "This field is required.";
-    if ("shortDescription" in fieldValues)
-      tmp.shortDescription = fieldValues.shortDescription
-        ? ""
-        : "This field is required.";
-    if ("longDescription" in fieldValues)
-      tmp.longDescription = fieldValues.longDescription
+    if ("description" in fieldValues)
+      tmp.description = fieldValues.description
         ? ""
         : "This field is required.";
     if ("category" in fieldValues)
@@ -160,7 +167,6 @@ function AddProductForm(props) {
   };
 
   const imageSave = (fileobjs) => {
-    console.log("image saved called");
     if (fileobjs.length > 0) {
       setValues({
         ...values,
@@ -172,6 +178,10 @@ function AddProductForm(props) {
         imageData: "",
       });
     }
+  };
+
+  const onAddTax = () => {
+    console.log("Hello World!");
   };
 
   if (getCategories().length <= 1) {
@@ -211,6 +221,13 @@ function AddProductForm(props) {
               onChange={handleSwitchChange}
               color="primary"
             />
+            <Controls.Switch
+              name="special"
+              label="Special Offer"
+              value={values.special}
+              onChange={handleSwitchChange}
+              color="primary"
+            />
             <Controls.Input
               name="title"
               label="Title"
@@ -219,19 +236,11 @@ function AddProductForm(props) {
               error={errors.title}
             />
             <Controls.InputArea
-              name="shortDescription"
-              label="Short Description"
-              value={values.shortDescription}
+              name="description"
+              label="Description"
+              value={values.description}
               onChange={handleInputChange}
-              error={errors.shortDescription}
-              rowsMax={2}
-            />
-            <Controls.InputArea
-              name="longDescription"
-              label="Long Description"
-              value={values.longDescription}
-              onChange={handleInputChange}
-              error={errors.longDescription}
+              error={errors.description}
               rowsMax={5}
             />
             <Controls.Select
@@ -241,6 +250,14 @@ function AddProductForm(props) {
               onChange={handleInputChange}
               options={getCategories()}
               error={errors.category}
+            />
+            <Controls.ImageView
+              alt="Product uploaded"
+              src={
+                values.imageData === "" ? "/imgs/default.jpg" : values.imageData
+              }
+              width={200}
+              error={errors.imageData}
             />
           </Grid>
           <Grid xs={12} sm={6} item>
@@ -285,7 +302,48 @@ function AddProductForm(props) {
                 />
               </Grid>
               <Grid xs={12} item container>
-                <Grid xs={6} item>
+                <Grid xs={12} item>
+                  <Table
+                    style={{ minWidth: 200, marginBottom: 20 }}
+                    size="small"
+                    aria-label="a dense table"
+                  >
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center">
+                          <b>Tax Name</b>
+                        </TableCell>
+                        <TableCell align="center">
+                          <b>Value</b>
+                        </TableCell>
+                        <TableCell align="center">Clear</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" component="th" scope="row">
+                          GST
+                        </TableCell>
+                        <TableCell align="center">14%</TableCell>
+                        <TableCell align="center">
+                          <IconButton size="small" aria-label="delete">
+                            <Clear />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </Grid>
+                <Grid xs={4} item>
+                  <Controls.Input
+                    name="taxName"
+                    label="Tax Name"
+                    value={values.taxName}
+                    onChange={handleInputChange}
+                    error={errors.taxName}
+                  />
+                </Grid>
+                <Grid xs={4} item>
                   <Controls.Select
                     name="taxSelect"
                     label="Tax Type"
@@ -295,7 +353,7 @@ function AddProductForm(props) {
                     error={errors.taxSelect}
                   />
                 </Grid>
-                <Grid xs={6} item>
+                <Grid xs={4} item>
                   <Controls.Input
                     name="tax"
                     label="Tax Value"
@@ -305,26 +363,15 @@ function AddProductForm(props) {
                   />
                 </Grid>
                 <Grid xs={12} item>
-                  <UploadImageButton callbackSave={imageSave} />
-                </Grid>
-                <Grid xs={12} item container justify="center">
-                  <Grid item>
-                    <Controls.ImageView
-                      alt="Product uploaded"
-                      src={
-                        values.imageData === ""
-                          ? "/imgs/default.jpg"
-                          : values.imageData
-                      }
-                      width={130}
-                      error={errors.imageData}
-                    />
-                  </Grid>
+                  <Controls.Button onClick={onAddTax} text="Add New Tax" />
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
           <Grid xs={12} item container alignItems="center">
+            <Grid item>
+              <UploadImageButton callbackSave={imageSave} />
+            </Grid>
             <Grid item>
               <div>
                 <Controls.Button

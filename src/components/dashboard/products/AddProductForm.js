@@ -44,13 +44,11 @@ const initialFValues = {
   imageData: "",
   visibility: true,
   special: false,
+  taxes: [],
 };
 
 function AddProductForm(props) {
   const [sanckbarStatus, setSnackbarStatus] = useState(props.productStatus);
-  const [taxes, setTaxes] = useState([
-    { taxName: "", taxSelect: 0, taxAmount: 0 },
-  ]);
 
   useEffect(() => {
     setSnackbarStatus(props.productStatus);
@@ -58,6 +56,21 @@ function AddProductForm(props) {
 
   const handleSnackbarClose = () => {
     props.closeSnackbar();
+  };
+
+  const validateTax = (fieldValues = values) => {
+    let tmp = { ...errors };
+    if ("taxName" in fieldValues)
+      tmp.taxName = fieldValues.taxName ? "" : "This field is required.";
+    if ("tax" in fieldValues)
+      tmp.tax =
+        fieldValues.tax >= 0
+          ? ""
+          : "Tax percentage should be a number and greater than and equal to zero";
+    setErrors({
+      ...tmp,
+    });
+    if (fieldValues === values) return tmp.taxName === "" && tmp.tax === "";
   };
 
   const validate = (fieldValues = values) => {
@@ -87,13 +100,12 @@ function AddProductForm(props) {
         fieldValues.discount >= 0 && fieldValues.discount < 100
           ? ""
           : "Discount percentage should be a number and should be between 0 and 100";
-    if ("tax" in fieldValues)
-      tmp.tax =
-        fieldValues.tax >= 0
-          ? ""
-          : "Tax percentage should be a number and greater than or equal to zero";
+
     if ("imageData" in fieldValues)
       tmp.imageData = values.imageData === "" ? "Image is required" : "";
+    if ("taxes" in fieldValues)
+      tmp.taxName =
+        fieldValues.taxes.length > 0 ? "" : "This field is required";
     setErrors({
       ...tmp,
     });
@@ -111,13 +123,20 @@ function AddProductForm(props) {
     resetForm,
   } = useForm(initialFValues, true, validate);
 
-  const calculateTotal = (price, discountPercentage, tax, taxSelect) => {
+  const calculateTotal = (price, discountPercentage, taxes) => {
     var totalPrice = price;
-    if (taxSelect === 0) {
-      totalPrice -= totalPrice * (tax / 100);
-    } else {
-      totalPrice -= tax;
+    for (var taxe in taxes) {
+      console.log(taxes[taxe]);
+      var taxValue = parseFloat(taxes[taxe].value, 10);
+      console.log(taxValue);
+      if (taxes[taxe].select === 0) {
+        totalPrice -= price * (taxValue / 100);
+      } else {
+        totalPrice -= taxValue;
+      }
+      console.log(totalPrice);
     }
+
     var taxedPrice = totalPrice;
     totalPrice -= totalPrice * (discountPercentage / 100);
     return { taxedPrice, totalPrice };
@@ -129,26 +148,37 @@ function AddProductForm(props) {
       var discount = parseFloat(values.discount, 10);
       var price = parseFloat(values.price);
       var unitValue = parseFloat(values.unitValue);
-      var tax = parseFloat(values.tax, 10);
       var { taxedPrice, totalPrice } = calculateTotal(
         price,
         discount,
-        tax,
-        values.taxSelect
+        values.taxes
       );
       taxedPrice = Math.ceil(taxedPrice);
       totalPrice = Math.ceil(totalPrice);
-      // TODO: dont create product if total price is less than zero
+      if (!taxedPrice) {
+        alert("Please check your tax and discount values");
+        return;
+      }
       props.disableSubmit();
-      props.createProduct({
+      var res = {
         ...values,
         totalPrice: totalPrice,
         price: price,
         taxedPrice: taxedPrice,
         unitValue: unitValue,
         discount: discount,
-        tax: tax,
+      };
+
+      delete res.tax;
+      delete res.taxName;
+      delete res.taxSelect;
+
+      setValues({
+        ...values,
+        taxes: [],
       });
+
+      props.createProduct(res);
       resetForm();
     }
   };
@@ -180,8 +210,31 @@ function AddProductForm(props) {
     }
   };
 
+  const clearTax = (idx) => {
+    var tmp = values.taxes;
+    tmp.splice(idx, 1);
+    setValues({
+      ...values,
+      taxes: tmp,
+    });
+  };
+
   const onAddTax = () => {
-    console.log("Hello World!");
+    if (validateTax()) {
+      var tmp = values.taxes;
+      tmp.push({
+        name: values.taxName,
+        select: values.taxSelect,
+        value: values.tax,
+      });
+      setValues({
+        ...values,
+        taxes: tmp,
+        tax: 0,
+        taxName: "",
+        taxSelect: 0,
+      });
+    }
   };
 
   if (getCategories().length <= 1) {
@@ -303,36 +356,52 @@ function AddProductForm(props) {
               </Grid>
               <Grid xs={12} item container>
                 <Grid xs={12} item>
-                  <Table
-                    style={{ minWidth: 200, marginBottom: 20 }}
-                    size="small"
-                    aria-label="a dense table"
-                  >
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">
-                          <b>Tax Name</b>
-                        </TableCell>
-                        <TableCell align="center">
-                          <b>Value</b>
-                        </TableCell>
-                        <TableCell align="center">Clear</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" component="th" scope="row">
-                          GST
-                        </TableCell>
-                        <TableCell align="center">14%</TableCell>
-                        <TableCell align="center">
-                          <IconButton size="small" aria-label="delete">
-                            <Clear />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                  {values.taxes.length > 0 && (
+                    <Table
+                      style={{ minWidth: 200, marginBottom: 20 }}
+                      size="small"
+                      aria-label="a dense table"
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center">
+                            <b>Tax Name</b>
+                          </TableCell>
+                          <TableCell align="center">
+                            <b>Value</b>
+                          </TableCell>
+                          <TableCell align="center">Clear</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {values.taxes.map((tax, idx) => (
+                          <TableRow key={idx}>
+                            <TableCell
+                              align="center"
+                              component="th"
+                              scope="row"
+                            >
+                              {tax.name}
+                            </TableCell>
+                            <TableCell align="center">
+                              {" "}
+                              {tax.value}
+                              {tax.select === 0 ? "%" : "₹"}{" "}
+                            </TableCell>
+                            <TableCell align="center">
+                              <IconButton
+                                onClick={() => clearTax(idx)}
+                                size="small"
+                                aria-label="delete"
+                              >
+                                <Clear />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
                 </Grid>
                 <Grid xs={4} item>
                   <Controls.Input

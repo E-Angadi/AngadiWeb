@@ -208,6 +208,7 @@ function Management(props) {
                       item.visibility ? classes.visible : classes.notVisible
                     }
                   >
+                    <b>{item.special ? "special " : ""}</b>
                     {item.visibility ? "Visible" : "Not Visible"}{" "}
                   </Typography>
                 </TableCell>

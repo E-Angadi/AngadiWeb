@@ -14,6 +14,13 @@ import Grid from "@material-ui/core/Grid";
 import Controls from "../../common/controls/Controls";
 import useForm from "../../common/useForm";
 
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Clear from "@material-ui/icons/Clear";
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -49,28 +56,41 @@ function ProductEditDialog(props) {
 
   const initialFValues = {
     title: props.product.title,
-    shortDescription: props.product.shortDescription,
-    longDescription: props.product.longDescription,
+    description: props.product.description,
     category: props.product.category,
     unitSelect: props.product.unitSelect,
     unitValue: props.product.unitValue,
     price: props.product.price,
-    taxSelect: props.product.taxSelect,
     discount: props.product.discount,
-    tax: props.product.tax,
+    taxes: props.product.taxes,
     visibility: props.product.visibility,
+    special: props.product.special,
+    taxName: "",
+    tax: 0,
+    taxSelect: 0,
+  };
+
+  const validateTax = (fieldValues = values) => {
+    let tmp = { ...errors };
+    if ("taxName" in fieldValues)
+      tmp.taxName = fieldValues.taxName ? "" : "This field is required.";
+    if ("tax" in fieldValues)
+      tmp.tax =
+        fieldValues.tax >= 0
+          ? ""
+          : "Tax percentage should be a number and greater than and equal to zero";
+    setErrors({
+      ...tmp,
+    });
+    if (fieldValues === values) return tmp.taxName === "" && tmp.tax === "";
   };
 
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("title" in fieldValues)
       tmp.title = fieldValues.title ? "" : "This field is required.";
-    if ("shortDescription" in fieldValues)
-      tmp.shortDescription = fieldValues.shortDescription
-        ? ""
-        : "This field is required.";
-    if ("longDescription" in fieldValues)
-      tmp.longDescription = fieldValues.longDescription
+    if ("description" in fieldValues)
+      tmp.description = fieldValues.description
         ? ""
         : "This field is required.";
     if ("category" in fieldValues)
@@ -92,11 +112,6 @@ function ProductEditDialog(props) {
         fieldValues.discount >= 0
           ? ""
           : "Discount percentage should be a number and greater than or equal to zero";
-    if ("tax" in fieldValues)
-      tmp.tax =
-        fieldValues.tax >= 0
-          ? ""
-          : "Tax percentage should be a number and greater than or equal to zero";
     setErrors({
       ...tmp,
     });
@@ -106,15 +121,89 @@ function ProductEditDialog(props) {
 
   const {
     values,
+    setValues,
     errors,
     setErrors,
     handleInputChange,
     handleSwitchChange,
   } = useForm(initialFValues, true, validate);
 
+  const calculateTotal = (price, discountPercentage, taxes) => {
+    var totalPrice = price;
+    for (var taxe in taxes) {
+      console.log(taxes[taxe]);
+      var taxValue = parseFloat(taxes[taxe].value, 10);
+      console.log(taxValue);
+      if (taxes[taxe].select === 0) {
+        totalPrice -= price * (taxValue / 100);
+      } else {
+        totalPrice -= taxValue;
+      }
+      console.log(totalPrice);
+    }
+
+    var taxedPrice = totalPrice;
+    totalPrice -= totalPrice * (discountPercentage / 100);
+    return { taxedPrice, totalPrice };
+  };
+
+  const clearTax = (idx) => {
+    var tmp = [...values.taxes];
+    tmp.splice(idx, 1);
+    setValues({
+      ...values,
+      taxes: tmp,
+    });
+  };
+
+  const onAddTax = () => {
+    if (validateTax()) {
+      var tmp = values.taxes;
+      tmp.push({
+        name: values.taxName,
+        select: values.taxSelect,
+        value: values.tax,
+      });
+      setValues({
+        ...values,
+        taxes: tmp,
+        tax: 0,
+        taxName: "",
+        taxSelect: 0,
+      });
+    }
+  };
+
   const handleSubmit = () => {
     if (validate()) {
-      props.callbackSave(values, props.product);
+      var discount = parseFloat(values.discount, 10);
+      var price = parseFloat(values.price);
+      var unitValue = parseFloat(values.unitValue);
+      var { taxedPrice, totalPrice } = calculateTotal(
+        price,
+        discount,
+        values.taxes
+      );
+      taxedPrice = Math.ceil(taxedPrice);
+      totalPrice = Math.ceil(totalPrice);
+      if (!taxedPrice) {
+        alert("Please check your tax and discount values");
+        return;
+      }
+      var res = {
+        ...values,
+        totalPrice: totalPrice,
+        price: price,
+        taxedPrice: taxedPrice,
+        unitValue: unitValue,
+        discount: discount,
+      };
+
+      delete res.tax;
+      delete res.taxName;
+      delete res.taxSelect;
+
+      props.callbackSave(res, props.product);
       setOpen(false);
     }
   };
@@ -163,6 +252,13 @@ function ProductEditDialog(props) {
                   onChange={handleSwitchChange}
                   color="primary"
                 />
+                <Controls.Switch
+                  name="special"
+                  label="Special Offer"
+                  value={values.special}
+                  onChange={handleSwitchChange}
+                  color="primary"
+                />
                 <Controls.Input
                   name="title"
                   label="Title"
@@ -171,28 +267,12 @@ function ProductEditDialog(props) {
                   error={errors.title}
                 />
                 <Controls.InputArea
-                  name="shortDescription"
-                  label="Short Description"
-                  value={values.shortDescription}
+                  name="description"
+                  label="Description"
+                  value={values.description}
                   onChange={handleInputChange}
-                  error={errors.shortDescription}
-                  rowsMax={2}
-                />
-                <Controls.InputArea
-                  name="longDescription"
-                  label="Long Description"
-                  value={values.longDescription}
-                  onChange={handleInputChange}
-                  error={errors.longDescription}
+                  error={errors.description}
                   rowsMax={5}
-                />
-                <Controls.Select
-                  name="category"
-                  label="Category"
-                  value={values.category}
-                  onChange={handleInputChange}
-                  options={props.categorySelect}
-                  error={errors.category}
                 />
               </Grid>
               <Grid xs={12} sm={6} item>
@@ -201,7 +281,7 @@ function ProductEditDialog(props) {
                     <Controls.Select
                       name="unitSelect"
                       label="Select Unit"
-                      value={values.unitSelect}
+                      value={values.unitSelect ? values.unitSelect : 0}
                       onChange={handleInputChange}
                       options={unitSelect}
                       error={errors.uniSelect}
@@ -236,26 +316,86 @@ function ProductEditDialog(props) {
                       error={errors.discount}
                     />
                   </Grid>
-                </Grid>
-                <Grid xs={12} item container>
-                  <Grid xs={6} item>
-                    <Controls.Select
-                      name="taxSelect"
-                      label="Tax Type"
-                      value={values.taxSelect}
-                      onChange={handleInputChange}
-                      options={taxSelect}
-                      error={errors.taxSelect}
-                    />
-                  </Grid>
-                  <Grid xs={6} item>
-                    <Controls.Input
-                      name="tax"
-                      label="Tax Value"
-                      value={values.tax}
-                      onChange={handleInputChange}
-                      error={errors.tax}
-                    />
+                  <Grid xs={12} item container>
+                    <Grid xs={12} item>
+                      {values.taxes.length > 0 && (
+                        <Table
+                          style={{ minWidth: 200, marginBottom: 20 }}
+                          size="small"
+                          aria-label="a dense table"
+                        >
+                          <TableHead>
+                            <TableRow>
+                              <TableCell align="center">
+                                <b>Tax Name</b>
+                              </TableCell>
+                              <TableCell align="center">
+                                <b>Value</b>
+                              </TableCell>
+                              <TableCell align="center">Clear</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {values.taxes.map((tax, idx) => (
+                              <TableRow key={idx}>
+                                <TableCell
+                                  align="center"
+                                  component="th"
+                                  scope="row"
+                                >
+                                  {tax.name}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {" "}
+                                  {tax.value}
+                                  {tax.select === 0 ? "%" : "₹"}{" "}
+                                </TableCell>
+                                <TableCell align="center">
+                                  <IconButton
+                                    onClick={() => clearTax(idx)}
+                                    size="small"
+                                    aria-label="delete"
+                                  >
+                                    <Clear />
+                                  </IconButton>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      )}
+                    </Grid>
+                    <Grid xs={4} item>
+                      <Controls.Input
+                        name="taxName"
+                        label="Tax Name"
+                        value={values.taxName}
+                        onChange={handleInputChange}
+                        error={errors.taxName}
+                      />
+                    </Grid>
+                    <Grid xs={4} item>
+                      <Controls.Select
+                        name="taxSelect"
+                        label="Tax Type"
+                        value={values.taxSelect ? values.taxSelect : 0}
+                        onChange={handleInputChange}
+                        options={taxSelect}
+                        error={errors.taxSelect}
+                      />
+                    </Grid>
+                    <Grid xs={4} item>
+                      <Controls.Input
+                        name="tax"
+                        label="Tax Value"
+                        value={values.tax}
+                        onChange={handleInputChange}
+                        error={errors.tax}
+                      />
+                    </Grid>
+                    <Grid xs={12} item>
+                      <Controls.Button onClick={onAddTax} text="Add New Tax" />
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>

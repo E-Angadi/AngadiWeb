@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import Orders from "./orders";
-import Users from "./users";
+import Locations from "./locations";
 import ProductManagament from "./products/Managment";
 import AddProduct from "./products/AddProduct";
 import AddCategory from "./products/AddCategory";
@@ -19,7 +19,7 @@ export class AdminRoutes extends Component {
           <AppBar props={this.props} />
           <Switch>
             <Route exact path="/myspace" component={Orders} />
-            <Route exact path="/myspace/users" component={Users} />
+            <Route exact path="/myspace/locations" component={Locations} />
             <Route
               exact
               path="/myspace/products/management"

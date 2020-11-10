@@ -9,13 +9,13 @@ import {
   Visibility,
   BorderColor,
   Message,
-  Person,
   ImportExport,
   TrendingUp,
   Store,
   ExpandLess,
   ExpandMore,
   ViewCarousel,
+  LocationOn,
 } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -50,9 +50,9 @@ const itemsList1 = [
     link: `${base}`,
   },
   {
-    name: "User Managment",
-    icon: Person,
-    link: `${base}/users`,
+    name: "Locations",
+    icon: LocationOn,
+    link: `${base}/locations`,
   },
   {
     name: "Banners",

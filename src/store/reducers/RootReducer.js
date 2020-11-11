@@ -2,6 +2,7 @@ import productReducer from "./productReducer";
 import categoryReducer from "./categoryReducer";
 import bannerReducer from "./bannerReducer";
 import cartReducer from "./cartReducer";
+import locationReducer from "./locationReducer";
 import { combineReducers } from "redux";
 import { firestoreReducer } from "redux-firestore";
 import { firebaseReducer } from "react-redux-firebase";
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   firestore: firestoreReducer,
   firebase: firebaseReducer,
   cart: cartReducer,
+  location: locationReducer,
 });
 
 export default rootReducer;

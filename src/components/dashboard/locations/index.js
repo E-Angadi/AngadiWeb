@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PageHeader from "../common/PageHeader";
 import { LocationOn, Clear } from "@material-ui/icons";
 import { Paper, Grid, TextField, Button, IconButton } from "@material-ui/core";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { writeLocations } from "../../../store/actions/locationActions";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -42,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Locations() {
+function Locations(props) {
   const classes = useStyles();
   const [code, setCode] = useState();
   const [pincodes, setPincodes] = useState([]);
@@ -52,16 +56,31 @@ function Locations() {
       setCode(event.target.value);
     }
   };
+
+  useEffect(() => {
+    if (props.locations && props.locations.length > 0) {
+      var tmp = props.locations[0].locations.split(",");
+      if (tmp && tmp.length > 0) {
+        setPincodes(tmp);
+      }
+    }
+  }, [props.locations]);
+
   const addPincode = () => {
     if (code.length === 6) {
       var tmp = pincodes;
       tmp.push(code);
+      props.writeLocations(tmp);
       setPincodes(tmp);
       setCode(0);
     }
   };
 
-  const removePincode = (idx) => {};
+  const removePincode = (idx) => {
+    var tmp = pincodes;
+    tmp.splice(idx, 1);
+    props.writeLocations(tmp);
+  };
 
   return (
     <div className={classes.spacing}>
@@ -80,7 +99,6 @@ function Locations() {
                   label="Pincode"
                   type="pincode"
                   onChange={handleChange}
-                  autoComplete={false}
                   variant="filled"
                   size="small"
                 />
@@ -119,4 +137,20 @@ function Locations() {
   );
 }
 
-export default Locations;
+const mapStateToProps = (state) => {
+  console.log(state.firestore.ordered);
+  return {
+    locations: state.firestore.ordered.locations,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    writeLocations: (data) => dispatch(writeLocations(data)),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([{ collection: "locations" }])
+)(Locations);

@@ -91,7 +91,6 @@ function CategorySwiper(props) {
       </Button>
       <Swiper
         className={classes.swiperRoot}
-        spaceBetween={20}
         slidesPerView={"auto"}
         autoHeight={true}
         navigation

@@ -131,6 +131,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const truncateString = (text, limit) => {
+  if (!text) {
+    return "";
+  }
   if (text.length < limit) {
     return text;
   }
@@ -159,25 +162,26 @@ function ProductCard({ productData, fullwidth, titleLimit }) {
   return (
     <div className={fullwidth ? classes.fullwidthroot : classes.root}>
       <div className={classes.imgDiv}>
-        <img src={productData.img} alt={productData.name} />
+        <img src={productData.imageURL} alt={productData.title} />
         <span className={classes.off}>
           <span className={classes.offNum}>{productData.discount + "%"}</span>{" "}
           off
         </span>
       </div>
       <span className={classes.title}>
-        {truncateString(productData.name, titleLimit)}
+        {truncateString(productData.title, titleLimit)}
       </span>
       <div className={classes.priceBox}>
-        <span className={classes.aprice}>{"₹" + productData.price}</span>
+        <span className={classes.aprice}>{"₹" + productData.totalPrice}</span>
         <span> </span>
-        <span className={classes.dprice}>
-          {"₹" + productData.discountedPrice}
+        <span className={classes.dprice}>{"₹" + productData.taxedPrice}</span>
+        <span> </span>
+        <span className={classes.variant}>
+          {productData.unitValue + " "}
+          {productData.unitSelect === 0 ? "kg" : "l"}{" "}
         </span>
-        <span> </span>
-        <span className={classes.variant}>{productData.variant}</span>
         <span className={classes.save}>
-          save ₹{productData.price - productData.discountedPrice}
+          save ₹{productData.taxedPrice - productData.totalPrice}
         </span>
       </div>
       <div className={classes.change}>

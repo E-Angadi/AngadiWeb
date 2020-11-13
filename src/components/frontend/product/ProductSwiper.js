@@ -4,6 +4,11 @@ import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { makeStyles } from "@material-ui/core/styles";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "@material-ui/core";
+
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
 import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
@@ -55,129 +60,10 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .swiper-slide": {
       width: "auto",
+      marginRight: 10,
     },
   },
 }));
-
-const data = [
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-];
 
 function ProductSwiper(props) {
   const classes = useStyles();
@@ -188,19 +74,36 @@ function ProductSwiper(props) {
       <Button className={classes.viewall}>View All</Button>
       <Swiper
         className={classes.root}
-        spaceBetween={10}
         slidesPerView={"auto"}
         autoHeight={true}
         navigation
       >
-        {data.map((productData, idx) => (
-          <SwiperSlide key={idx}>
-            <ProductCard productData={productData} />
-          </SwiperSlide>
-        ))}
+        {props.special &&
+          props.special.map((productData, idx) => (
+            <SwiperSlide key={idx}>
+              <ProductCard productData={productData} />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );
 }
 
-export default ProductSwiper;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    special: state.firestore.ordered.products,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: "products",
+        where: [["special", "==", true]],
+      },
+    ];
+  })
+)(ProductSwiper);

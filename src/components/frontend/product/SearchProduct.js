@@ -4,125 +4,9 @@ import { Grid, Hidden } from "@material-ui/core";
 import CategoriesBox from "../category/CategoriesBox";
 import ProductGrid from "./ProductGrid";
 
-const data = [
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491186625/good-life-almonds-500-g-0-20200901.jpg",
-    name: "Good Life Almonds",
-    discount: 25,
-    price: 449,
-    variant: "500gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/491337398/sunfeast-yippee-magic-masala-instant-noodles-360-g-0-20200621.jpeg",
-    name: "Sunfeast Yippee Magic Masala Instant Noodles",
-    discount: 17,
-    price: 68,
-    variant: "230gm",
-    discountedPrice: 333,
-  },
-  {
-    img:
-      "https://www.jiomart.com/images/product/150x150/490001392/amul-pasteurised-butter-500-g-0-20200621.jpeg",
-    name: "Amul Pasteurised Butter",
-    variant: "1kg",
-    discount: 6,
-    price: 449,
-    discountedPrice: 333,
-  },
-];
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -151,15 +35,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const searchFilter = (data, search) => {
-  if (search === "") {
-    return data;
-  }
-  const res = data.filter((obj) =>
-    obj.name.toLowerCase().includes(search.toLowerCase())
-  );
-  return res;
-};
+// const searchFilter = (data, search) => {
+//   if (search === "") {
+//     return data;
+//   }
+//   const res = data.filter((obj) =>
+//     obj.name.toLowerCase().includes(search.toLowerCase())
+//   );
+//   return res;
+// };
 
 function SearchProduct(props) {
   const classes = useStyles();
@@ -179,7 +63,7 @@ function SearchProduct(props) {
               Showing all results for{" "}
               <span className={classes.searchTitle}>{search}</span>
             </span>
-            <ProductGrid data={searchFilter(data, search)} />
+            {props.products && <ProductGrid data={props.products} />}
           </div>
         </Grid>
       </Grid>
@@ -187,4 +71,31 @@ function SearchProduct(props) {
   );
 }
 
-export default SearchProduct;
+// const capitalize = (s) => {
+//   if (typeof s !== "string") return "";
+//   return s.charAt(0).toUpperCase() + s.slice(1);
+// };
+
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    products: state.firestore.ordered.products,
+    categories: state.firestore.ordered.categories,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect((props) => {
+    var search = props.match.params.searchParam;
+    return [
+      {
+        collection: "products",
+        where: [
+          ["title", ">=", search],
+          ["title", "<=", search + "\uf8ff"],
+        ],
+      },
+    ];
+  })
+)(SearchProduct);

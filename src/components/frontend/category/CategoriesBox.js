@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,12 +26,16 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "1px solid rgba(21,27,57,.04)",
     paddingTop: 5,
     paddingBottom: 10,
-    color: "#6f7284",
-    fontWeight: 200,
-    "&:hover": {
-      color: "#000000",
-    },
+
     cursor: "pointer",
+    "& a": {
+      textDecoration: "none",
+      color: "#6f7284",
+      fontWeight: 200,
+      "&:hover": {
+        color: "#000000",
+      },
+    },
   },
 }));
 
@@ -53,7 +58,7 @@ function CategoriesBox(props) {
         {scat &&
           scat.map((cat, idx) => (
             <div key={idx} className={classes.list}>
-              {cat.title}
+              <Link to={"/category/" + cat.id}>{cat.title}</Link>
             </div>
           ))}
       </div>

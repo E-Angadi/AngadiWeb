@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 import { addItem } from "../../../store/actions/cartActions";
 import { connect } from "react-redux";
@@ -169,16 +170,18 @@ function ProductCard(props) {
 
   return (
     <div className={fullwidth ? classes.fullwidthroot : classes.root}>
-      <div className={classes.imgDiv}>
-        <img src={productData.imageURL} alt={productData.title} />
-        <span className={classes.off}>
-          <span className={classes.offNum}>{productData.discount + "%"}</span>{" "}
-          off
+      <Link to={"/product/" + productData.id}>
+        <div className={classes.imgDiv}>
+          <img src={productData.imageURL} alt={productData.title} />
+          <span className={classes.off}>
+            <span className={classes.offNum}>{productData.discount + "%"}</span>{" "}
+            off
+          </span>
+        </div>
+        <span className={classes.title}>
+          {truncateString(productData.title, titleLimit)}
         </span>
-      </div>
-      <span className={classes.title}>
-        {truncateString(productData.title, titleLimit)}
-      </span>
+      </Link>
       <div className={classes.priceBox}>
         <span className={classes.aprice}>{"₹" + productData.totalPrice}</span>
         <span> </span>

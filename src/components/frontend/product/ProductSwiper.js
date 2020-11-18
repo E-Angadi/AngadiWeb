@@ -4,6 +4,7 @@ import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { makeStyles } from "@material-ui/core/styles";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -71,7 +72,9 @@ function ProductSwiper(props) {
   return (
     <div className={classes.white}>
       <span className={classes.titleSpan}>{title}</span>
-      <Button className={classes.viewall}>View All</Button>
+      <Button component={Link} to="/deals" className={classes.viewall}>
+        View All
+      </Button>
       <Swiper
         className={classes.root}
         slidesPerView={"auto"}
@@ -90,7 +93,6 @@ function ProductSwiper(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     special: state.firestore.ordered.products,
   };

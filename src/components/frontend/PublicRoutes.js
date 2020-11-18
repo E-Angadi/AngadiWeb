@@ -14,6 +14,7 @@ import PageNotFound from "./NotFound";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import Footer from "./home/Footer";
+import SpecialProducts from "./product/SpecialProducts";
 
 class PublicRoutes extends Component {
   render() {
@@ -23,6 +24,7 @@ class PublicRoutes extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/categories" component={AllCategories} />
+          <Route exact path="/deals" component={SpecialProducts} />
           <Route exact path="/checkout/cart" component={Cart} />
           <Route exact path="/checkout/review" component={Review} />
           <Route exact path="/checkout/payment" component={Review} />

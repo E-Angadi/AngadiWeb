@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
 
+import { addItem } from "../../../store/actions/cartActions";
+import { connect } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#FFFFFF",
@@ -141,11 +144,16 @@ const truncateString = (text, limit) => {
   return slicedText + "...";
 };
 
-function ProductCard({ productData, fullwidth, titleLimit }) {
+function ProductCard(props) {
+  var productData = props.productData;
+  var fullwidth = props.fullwidth;
+  var titleLimit = props.titleLimit;
+
   const classes = useStyles();
   const [count, setCount] = useState(0);
   const handleAdd = () => {
-    plusCount();
+    props.addItem(productData);
+    // plusCount();
   };
 
   const plusCount = () => {
@@ -216,4 +224,10 @@ function ProductCard({ productData, fullwidth, titleLimit }) {
   );
 }
 
-export default ProductCard;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (item) => dispatch(addItem(item)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProductCard);

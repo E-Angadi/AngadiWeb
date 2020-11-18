@@ -13,6 +13,11 @@ import {
   Drawer,
 } from "@material-ui/core";
 import Hidden from "@material-ui/core/Hidden";
+import { Link } from "react-router-dom";
+
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   catDelivery: {
@@ -86,6 +91,8 @@ function SignInBtn({ handleSignIn }) {
         onClick={handleSignIn}
         variant="contained"
         color="primary"
+        component={Link}
+        to="/signin"
       >
         Sign in to view address
       </Button>
@@ -112,9 +119,12 @@ function OrDivider() {
   );
 }
 
-function PincodeDialog() {
+function PincodeDialog(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [pincode, setPincode] = useState("");
+  const [err, setErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -127,6 +137,32 @@ function PincodeDialog() {
   const title = "Choose your location";
   const contentText =
     "Select a delivery location to see product availability and delivery options";
+
+  const handlePincodeChange = (e) => {
+    var text = e.target.value;
+    if (text === "") setPincode("");
+    else if (text.length < 7 && text > 0) {
+      setPincode(text);
+      setErr(false);
+      setErrMsg("");
+    }
+  };
+
+  const handlePincodeCheck = () => {
+    if (pincode.length === 6) {
+      var locations = props.locations[0].locations.split(",");
+      if (locations.includes(pincode)) {
+        setErr(false);
+        setErrMsg("Yeah!, we deliver to this location");
+      } else {
+        setErr(true);
+        setErrMsg("Sorry :/, we don't deliver to this location");
+      }
+    } else {
+      setErr(true);
+      setErrMsg("Enter valid Pincode");
+    }
+  };
 
   return (
     <>
@@ -161,16 +197,22 @@ function PincodeDialog() {
               id="pincode"
               label="Pincode"
               fullWidth
-              error={false}
-              helperText=""
+              value={pincode}
+              error={err}
+              helperText={errMsg}
               className={classes.pincodeText}
+              onChange={handlePincodeChange}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button
+              disabled={!props.locations}
+              onClick={handlePincodeCheck}
+              color="primary"
+            >
               Check
             </Button>
           </DialogActions>
@@ -188,9 +230,11 @@ function PincodeDialog() {
               margin="dense"
               id="pincode"
               label="Pincode"
-              error={false}
-              helperText=""
+              value={pincode}
+              error={err}
+              helperText={errMsg}
               className={classes.pincodeText}
+              onChange={handlePincodeChange}
             />
           </div>
           <div className={classes.actions}>
@@ -201,7 +245,7 @@ function PincodeDialog() {
                 </Button>
               </Grid>
               <Grid item>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handlePincodeCheck} color="primary">
                   Check
                 </Button>
               </Grid>
@@ -213,4 +257,13 @@ function PincodeDialog() {
   );
 }
 
-export default PincodeDialog;
+const mapStateToProps = (state) => {
+  return {
+    locations: state.firestore.ordered.locations,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "locations" }])
+)(PincodeDialog);

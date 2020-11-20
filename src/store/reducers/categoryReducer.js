@@ -3,6 +3,7 @@ const initstate = {
   message: "",
   variant: "success",
   disableSubmit: false,
+  categories: [],
 };
 
 const categoryReducer = (state = initstate, action) => {
@@ -92,6 +93,10 @@ const categoryReducer = (state = initstate, action) => {
         ...state,
         disableSubmit: true,
       });
+    case "LOAD_CATEGORIES":
+      var newState = state;
+      newState.categories = action.categories;
+      return newState;
     default:
       return state;
   }

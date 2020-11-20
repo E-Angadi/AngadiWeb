@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
 import { IconButton, Divider } from "@material-ui/core";
@@ -12,6 +12,10 @@ import {
   FacebookIcon,
   WhatsappIcon,
 } from "react-share";
+
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -175,16 +179,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const url =
-  "https://www.jiomart.com/images/product/420x420/490008332/closeup-ever-fresh-red-hot-gel-toothpaste-150-g-pack-of-2-2-20200630.jpg";
+const url = "/imgs/default.jpg";
 const title = "Closeup Ever Fresh Red Hot Gel Toothpaste 150 g ( Pack of 2 )";
 
 function ProductDetails(props) {
   const classes = useStyles();
   const [count, setCount] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (props.products !== undefined && props.products.length > 0) {
+      setLoaded(true);
+    }
+  }, [props.products]);
+
   const handleAdd = () => {
     plusCount();
   };
+  const product =
+    props.products !== undefined ? props.products[0] : { imageURL: url };
 
   const plusCount = () => {
     setCount(count + 1);
@@ -205,11 +218,17 @@ function ProductDetails(props) {
             alignItems="center"
           >
             <div className={classes.pImageRoot}>
-              <Hidden smUp>
-                <span className={classes.title}>{title + " "}</span>
-                <span className={classes.off}>14% off</span>
-              </Hidden>
-              <img className={classes.pImage} src={url} alt={title} />
+              {loaded && (
+                <Hidden smUp>
+                  <span className={classes.title}>{title + " "}</span>
+                  <span className={classes.off}>14% off</span>
+                </Hidden>
+              )}
+              <img
+                className={classes.pImage}
+                src={product.imageURL}
+                alt={title}
+              />
             </div>
           </Grid>
           <Grid item xs={12} sm={6} container>
@@ -315,4 +334,22 @@ function ProductDetails(props) {
   );
 }
 
-export default ProductDetails;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    products: state.firestore.ordered.products,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect((props) => {
+    console.log(props.match.params.productId);
+    return [
+      {
+        collection: "products",
+        doc: props.match.params.productId,
+      },
+    ];
+  })
+)(ProductDetails);

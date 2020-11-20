@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
 import CategoriesBox from "../category/CategoriesBox";
 import ProductGrid from "./ProductGrid";
 
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { firestoreConnect } from "react-redux-firebase";
+
+import { loadSpecials } from "../../../store/actions/productActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
 function SpecialProducts(props) {
   const classes = useStyles();
 
+  useEffect(() => {
+    props.loadSpecials();
+  }, []);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
@@ -67,18 +71,14 @@ function SpecialProducts(props) {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.firestore.ordered.products,
+    products: state.product.specials,
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect((props) => {
-    return [
-      {
-        collection: "products",
-        where: [["special", "==", true]],
-      },
-    ];
-  })
-)(SpecialProducts);
+const matchDispatchToProps = (dispatch) => {
+  return {
+    loadSpecials: () => dispatch(loadSpecials()),
+  };
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(SpecialProducts);

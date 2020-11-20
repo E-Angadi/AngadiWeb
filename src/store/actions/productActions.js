@@ -116,3 +116,26 @@ export const disableSubmit = () => {
     dispatch({ type: "DISABLE_SUBMIT_PRODUCT" });
   };
 };
+
+export const loadSpecials = () => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    var state = getState();
+    if (state.product.specials.length === 0) {
+      firestore
+        .collection("products")
+        .where("special", "==", true)
+        .get()
+        .then((snapshot) => {
+          return snapshot.docs.map((doc) => {
+            var data = doc.data();
+            return { id: doc.id, ...data };
+          });
+        })
+        .then((specials) => {
+          console.log(specials);
+          dispatch({ type: "LOAD_SPECIALS", specials });
+        });
+    }
+  };
+};

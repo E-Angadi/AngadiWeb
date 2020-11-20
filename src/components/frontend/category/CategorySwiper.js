@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import CategoryHomePaper from "./CategoryHomePaper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,8 +10,7 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { firestoreConnect } from "react-redux-firebase";
+import { loadCategories } from "../../../store/actions/categoryActions";
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -83,6 +82,11 @@ const useStyles = makeStyles((theme) => ({
 
 function CategorySwiper(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    props.loadCategories();
+  }, []);
+
   return (
     <div className={classes.white}>
       <span className={classes.titleSpan}>Top Categories</span>
@@ -112,11 +116,14 @@ function CategorySwiper(props) {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.firestore.ordered.categories,
+    categories: state.category.categories,
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: "categories" }])
-)(CategorySwiper);
+const matchDispatchToProps = (dispatch) => {
+  return {
+    loadCategories: () => dispatch(loadCategories()),
+  };
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(CategorySwiper);

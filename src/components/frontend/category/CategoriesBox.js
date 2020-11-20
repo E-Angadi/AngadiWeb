@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { firestoreConnect } from "react-redux-firebase";
 import { Link } from "react-router-dom";
+import { loadCategories } from "../../../store/actions/categoryActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +50,10 @@ function CategoriesBox(props) {
   const classes = useStyles();
   const scat = sliceCat(props.categories);
 
+  useEffect(() => {
+    props.loadCategories();
+  }, []);
+
   return (
     <div className={classes.root}>
       <span className={classes.heading}>Categories</span>
@@ -68,11 +71,14 @@ function CategoriesBox(props) {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.firestore.ordered.categories,
+    categories: state.category.categories,
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: "categories" }])
-)(CategoriesBox);
+const matchDispatchToProps = (dispatch) => {
+  return {
+    loadCategories: () => dispatch(loadCategories()),
+  };
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(CategoriesBox);

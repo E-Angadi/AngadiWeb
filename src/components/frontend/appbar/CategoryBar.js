@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import PincodeDialog from "./PincodeDialog";
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { firestoreConnect } from "react-redux-firebase";
+
+import { loadCategories } from "../../../store/actions/categoryActions";
 
 const useStyles = makeStyles((theme) => ({
   catBarRoot: {
@@ -60,6 +60,11 @@ const catLimit = 8;
 
 function CategoryBar(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    props.loadCategories();
+  }, []);
+
   return (
     <div className={classes.catBarRoot}>
       <PincodeDialog />
@@ -92,11 +97,12 @@ function CategoryBar(props) {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.firestore.ordered.categories,
+    categories: state.category.categories,
   };
 };
-
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{ collection: "categories" }])
-)(CategoryBar);
+const matchDispatchToProps = (dispatch) => {
+  return {
+    loadCategories: () => dispatch(loadCategories()),
+  };
+};
+export default connect(mapStateToProps, matchDispatchToProps)(CategoryBar);

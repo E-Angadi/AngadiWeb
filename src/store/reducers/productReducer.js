@@ -3,6 +3,7 @@ const initstate = {
   message: "",
   variant: "success",
   disableSubmit: false,
+  specials: [],
 };
 
 const productReducer = (state = initstate, action) => {
@@ -77,6 +78,10 @@ const productReducer = (state = initstate, action) => {
         ...state,
         disableSubmit: true,
       });
+    case "LOAD_SPECIALS":
+      var newState = state;
+      newState.specials = action.specials;
+      return newState;
     default:
       return state;
   }

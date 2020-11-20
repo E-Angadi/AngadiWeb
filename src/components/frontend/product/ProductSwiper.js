@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,13 +7,13 @@ import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { firestoreConnect } from "react-redux-firebase";
 
 import "swiper/swiper.scss";
 import "swiper/components/navigation/navigation.scss";
 import "swiper/components/pagination/pagination.scss";
 import "swiper/components/scrollbar/scrollbar.scss";
+
+import { loadSpecials } from "../../../store/actions/productActions";
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -69,6 +69,11 @@ const useStyles = makeStyles((theme) => ({
 function ProductSwiper(props) {
   const classes = useStyles();
   const { title } = props;
+
+  useEffect(() => {
+    props.loadSpecials();
+  }, []);
+
   return (
     <div className={classes.white}>
       <span className={classes.titleSpan}>{title}</span>
@@ -94,18 +99,14 @@ function ProductSwiper(props) {
 
 const mapStateToProps = (state) => {
   return {
-    special: state.firestore.ordered.products,
+    special: state.product.specials,
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect((props) => {
-    return [
-      {
-        collection: "products",
-        where: [["special", "==", true]],
-      },
-    ];
-  })
-)(ProductSwiper);
+const matchDispatchToProps = (dispatch) => {
+  return {
+    loadSpecials: () => dispatch(loadSpecials()),
+  };
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(ProductSwiper);

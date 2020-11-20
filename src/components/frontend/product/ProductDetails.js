@@ -220,8 +220,10 @@ function ProductDetails(props) {
             <div className={classes.pImageRoot}>
               {loaded && (
                 <Hidden smUp>
-                  <span className={classes.title}>{title + " "}</span>
-                  <span className={classes.off}>14% off</span>
+                  <span className={classes.title}>{product.title + " "}</span>
+                  <span className={classes.off}>
+                    {product.discount + "% off"}
+                  </span>
                 </Hidden>
               )}
               <img
@@ -232,101 +234,103 @@ function ProductDetails(props) {
             </div>
           </Grid>
           <Grid item xs={12} sm={6} container>
-            <div className={classes.details}>
-              <Hidden xsDown>
-                <span className={classes.title}>{title} </span>
-                <span className={classes.off}>14% off</span>
-              </Hidden>
-              <div className={classes.priceBox}>
-                <div className={classes.apriceDiv}>
-                  <span>M.R.P: </span>
-                  <span className={classes.aprice}>₹ 150.00</span>
-                </div>
-                <div className={classes.priceDiv}>
-                  <span>Price: </span>
-                  <span className={classes.price}>₹ 130.00</span>
-                </div>
-                <div className={classes.saveDiv}>
-                  <span>You Save: </span>
-                  <span className={classes.save}>₹ 20.00</span>
-                </div>
-                <div className={classes.taxinfo}>Inclusive of all taxes</div>
-              </div>
-              <div className={classes.change}>
-                {count < 1 && (
-                  <div className={classes.addBtn} onClick={handleAdd}>
-                    <span>Add to My Cart</span>
-                    <span className={classes.iconAddBtn}></span>
+            {loaded && (
+              <div className={classes.details}>
+                <Hidden xsDown>
+                  <span className={classes.title}>{product.title} </span>
+                  <span className={classes.off}>
+                    {product.discount + "% off"}
+                  </span>
+                </Hidden>
+                <div className={classes.priceBox}>
+                  <div className={classes.apriceDiv}>
+                    <span>M.R.P: </span>
+                    <span className={classes.aprice}>
+                      {"₹ " + product.taxedPrice}
+                    </span>
                   </div>
-                )}
-                {count > 0 && (
-                  <div className={classes.changeCountDiv}>
-                    <IconButton
-                      onClick={minusCount}
-                      className={classes.countBtn}
-                      aria-label="remove"
-                    >
-                      <Remove />
-                    </IconButton>
+                  <div className={classes.priceDiv}>
+                    <span>Price: </span>
+                    <span className={classes.price}>
+                      {"₹ " + product.totalPrice}
+                    </span>
+                  </div>
+                  <div className={classes.saveDiv}>
+                    <span>You Save: </span>
+                    <span className={classes.save}>
+                      {"₹ " + (product.taxedPrice - product.totalPrice)}
+                    </span>
+                  </div>
+                  <div className={classes.taxinfo}>Inclusive of all taxes</div>
+                </div>
+                <div className={classes.change}>
+                  {count < 1 && (
+                    <div className={classes.addBtn} onClick={handleAdd}>
+                      <span>Add to My Cart</span>
+                      <span className={classes.iconAddBtn}></span>
+                    </div>
+                  )}
+                  {count > 0 && (
+                    <div className={classes.changeCountDiv}>
+                      <IconButton
+                        onClick={minusCount}
+                        className={classes.countBtn}
+                        aria-label="remove"
+                      >
+                        <Remove />
+                      </IconButton>
 
-                    <div className={classes.count}>{count}</div>
-                    <IconButton
-                      onClick={plusCount}
-                      className={classes.countBtn}
-                      aria-label="add"
-                    >
-                      <Add />
-                    </IconButton>
-                  </div>
-                )}
+                      <div className={classes.count}>{count}</div>
+                      <IconButton
+                        onClick={plusCount}
+                        className={classes.countBtn}
+                        aria-label="add"
+                      >
+                        <Add />
+                      </IconButton>
+                    </div>
+                  )}
+                </div>
+                <div className={classes.shareDiv}>
+                  <EmailShareButton url={window.location.href}>
+                    <EmailIcon
+                      className={classes.shareIcon}
+                      size={40}
+                      round={true}
+                    />
+                  </EmailShareButton>
+                  <FacebookShareButton url={window.location.href}>
+                    <FacebookIcon
+                      className={classes.shareIcon}
+                      size={40}
+                      round={true}
+                    />
+                  </FacebookShareButton>
+                  <WhatsappShareButton url={window.location.href}>
+                    <WhatsappIcon
+                      className={classes.shareIcon}
+                      size={40}
+                      round={true}
+                    />
+                  </WhatsappShareButton>
+                </div>
               </div>
-              <div className={classes.shareDiv}>
-                <EmailShareButton url={window.location.href}>
-                  <EmailIcon
-                    className={classes.shareIcon}
-                    size={40}
-                    round={true}
-                  />
-                </EmailShareButton>
-                <FacebookShareButton url={window.location.href}>
-                  <FacebookIcon
-                    className={classes.shareIcon}
-                    size={40}
-                    round={true}
-                  />
-                </FacebookShareButton>
-                <WhatsappShareButton url={window.location.href}>
-                  <WhatsappIcon
-                    className={classes.shareIcon}
-                    size={40}
-                    round={true}
-                  />
-                </WhatsappShareButton>
-              </div>
-            </div>
+            )}
           </Grid>
           <Grid item xs={12} container justify="center">
             <Grid item xs={11}>
               <Divider className={classes.divider} />
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <div className={classes.description}>
-              <div className={classes.descHead}>Description</div>
-              <div className={classes.descSubHead}>{title} </div>
-              <div className={classes.descContent}>
-                Get soft and glowing skin with Lux Soft Touch Bar Soap. It is
-                formulated with new breakthrough Floral Fusion Oil that has
-                twice the perfume bloom of real flowers that takes every shower
-                to the next level. Exquisite heart notes of French Rose and
-                White Florals come together in a perfect symphony, enveloping
-                you in a warm, floral cocoon that lingers after the shower. The
-                subtle scent of French Rose lingers on your skin, making it the
-                perfect fragrance for any occasion. So what are you waiting for?
-                Buy the product online at the best rate, right here!{" "}
+          {loaded && (
+            <Grid item xs={12}>
+              <div className={classes.description}>
+                <div className={classes.descHead}>Description</div>
+                <div className={classes.descSubHead}>{product.title} </div>
+                <div className={classes.descContent}>{product.description}</div>
               </div>
-            </div>
-          </Grid>
+            </Grid>
+          )}
         </Grid>
       </div>
       <ProductSwiper title={"People also buy"} />

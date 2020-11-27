@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button } from "@material-ui/core";
 import ProductCard from "../product/ProductHCard";
@@ -6,6 +6,9 @@ import PaymentDetails from "./PaymentDetails";
 import CheckoutStepper from "./CheckoutStepper";
 import { Link } from "react-router-dom";
 import CartAddress from "./CartAddress";
+
+import { connect } from "react-redux";
+import { loadCartItems } from "../../../store/actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,8 +52,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Review() {
+const initCart = [
+  { id: "HETZhfjjhrshlNbUnxZa", quantity: 2 },
+  { id: "SeuQeuOaLahNadH9mCsa", quantity: 3 },
+];
+
+function Review(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    if (props.cart.length === 0) props.loadCartItems(initCart);
+  }, []);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -79,9 +92,10 @@ function Review() {
         <Grid item xs={12} lg={8}>
           <span className={classes.cartTitle}>My Cart({1})</span>
           <div className={classes.root1}>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {props.cart &&
+              props.cart.map((item, idx) => (
+                <ProductCard key={idx} item={item} />
+              ))}
           </div>
         </Grid>
       </Grid>
@@ -89,4 +103,16 @@ function Review() {
   );
 }
 
-export default Review;
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart.items,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCartItems: (items) => dispatch(loadCartItems(items)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Review);

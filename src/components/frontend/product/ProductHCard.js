@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
-import { addItem } from "../../../store/actions/cartActions";
+import { addItem, removeItem } from "../../../store/actions/cartActions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -109,51 +110,82 @@ const useStyles = makeStyles((theme) => ({
     height: 24,
     borderRadius: "50%",
   },
-  detailsDiv: {
+  quanDiv: {
     display: "flex",
     justifyContent: "end",
   },
+  quanPrice: {
+    display: "flex",
+    alignItems: "center",
+    fontWeight: "bold",
+    fontSize: "18px",
+  },
 }));
 
-function ProductHCard() {
+function ProductHCard(props) {
   const classes = useStyles();
   const [count, setCount] = useState(1);
 
+  useEffect(() => {
+    var cartP = props.cart.find((x) => x.id === props.item.id);
+    console.log(cartP);
+    if (cartP) {
+      setCount(cartP.quantity);
+    } else {
+      setCount(0);
+    }
+  }, [props.cart]);
+
   const handleAdd = () => {
-    plusCount();
+    props.addItem(props.item);
   };
 
   const plusCount = () => {
-    setCount(count + 1);
+    props.addItem(props.item);
   };
   const minusCount = () => {
-    setCount(count - 1);
+    props.removeItem(props.item);
   };
   return (
     <div className={classes.root}>
       <Grid container>
         <Grid item xs={12} container>
           <Grid item>
-            <img
-              className={classes.img}
-              src="/imgs/default.jpg"
-              alt="default"
-            />
+            <Link to={"/product/" + props.item.id} className={classes.title}>
+              <img
+                className={classes.img}
+                src={props.item ? props.item.imageURL : "/imgs/default.jpg"}
+                alt={props.item ? props.item.title : "Product Image"}
+              />
+            </Link>
           </Grid>
           <Grid item xs>
             <div className={classes.details}>
-              <a href={window.location.href} className={classes.title}>
-                Lux Soft Touch Bar Soap 150 g (Pack of 3)
-              </a>
+              <Link to={"/product/" + props.item.id} className={classes.title}>
+                {props.item.title}
+              </Link>
               <div className={classes.priceBox}>
-                <span className={classes.aprice}>{"₹" + 260}</span>
+                <span className={classes.aprice}>
+                  {"₹ " + props.item.totalPrice}
+                </span>
                 <span> </span>
-                <span className={classes.dprice}>{"₹" + 200}</span>
+                <span className={classes.dprice}>
+                  {"₹ " + props.item.taxedPrice}
+                </span>
                 <span> </span>
-                <span className={classes.variant}>{"200gm"}</span>
-                <span className={classes.save}>save ₹60</span>
+                <span className={classes.variant}>
+                  {props.item.unitValue + " "}
+                  {props.item.unitSelect === 0 ? "kg" : "l"}{" "}
+                </span>
+                <span className={classes.save}>
+                  save ₹ {props.item.taxedPrice - props.item.totalPrice}
+                </span>
               </div>
-              <div className={classes.detailsDiv}>
+              <div className={classes.quanDiv}>
+                <div className={classes.quanPrice}>
+                  ₹ {count * props.item.totalPrice}{" "}
+                </div>
+
                 <div className={classes.change}>
                   {count < 1 && (
                     <div className={classes.addBtn} onClick={handleAdd}>
@@ -191,10 +223,17 @@ function ProductHCard() {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    addItem: (item) => dispatch(addItem(item)),
+    cart: state.cart.items,
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProductHCard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (item) => dispatch(addItem(item)),
+    removeItem: (item) => dispatch(removeItem(item)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductHCard);

@@ -18,7 +18,7 @@ const cartReducer = (state = initstate, action) => {
       };
     case "ADD_NEW_ITEM":
       return {
-        items: [...state.items, { id: action.payloadID.id, quantity: 1 }],
+        items: [...state.items, { ...action.payloadID.item, quantity: 1 }],
       };
     case "DECREMENT_COUNT":
       var newItems = [
@@ -33,13 +33,26 @@ const cartReducer = (state = initstate, action) => {
         items: newItems,
       };
     case "REMOVE_ITEM":
-      var newItems = [
-        ...state.items.slice(0, action.payload.pos),
-        ...state.items.slice(action.payload.pos + 1),
-      ];
       return {
-        items: newItems,
+        items: [
+          ...state.items.slice(0, action.payload.pos),
+          ...state.items.slice(action.payload.pos + 1),
+        ],
       };
+    case "ITEM_LOADED":
+      return {
+        items: [
+          ...state.items,
+          {
+            ...action.product,
+            id: action.productId,
+            quantity: action.quantity,
+          },
+        ],
+      };
+    case "ITEM_NOT_LOADED":
+      console.log("Item not loaded " + action.id + " " + action.err);
+      return state;
     default:
       return state;
   }

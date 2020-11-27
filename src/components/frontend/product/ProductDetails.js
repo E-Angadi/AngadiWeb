@@ -16,6 +16,7 @@ import {
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import { addItem, removeItem } from "../../../store/actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -187,24 +188,45 @@ function ProductDetails(props) {
   const [count, setCount] = useState(0);
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    if (props.products !== undefined && props.products.length > 0) {
-      setLoaded(true);
-    }
-  }, [props.products]);
-
-  const handleAdd = () => {
-    plusCount();
-  };
   const product =
     props.products !== undefined ? props.products[0] : { imageURL: url };
 
+  useEffect(() => {
+    if (props.products !== undefined && props.products.length > 0) {
+      setLoaded(true);
+      const product = props.products[0];
+    }
+  }, [props.products]);
+
+  useEffect(() => {
+    if (loaded) {
+      var cartP = props.cart.find((x) => x.id === props.match.params.productId);
+      if (cartP) {
+        setCount(cartP.quantity);
+      } else {
+        setCount(0);
+      }
+    }
+  }, [props.cart]);
+
+  const handleAdd = () => {
+    if (loaded) {
+      props.addItem(product);
+    }
+  };
+
   const plusCount = () => {
-    setCount(count + 1);
+    if (loaded) {
+      props.addItem(product);
+    }
   };
+
   const minusCount = () => {
-    setCount(count - 1);
+    if (loaded) {
+      props.removeItem(product);
+    }
   };
+
   return (
     <div className={classes.root}>
       <div className={classes.root2}>
@@ -339,16 +361,22 @@ function ProductDetails(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     products: state.firestore.ordered.products,
+    cart: state.cart.items,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (item) => dispatch(addItem(item)),
+    removeItem: (item) => dispatch(removeItem(item)),
   };
 };
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props) => {
-    console.log(props.match.params.productId);
     return [
       {
         collection: "products",

@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
 
+import { addItem } from "../../../store/actions/cartActions";
+import { connect } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 8,
@@ -188,4 +191,10 @@ function ProductHCard() {
   );
 }
 
-export default ProductHCard;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (item) => dispatch(addItem(item)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProductHCard);

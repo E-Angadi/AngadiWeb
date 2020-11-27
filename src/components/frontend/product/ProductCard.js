@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-import { addItem } from "../../../store/actions/cartActions";
+import { addItem, removeItem } from "../../../store/actions/cartActions";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -132,6 +132,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  img: {
+    height: "90%",
+    width: "90%",
+  },
 }));
 
 const truncateString = (text, limit) => {
@@ -152,16 +156,27 @@ function ProductCard(props) {
 
   const classes = useStyles();
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    var cartP = props.cart.find((x) => x.id === productData.id);
+    console.log(cartP);
+    if (cartP) {
+      setCount(cartP.quantity);
+    } else {
+      setCount(0);
+    }
+  }, [props.cart]);
+
   const handleAdd = () => {
     props.addItem(productData);
     // plusCount();
   };
 
   const plusCount = () => {
-    setCount(count + 1);
+    props.addItem(productData);
   };
   const minusCount = () => {
-    setCount(count - 1);
+    props.removeItem(productData);
   };
 
   if (!titleLimit) {
@@ -172,7 +187,11 @@ function ProductCard(props) {
     <div className={fullwidth ? classes.fullwidthroot : classes.root}>
       <Link to={"/product/" + productData.id}>
         <div className={classes.imgDiv}>
-          <img src={productData.imageURL} alt={productData.title} />
+          <img
+            className={classes.img}
+            src={productData.imageURL}
+            alt={productData.title}
+          />
           <span className={classes.off}>
             <span className={classes.offNum}>{productData.discount + "%"}</span>{" "}
             off
@@ -227,10 +246,17 @@ function ProductCard(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    addItem: (item) => dispatch(addItem(item)),
+    cart: state.cart.items,
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProductCard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (item) => dispatch(addItem(item)),
+    removeItem: (item) => dispatch(removeItem(item)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

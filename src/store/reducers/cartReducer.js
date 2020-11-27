@@ -3,16 +3,43 @@ const initstate = {
 };
 
 const cartReducer = (state = initstate, action) => {
-  var newState = state;
   switch (action.type) {
     case "INCREASE_COUNT":
-      newState.items[action.payload.pos].quantity = action.payload.count;
-      console.log(newState);
-      return newState;
+      var newItems = [
+        ...state.items.slice(0, action.payload.pos),
+        {
+          ...state.items[action.payload.pos],
+          quantity: state.items[action.payload.pos].quantity + 1,
+        },
+        ...state.items.slice(action.payload.pos + 1),
+      ];
+      return {
+        items: newItems,
+      };
     case "ADD_NEW_ITEM":
-      newState.items.push({ id: action.payload.id, quantity: 1 });
-      console.log(newState);
-      return newState;
+      return {
+        items: [...state.items, { id: action.payloadID.id, quantity: 1 }],
+      };
+    case "DECREMENT_COUNT":
+      var newItems = [
+        ...state.items.slice(0, action.payload.pos),
+        {
+          ...state.items[action.payload.pos],
+          quantity: state.items[action.payload.pos].quantity - 1,
+        },
+        ...state.items.slice(action.payload.pos + 1),
+      ];
+      return {
+        items: newItems,
+      };
+    case "REMOVE_ITEM":
+      var newItems = [
+        ...state.items.slice(0, action.payload.pos),
+        ...state.items.slice(action.payload.pos + 1),
+      ];
+      return {
+        items: newItems,
+      };
     default:
       return state;
   }

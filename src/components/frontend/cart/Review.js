@@ -90,7 +90,9 @@ function Review(props) {
           </div>
         </Grid>
         <Grid item xs={12} lg={8}>
-          <span className={classes.cartTitle}>My Cart({1})</span>
+          <span className={classes.cartTitle}>
+            My Cart({props.cart.length})
+          </span>
           <div className={classes.root1}>
             {props.cart &&
               props.cart.map((item, idx) => (

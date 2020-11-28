@@ -1,4 +1,5 @@
 import productReducer from "./productReducer";
+import authReducer from "./authReducer";
 import categoryReducer from "./categoryReducer";
 import bannerReducer from "./bannerReducer";
 import cartReducer from "./cartReducer";
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   firebase: firebaseReducer,
   cart: cartReducer,
   location: locationReducer,
+  auth: authReducer,
 });
 
 export default rootReducer;

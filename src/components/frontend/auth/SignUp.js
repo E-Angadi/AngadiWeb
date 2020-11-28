@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
 import Form from "../../common/Form";
 import useForm from "../../common/useForm";
 import Controls from "../../common/controls/Controls";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import { Redirect } from "react-router-dom";
+
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
+import { signUp } from "../../../store/actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,35 +83,59 @@ const initialFValues = {
   phoneNum: "",
 };
 
-const picodeSelect = [
-  { id: 0, title: "None" },
-  { id: 1, title: "500091" },
-  { id: 2, title: "500092" },
-  { id: 3, title: "500093" },
-  { id: 4, title: "500094" },
-];
+const picodeSelect = [{ id: 0, title: "None" }];
 
-function SignUp() {
+function SignUp(props) {
   const classes = useStyles();
+  const [dOpen, setDOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      if (values.password !== values.confirmPassword) {
+        handleClickOpen();
+        return;
+      }
+      props.signUp(values);
+    }
+  };
+
+  const handleClickOpen = () => {
+    setDOpen(true);
+  };
+
+  const handleClose = () => {
+    setDOpen(false);
+  };
+
+  const getPincodes = () => {
+    if (props.locations) {
+      var locations = props.locations[0].locations.split(",");
+      var res = [{ id: 0, title: "None" }];
+      locations.forEach((location, idx) => {
+        res.push({ id: idx + 1, title: location });
+      });
+      return res;
+    } else {
+      return picodeSelect;
     }
   };
 
   const validate = (fieldValues = values) => {
     let tmp = { ...errors };
     if ("email" in fieldValues)
-      tmp.email = fieldValues.email ? "" : "This field is required.";
+      tmp.email = fieldValues.email ? "" : "Email field is required.";
     if ("password" in fieldValues)
-      tmp.password = fieldValues.password ? "" : "This field is required.";
+      tmp.password =
+        fieldValues.password && fieldValues.password.length > 6
+          ? ""
+          : "Password field is required and length greater than 6.";
     if ("username" in fieldValues)
-      tmp.username = fieldValues.username ? "" : "This field is required.";
+      tmp.username = fieldValues.username ? "" : "Username field is required.";
     if ("confirmPassword" in fieldValues)
       tmp.confirmPassword = fieldValues.confirmPassword
         ? ""
-        : "This field is required.";
+        : "This field is required or check password again.";
     if ("main" in fieldValues)
       tmp.main = fieldValues.main ? "" : "Address is required.";
     if ("pincode" in fieldValues)
@@ -121,6 +156,8 @@ function SignUp() {
     true,
     validate
   );
+
+  if (props.auth.uid) return <Redirect to="/" />;
 
   return (
     <div className={classes.root}>
@@ -168,7 +205,7 @@ function SignUp() {
                   name="confirmPassword"
                   label="Confirm Password"
                   type="password"
-                  value={values.password}
+                  value={values.confirmPassword}
                   onChange={handleInputChange}
                   error={errors.password}
                   className={classes.input}
@@ -186,7 +223,7 @@ function SignUp() {
                   label="Pincode"
                   value={values.pincode}
                   onChange={handleInputChange}
-                  options={picodeSelect}
+                  options={getPincodes()}
                   error={errors.pincode}
                 />
                 <Controls.Input
@@ -207,8 +244,45 @@ function SignUp() {
           </div>
         </Grid>
       </Grid>
+      <Dialog
+        open={dOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Please check your password fields
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Controls.Button
+            className={classes.btn}
+            text="Cancel"
+            type="cancel"
+            onClick={handleClose}
+          />
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
 
-export default SignUp;
+const mapStateToProps = (state) => {
+  return {
+    locations: state.firestore.ordered.locations,
+    authError: state.auth.authError,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    signUp: (newUser) => dispatch(signUp(newUser)),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchtoProps),
+  firestoreConnect([{ collection: "locations" }])
+)(SignUp);

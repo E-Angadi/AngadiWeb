@@ -4,7 +4,11 @@ import { Grid, Divider, Button } from "@material-ui/core";
 import Form from "../../common/Form";
 import useForm from "../../common/useForm";
 import Controls from "../../common/controls/Controls";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+
+import { connect } from "react-redux";
+
+import { signIn } from "../../../store/actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,12 +86,13 @@ const initialFValues = {
   password: "",
 };
 
-function SignIn() {
+function SignIn(props) {
   const classes = useStyles();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      props.signIn(values);
     }
   };
 
@@ -111,6 +116,8 @@ function SignIn() {
   );
 
   const handleGuest = () => {};
+
+  if (props.auth.uid) return <Redirect to="/" />;
 
   return (
     <div className={classes.root}>
@@ -175,4 +182,17 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+const mapStatetoProps = (state) => {
+  return {
+    authError: state.auth.authError,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds)),
+  };
+};
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(SignIn);

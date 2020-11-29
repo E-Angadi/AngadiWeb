@@ -69,7 +69,7 @@ function Review(props) {
       <Grid container spacing={3}>
         <Grid item xs={12} lg={8}>
           <span className={classes.cartTitle}>Select Delivery Address </span>
-          <CartAddress />
+          <CartAddress open={true} />
         </Grid>
         <Grid item xs={12} lg={4}>
           <CheckoutStepper activeStep={1} />

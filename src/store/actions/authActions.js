@@ -48,3 +48,19 @@ export const signUp = (user) => {
       .catch((err) => dispatch({ type: "SGINUP_ERR", err }));
   };
 };
+
+export const updateUserInfo = (userID, userInfo) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("users")
+      .doc(userID)
+      .update({
+        delivery: userInfo.main,
+        pincode: userInfo.pincode,
+        pNum: userInfo.phoneNum,
+      })
+      .then(() => dispatch({ type: "USER_UPDATE_SUCCESS" }))
+      .catch((err) => dispatch({ type: "USER_UPDATE_FAILURE", err }));
+  };
+};

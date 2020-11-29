@@ -13,6 +13,7 @@ import SearchProduct from "../frontend/product/SearchProduct";
 import PageNotFound from "./NotFound";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
+import Account from "./auth/Account";
 import Footer from "./home/Footer";
 import SpecialProducts from "./product/SpecialProducts";
 
@@ -37,6 +38,7 @@ class PublicRoutes extends Component {
           <Route exact path="/search/:searchParam" component={SearchProduct} />
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/account" component={Account} />
           <Route path="/404" component={PageNotFound} />
           <Redirect to="/404" />
         </Switch>

@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button, Drawer } from "@material-ui/core";
 import useForm from "../../common/useForm";
 import Controls from "../../common/controls/Controls";
 import Form from "../../common/Form";
+
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
+import { updateUserInfo } from "../../../store/actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,23 +45,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const picodeSelect = [{ id: 0, title: "None" }];
+
 const initialFValues = {
   main: "",
   pincode: "",
   phoneNum: "",
 };
 
-const picodeSelect = [
-  { id: 0, title: "None" },
-  { id: 1, title: "500091" },
-  { id: 2, title: "500092" },
-  { id: 3, title: "500093" },
-  { id: 4, title: "500094" },
-];
-
-function CartAddress() {
+function CartAddress(props) {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(props.open);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -63,6 +63,37 @@ function CartAddress() {
 
   const closeDrawer = () => {
     setOpen(false);
+  };
+
+  useEffect(() => {
+    setValues({
+      main: props.profile.delivery ? props.profile.delivery : "",
+      pincode: props.profile.pincode
+        ? getPincodeIndex(props.profile.pincode)
+        : "",
+      phoneNum: props.profile.pNum ? props.profile.pNum : "",
+    });
+  }, [props.profile]);
+
+  const getPincodeIndex = (pincode) => {
+    if (props.locations) {
+      var locations = props.locations[0].locations.split(",");
+      var idx = locations.findIndex((e) => e === pincode);
+      return idx + 1;
+    } else return 0;
+  };
+
+  const getPincodes = () => {
+    if (props.locations) {
+      var locations = props.locations[0].locations.split(",");
+      var res = [{ id: 0, title: "None" }];
+      locations.forEach((location, idx) => {
+        res.push({ id: idx + 1, title: location });
+      });
+      return res;
+    } else {
+      return picodeSelect;
+    }
   };
 
   const validate = (fieldValues = values) => {
@@ -81,7 +112,7 @@ function CartAddress() {
     if (fieldValues === values)
       return Object.values(tmp).every((x) => x === "");
   };
-  const { values, errors, setErrors, handleInputChange } = useForm(
+  const { values, setValues, errors, setErrors, handleInputChange } = useForm(
     initialFValues,
     true,
     validate
@@ -90,6 +121,13 @@ function CartAddress() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      var locations = props.locations[0].locations.split(",");
+      var pincode = locations[values.pincode - 1];
+      props.updateUserInfo(props.auth.uid, {
+        ...values,
+        pincode: pincode,
+      });
+      setOpen(false);
     }
   };
 
@@ -104,12 +142,19 @@ function CartAddress() {
       >
         <Grid item xs={12}>
           <div className={classes.addressDiv}>
-            <span className={classes.addressHead}>T Bharath Chandra</span>
+            <span className={classes.addressHead}>
+              {" "}
+              {props.profile.name ? props.profile.name : ""}{" "}
+            </span>
             <span className={classes.addressContent}>
-              202, kalyan residency, venkata sai enclave, nizampet, Eshwar
-              villas road, Hyderabad, Telangana.
-              <span className={classes.noWrap}>500090</span>
-              <span className={classes.noWrap}>+91 - 7981415977</span>
+              {props.profile.delivery ? props.profile.delivery : ""}
+              <span className={classes.noWrap}>
+                {props.profile.pincode ? "-" + props.profile.pincode : ""}
+              </span>{" "}
+              <br />
+              <span className={classes.noWrap}>
+                {props.profile.pNum ? "91 + " + props.profile.pNum : ""}
+              </span>
             </span>
           </div>
         </Grid>
@@ -140,7 +185,7 @@ function CartAddress() {
               label="Pincode"
               value={values.pincode}
               onChange={handleInputChange}
-              options={picodeSelect}
+              options={getPincodes()}
               error={errors.pincode}
             />
             <Controls.Input
@@ -159,4 +204,20 @@ function CartAddress() {
   );
 }
 
-export default CartAddress;
+const mapStateToProps = (state) => {
+  return {
+    locations: state.firestore.ordered.locations,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUserInfo: (id, userinfo) => dispatch(updateUserInfo(id, userinfo)),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([{ collection: "locations" }])
+)(CartAddress);

@@ -96,7 +96,14 @@ function SignUp(props) {
         handleClickOpen();
         return;
       }
-      props.signUp(values);
+      var locations = props.locations[0].locations.split(",");
+      var pincode = locations[values.pincode - 1];
+      // console.log(locations);
+      // console.log(pincode);
+      props.signUp({
+        ...values,
+        pincode: pincode,
+      });
     }
   };
 

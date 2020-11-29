@@ -1,3 +1,5 @@
+import { clearCart, syncCart } from "./cartActions";
+
 export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -21,6 +23,7 @@ export const signOut = () => {
       .signOut()
       .then(() => {
         dispatch({ type: "SIGNOUT_SUCCESS" });
+        dispatch(clearCart());
       });
   };
 };
@@ -42,9 +45,13 @@ export const signUp = (user) => {
           pincode: user.pincode,
           pNum: user.phoneNum,
           isAdmin: false,
+          cart: "",
         });
       })
-      .then(() => dispatch({ type: "SIGNUP_SUCCESS" }))
+      .then(() => {
+        dispatch({ type: "SIGNUP_SUCCESS" });
+        dispatch(syncCart());
+      })
       .catch((err) => dispatch({ type: "SGINUP_ERR", err }));
   };
 };

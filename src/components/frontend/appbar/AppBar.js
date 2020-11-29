@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,6 +16,10 @@ import SearchDialog from "./SearchDialog";
 import LeftDrawer from "./LeftDrawer";
 import Divider from "@material-ui/core/Divider";
 import CategoryBar from "./CategoryBar";
+
+import { connect } from "react-redux";
+
+import { loadCartItems } from "../../../store/actions/cartActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MyAppBar() {
+function MyAppBar(props) {
   const classes = useStyles();
   const logo = "/imgs/logo1.png";
   const trigger = useScrollTrigger({
@@ -79,12 +83,15 @@ function MyAppBar() {
   };
 
   const handleSearch = (e) => {
-    console.log(searchText);
     if (searchText !== "") {
       history.push("/search/" + searchText);
     }
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (props.cart.length === 0) props.loadCartItems();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -141,13 +148,16 @@ function MyAppBar() {
             >
               <Hidden xsDown>
                 <Grid item>
-                  <Link className={classes.link} to="/signin">
+                  <Link
+                    className={classes.link}
+                    to={props.auth.uid ? "/account" : "/signin"}
+                  >
                     <div className={classes.actionDiv}>
                       <IconButton aria-label="signin">
                         <Person className={classes.menuButton} />
                       </IconButton>
                       <Hidden smDown>
-                        <p>Sign In</p>
+                        <p>{props.auth.uid ? "Account" : "Sign In"} </p>
                       </Hidden>
                     </div>
                   </Link>
@@ -168,7 +178,7 @@ function MyAppBar() {
                   <div className={classes.actionDiv}>
                     <IconButton aria-label="cart">
                       <Badge
-                        badgeContent={1}
+                        badgeContent={props.cart.length}
                         color="primary"
                         anchorOrigin={{
                           vertical: "top",
@@ -200,4 +210,17 @@ function MyAppBar() {
   );
 }
 
-export default MyAppBar;
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart.items,
+    auth: state.firebase.auth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCartItems: (items) => dispatch(loadCartItems(items)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAppBar);

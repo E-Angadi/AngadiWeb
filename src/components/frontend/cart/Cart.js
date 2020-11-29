@@ -49,16 +49,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initCart = [
-  { id: "HETZhfjjhrshlNbUnxZa", quantity: 2 },
-  { id: "SeuQeuOaLahNadH9mCsa", quantity: 3 },
-];
-
 function Cart(props) {
   const classes = useStyles();
 
   useEffect(() => {
-    if (props.cart.length === 0) props.loadCartItems(initCart);
+    if (props.cart.length === 0) props.loadCartItems();
   }, []);
 
   return (

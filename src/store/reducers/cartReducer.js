@@ -40,19 +40,40 @@ const cartReducer = (state = initstate, action) => {
         ],
       };
     case "ITEM_LOADED":
-      return {
-        items: [
-          ...state.items,
-          {
-            ...action.product,
-            id: action.productId,
-            quantity: action.quantity,
-          },
-        ],
-      };
+      var idx = state.items.findIndex((e) => e.id === action.productId);
+      if (idx === -1) {
+        return {
+          items: [
+            ...state.items,
+            {
+              ...action.product,
+              id: action.productId,
+              quantity: action.quantity,
+            },
+          ],
+        };
+      } else {
+        return state;
+      }
+
     case "ITEM_NOT_LOADED":
       console.log("Item not loaded " + action.id + " " + action.err);
       return state;
+    case "CART_LOADED":
+      return state;
+    case "CART_NOT_LOADED":
+      console.log("cart not loaded" + action.err);
+      return state;
+    case "CART_SYNCED":
+      return state;
+    case "CART_NOT_SYNCED":
+      console.log("cart not synced" + action.err);
+      return state;
+    case "CLEAR_CART":
+      return {
+        ...state,
+        items: [],
+      };
     default:
       return state;
   }

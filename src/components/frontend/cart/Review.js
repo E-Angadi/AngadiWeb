@@ -10,6 +10,8 @@ import CartAddress from "./CartAddress";
 import { connect } from "react-redux";
 import { loadCartItems } from "../../../store/actions/cartActions";
 
+import { Redirect } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#eaeded",
@@ -52,17 +54,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initCart = [
-  { id: "HETZhfjjhrshlNbUnxZa", quantity: 2 },
-  { id: "SeuQeuOaLahNadH9mCsa", quantity: 3 },
-];
-
 function Review(props) {
   const classes = useStyles();
 
-  useEffect(() => {
-    if (props.cart.length === 0) props.loadCartItems(initCart);
-  }, []);
+  if (!props.auth.uid) return <Redirect to="/signin" />;
 
   return (
     <div className={classes.root}>
@@ -108,6 +103,7 @@ function Review(props) {
 const mapStateToProps = (state) => {
   return {
     cart: state.cart.items,
+    auth: state.firebase.auth,
   };
 };
 

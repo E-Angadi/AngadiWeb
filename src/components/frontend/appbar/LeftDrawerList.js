@@ -23,14 +23,14 @@ const itemList1 = [
   },
   {
     name: "All Offers",
-    link: "/offers",
+    link: "/deals",
   },
 ];
 
 const itemList2 = [
   {
     name: "My Account",
-    link: "/",
+    link: "/account",
   },
   {
     name: "About us",
@@ -44,7 +44,13 @@ function LeftDrawerList(props) {
     <List>
       {itemList1.map(({ name, link }, idx) => {
         return (
-          <ListItem component={Link} to={link} key={idx} button>
+          <ListItem
+            component={Link}
+            to={link}
+            key={idx}
+            button
+            onClick={props.onClick}
+          >
             <ListItemText className={classes.itemRoot} primary={name} />
           </ListItem>
         );
@@ -52,7 +58,13 @@ function LeftDrawerList(props) {
       <Divider className={classes.divider} />
       {itemList2.map(({ name, link }, idx) => {
         return (
-          <ListItem component={Link} to={link} key={idx} button>
+          <ListItem
+            component={Link}
+            to={link}
+            key={idx}
+            button
+            onClick={props.onClick}
+          >
             <ListItemText className={classes.itemRoot} primary={name} />
           </ListItem>
         );

@@ -67,7 +67,6 @@ const mapDispatchtoProps = (dispatch) => {
 };
 
 const mapStatetoProps = (state) => {
-  console.log(state.firebase.profile);
   return {
     profile: state.firebase.profile,
     auth: state.firebase.auth,

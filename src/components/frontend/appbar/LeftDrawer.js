@@ -9,10 +9,15 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Person from "@material-ui/icons/Person";
 import LeftDrawerList from "./LeftDrawerList";
+import { Link } from "react-router-dom";
+
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+  root: {},
   drawerPaper: {
     backgroundColor: "#f0f0f0",
+    overflowX: "hidden",
   },
   menuButton: {
     color: theme.palette.primary.main,
@@ -41,18 +46,17 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     width: "245px",
-    position: "fixed",
-    top: "auto",
-    bottom: "0",
-    padding: theme.spacing(3),
     color: theme.palette.primary.main,
-    backgroundColor: theme.palette.secondary.main,
     [theme.breakpoints.down("xs")]: {
       padding: theme.spacing(2),
     },
   },
+  headingFooter: {
+    paddingLeft: theme.spacing(2),
+  },
   footerSpan: {
     marginBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
     display: "block",
     "&>a": {
       color: theme.palette.primary.dark,
@@ -61,14 +65,23 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  toolbar: {
+    width: "245px",
+    padding: theme.spacing(2),
+    backgroundColor: "#E1F5FE",
+  },
 }));
 
-function LeftDrawer() {
+function LeftDrawer(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (open) => {
     setOpen(open);
+  };
+
+  const handleClick = () => {
+    setOpen(false);
   };
 
   return (
@@ -92,12 +105,14 @@ function LeftDrawer() {
           keepMounted: true, // Better open performance on mobile.
         }}
       >
-        <Toolbar className={classes.header}>
+        <div className={classes.toolbar}>
           <Grid container>
             <Grid item xs={8}>
               <div className={classes.headerDiv}>
                 <Person />
-                <p className={classes.hello}>Hello, Sign in</p>
+                <p className={classes.hello}>
+                  Hello, {props.auth.uid ? props.profile.name : "Sign in"}{" "}
+                </p>
               </div>
             </Grid>
             <Grid xs={4} item container justify="flex-end">
@@ -116,8 +131,11 @@ function LeftDrawer() {
                   className={classes.headerBtns}
                   color="primary"
                   variant="outlined"
+                  component={Link}
+                  to={props.auth.uid ? "/account" : "/signin"}
+                  onClick={handleClick}
                 >
-                  Account
+                  {props.auth.uid ? "Account" : "Sign In"}
                 </Button>
               </Grid>
               <Grid item xs={6}>
@@ -125,18 +143,20 @@ function LeftDrawer() {
                   className={classes.headerBtns}
                   color="primary"
                   variant="outlined"
+                  component={Link}
+                  to={props.auth.uid ? "/orders" : "/signup"}
+                  onClick={handleClick}
                 >
-                  Orders
+                  {props.auth.uid ? "Orders" : "Sign Up"}
                 </Button>
               </Grid>
             </Grid>
           </Grid>
-        </Toolbar>
-
-        <LeftDrawerList />
+        </div>
+        <LeftDrawerList onClick={handleClick} />
 
         <div className={classes.footer}>
-          <h2>Contact Us</h2>
+          <h2 className={classes.headingFooter}>Contact Us</h2>
           <span className={classes.footerSpan}>
             {" "}
             WhatsApp us :{" "}
@@ -159,8 +179,13 @@ function LeftDrawer() {
               t.bharathchandra@gmail.com
             </a>
           </span>
-          <h3>Download App</h3>
-          <Grid container justify="space-around" spacing={1}>
+          <h3 className={classes.headingFooter}>Download App</h3>
+          <Grid
+            className={classes.headingFooter}
+            container
+            justify="space-around"
+            spacing={1}
+          >
             <Grid item xs={6}>
               <a
                 href="https://www.google.com/"
@@ -192,4 +217,11 @@ function LeftDrawer() {
   );
 }
 
-export default LeftDrawer;
+const mapStatetoProps = (state) => {
+  return {
+    profile: state.firebase.profile,
+    auth: state.firebase.auth,
+  };
+};
+
+export default connect(mapStatetoProps, null)(LeftDrawer);

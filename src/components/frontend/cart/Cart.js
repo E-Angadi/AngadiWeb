@@ -56,6 +56,10 @@ function Cart(props) {
     if (props.cart.length === 0) props.loadCartItems();
   }, []);
 
+  useEffect(() => {
+    if (props.cart.length === 0) props.loadCartItems();
+  }, [props.auth]);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>

@@ -1,4 +1,4 @@
-import { clearCart, syncCart } from "./cartActions";
+import { clearCart, syncCart, loadCartItems } from "./cartActions";
 
 export const signIn = (credentials) => {
   return (dispatch, getState, { getFirebase }) => {
@@ -8,6 +8,8 @@ export const signIn = (credentials) => {
       .signInWithEmailAndPassword(credentials.email, credentials.password)
       .then(() => {
         dispatch({ type: "LOGIN_SUCCESS" });
+        dispatch(clearCart());
+        dispatch(loadCartItems());
       })
       .catch((err) => {
         dispatch({ type: "LOGIN_ERR", err });

@@ -64,7 +64,7 @@ function Review(props) {
       <Grid container spacing={3}>
         <Grid item xs={12} lg={8}>
           <span className={classes.cartTitle}>Select Delivery Address </span>
-          <CartAddress open={true} />
+          <CartAddress profile={props.profile} open={true} />
         </Grid>
         <Grid item xs={12} lg={4}>
           <CheckoutStepper activeStep={1} />
@@ -104,6 +104,7 @@ const mapStateToProps = (state) => {
   return {
     cart: state.cart.items,
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 

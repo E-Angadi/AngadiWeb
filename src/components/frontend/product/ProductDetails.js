@@ -194,7 +194,6 @@ function ProductDetails(props) {
   useEffect(() => {
     if (props.products !== undefined && props.products.length > 0) {
       setLoaded(true);
-      const product = props.products[0];
     }
   }, [props.products]);
 
@@ -207,7 +206,7 @@ function ProductDetails(props) {
         setCount(0);
       }
     }
-  }, [props.cart]);
+  }, [props.cart, loaded]);
 
   const handleAdd = () => {
     if (loaded) {

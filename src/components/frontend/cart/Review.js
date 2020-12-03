@@ -9,6 +9,10 @@ import CartAddress from "./CartAddress";
 
 import { connect } from "react-redux";
 import { loadCartItems } from "../../../store/actions/cartActions";
+import {
+  createOrder,
+  verifyOrder,
+} from "../../../store/actions/paymentActions";
 
 import { Redirect } from "react-router-dom";
 
@@ -54,8 +58,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const calcTPrice = (items) => {
+  if (!items && items.length === 0) return 0;
+  var res = 0;
+  items.forEach((item) => {
+    res += item.quantity * item.totalPrice;
+  });
+  return res;
+};
+
 function Review(props) {
   const classes = useStyles();
+
+  const handlePayment = (e) => {
+    e.preventDefault();
+    props.createOrder();
+  };
+
+  useEffect(() => {
+    var options = {
+      key: "rzp_test_lxD9jsRSbpBOAz",
+      amount: calcTPrice(props.cart) * 100,
+      currency: "INR",
+      name: "Acme Corp",
+      description: "Test Transaction",
+      order_id: props.order_id,
+      handler: (res) => {
+        console.log(res);
+        props.verifyOrder(
+          res.razorpay_signature,
+          res.razorpay_order_id,
+          res.razorpay_payment_id
+        );
+      },
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9999999999",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    if (props.order_id !== "") {
+      var rzp = new window.Razorpay(options);
+      rzp.open();
+      rzp.on("payment.failed", function (response) {
+        console.log(response.error);
+      });
+    }
+  }, [props.order_id]);
 
   if (!props.auth.uid) return <Redirect to="/signin" />;
 
@@ -79,7 +131,12 @@ function Review(props) {
             >
               Back
             </Button>
-            <Button className={classes.btn} variant="contained" color="primary">
+            <Button
+              onClick={handlePayment}
+              className={classes.btn}
+              variant="contained"
+              color="primary"
+            >
               Make Payment
             </Button>
           </div>
@@ -105,12 +162,20 @@ const mapStateToProps = (state) => {
     cart: state.cart.items,
     auth: state.firebase.auth,
     profile: state.firebase.profile,
+    order_id: state.payment.order_id,
+    status: state.payment.status,
+    err_msg: state.payment.err_msg,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCartItems: (items) => dispatch(loadCartItems(items)),
+    createOrder: () => dispatch(createOrder()),
+    verifyOrder: (razorpay_signature, razorpay_order_id, razorpay_payment_id) =>
+      dispatch(
+        verifyOrder(razorpay_signature, razorpay_order_id, razorpay_payment_id)
+      ),
   };
 };
 

@@ -34,6 +34,11 @@ const paymentReducer = (state = initstate, action) => {
         err_msg: action.err.msg,
         order_id: "",
       };
+    case "COD_DONE":
+      return {
+        ...state,
+        status: true,
+      };
     default:
       return state;
   }

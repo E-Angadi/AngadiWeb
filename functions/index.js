@@ -28,6 +28,37 @@ app.post("/create_order", async (req, res) => {
   var address = req.body.delivery;
   var pincode = req.body.pincode;
   var pnum = req.body.pnum;
+  var cod = req.body.cod;
+
+  // Cash On delivery
+  if (cod) {
+    try {
+      await admin.firestore().collection("orders").add({
+        user_id: user_id,
+        user_name: user_name,
+        payment_id: "",
+        cart: order_data,
+        deliverd: false,
+        amount: amount,
+        completed: true,
+        address: address,
+        pincode: pincode,
+        pnum: pnum,
+        cod: true,
+      });
+      res.json({ msg: "COD ordered placed", code: 200 });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        code: 400,
+        msg: "Error -  order is added to orders collection",
+      });
+    }
+
+    return;
+  }
+
+  // Razorpay Payment
 
   if (amount && parseInt(amount)) {
     const options = {
@@ -64,6 +95,8 @@ app.post("/create_order", async (req, res) => {
         address: address,
         pincode: pincode,
         pnum: pnum,
+        deliverd: false,
+        cod: false,
       });
     } catch (err) {
       console.log(err);

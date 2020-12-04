@@ -58,58 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const calcTPrice = (items) => {
-  if (!items && items.length === 0) return 0;
-  var res = 0;
-  items.forEach((item) => {
-    res += item.quantity * item.totalPrice;
-  });
-  return res;
-};
-
 function Review(props) {
   const classes = useStyles();
-
-  const handlePayment = (e) => {
-    e.preventDefault();
-    props.createOrder();
-  };
-
-  useEffect(() => {
-    var options = {
-      key: "rzp_test_lxD9jsRSbpBOAz",
-      amount: calcTPrice(props.cart) * 100,
-      currency: "INR",
-      name: "Acme Corp",
-      description: "Test Transaction",
-      order_id: props.order_id,
-      handler: (res) => {
-        console.log(res);
-        props.verifyOrder(
-          res.razorpay_signature,
-          res.razorpay_order_id,
-          res.razorpay_payment_id
-        );
-      },
-      prefill: {
-        name: "Gaurav Kumar",
-        email: "gaurav.kumar@example.com",
-        contact: "9999999999",
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-    if (props.order_id !== "") {
-      var rzp = new window.Razorpay(options);
-      rzp.open();
-      rzp.on("payment.failed", function (response) {
-        console.log(response.error);
-      });
-    }
-  }, [props.order_id]);
-
-  if (!props.auth.uid) return <Redirect to="/signin" />;
 
   return (
     <div className={classes.root}>
@@ -132,7 +82,8 @@ function Review(props) {
               Back
             </Button>
             <Button
-              onClick={handlePayment}
+              component={Link}
+              to="/checkout/payment"
               className={classes.btn}
               variant="contained"
               color="primary"
@@ -141,7 +92,7 @@ function Review(props) {
             </Button>
           </div>
         </Grid>
-        <Grid item xs={12} lg={8}>
+        <Grid item xs={12} md={8}>
           <span className={classes.cartTitle}>
             My Cart({props.cart.length})
           </span>

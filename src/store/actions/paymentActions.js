@@ -29,7 +29,7 @@ const serializeItems = (items) => {
   return cart.join(",");
 };
 
-export const createOrder = () => async (dispatch, getState) => {
+export const createOrder = (cod) => async (dispatch, getState) => {
   const state = getState();
   var amount = calcTPrice(state.cart.items);
   var cartData = serializeItems(state.cart.items);
@@ -43,16 +43,23 @@ export const createOrder = () => async (dispatch, getState) => {
         delivery: state.firebase.profile.delivery,
         pincode: state.firebase.profile.pincode,
         pnum: state.firebase.profile.pNum,
+        cod: cod,
       };
 
       const res = await axios.post(
         "https://us-central1-angadi-6266d.cloudfunctions.net/payment/create_order",
         options
       );
-      dispatch({
-        type: "ORDER_ID_GEN",
-        payload: res.data,
-      });
+      if (cod) {
+        dispatch({
+          type: "COD_DONE",
+        });
+      } else {
+        dispatch({
+          type: "ORDER_ID_GEN",
+          payload: res.data,
+        });
+      }
     } catch (err) {
       dispatch({
         type: "ORDER_ID_NOT_GEN",

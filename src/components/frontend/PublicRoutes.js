@@ -8,6 +8,7 @@ import AllCategories from "./category/AllCategories";
 import Cart from "./cart/Cart";
 import ProductDetails from "./product/ProductDetails";
 import Review from "../frontend/cart/Review";
+import Payment from "../frontend/cart/Payment";
 import CategoryProducts from "../frontend/category/CategoryProducts";
 import SearchProduct from "../frontend/product/SearchProduct";
 import PageNotFound from "./NotFound";
@@ -28,7 +29,7 @@ class PublicRoutes extends Component {
           <Route exact path="/deals" component={SpecialProducts} />
           <Route exact path="/checkout/cart" component={Cart} />
           <Route exact path="/checkout/review" component={Review} />
-          <Route exact path="/checkout/payment" component={Review} />
+          <Route exact path="/checkout/payment" component={Payment} />
           <Route exact path="/product/:productId" component={ProductDetails} />
           <Route
             exact

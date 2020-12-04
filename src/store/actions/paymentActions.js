@@ -11,8 +11,20 @@ const calcTPrice = (items) => {
 
 const serializeItems = (items) => {
   var cart = [];
+
   items.forEach((item) => {
-    cart.push(item.title + ";" + item.quantity + ";" + item.totalPrice);
+    var unit = item.unitSelect === 0 ? "kg" : "l";
+    cart.push(
+      item.title +
+        ";" +
+        item.quantity +
+        ";" +
+        item.totalPrice +
+        ";" +
+        item.unitValue +
+        " " +
+        unit
+    );
   });
   return cart.join(",");
 };
@@ -32,6 +44,7 @@ export const createOrder = () => async (dispatch, getState) => {
         pincode: state.firebase.profile.pincode,
         pnum: state.firebase.profile.pNum,
       };
+
       const res = await axios.post(
         "https://us-central1-angadi-6266d.cloudfunctions.net/payment/create_order",
         options

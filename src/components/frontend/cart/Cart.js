@@ -84,6 +84,7 @@ function Cart(props) {
               className={classes.btn}
               variant="contained"
               color="primary"
+              disabled={props.cart.length <= 0}
             >
               Place Order
             </Button>

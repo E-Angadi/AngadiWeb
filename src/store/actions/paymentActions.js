@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearCart } from "./cartActions";
 
 const calcTPrice = (items) => {
   if (!items && items.length === 0) return 0;
@@ -31,6 +32,9 @@ const serializeItems = (items) => {
 
 export const createOrder = (cod) => async (dispatch, getState) => {
   const state = getState();
+
+  dispatch({ type: "PAYMENT_START" });
+
   var amount = calcTPrice(state.cart.items);
   var cartData = serializeItems(state.cart.items);
   if (state.firebase.auth.uid) {
@@ -54,6 +58,7 @@ export const createOrder = (cod) => async (dispatch, getState) => {
         dispatch({
           type: "COD_DONE",
         });
+        dispatch(clearCart());
       } else {
         dispatch({
           type: "ORDER_ID_GEN",
@@ -90,6 +95,7 @@ export const verifyOrder = (
         type: "TRANS_VERIFIED",
         payload: res.data,
       });
+      dispatch(clearCart());
     } catch (err) {
       dispatch({
         type: "TRANS_NOT_VERIFIED",
@@ -97,4 +103,10 @@ export const verifyOrder = (
       });
     }
   }
+};
+
+export const resetPaymentState = () => {
+  return (dispatch) => {
+    dispatch({ type: "RESET_PAY_STATE" });
+  };
 };

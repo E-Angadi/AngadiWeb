@@ -7,8 +7,9 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
+  Modal,
 } from "@material-ui/core";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import PaymentDetails from "./PaymentDetails";
 import CheckoutStepper from "./CheckoutStepper";
 
@@ -16,6 +17,7 @@ import { connect } from "react-redux";
 import {
   createOrder,
   verifyOrder,
+  resetPaymentState,
 } from "../../../store/actions/paymentActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +41,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     fontSize: 18,
   },
+  paper: {
+    position: "absolute",
+    width: 300,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    justifyContent: "center",
+  },
 }));
 
 const calcTPrice = (items) => {
@@ -50,9 +60,33 @@ const calcTPrice = (items) => {
   return res;
 };
 
+const modalStyle = {
+  top: "30%",
+  left: "calc(50% - 200px)",
+  transform: "transulate(-50%, -50%)",
+};
+
 function Payment(props) {
   const classes = useStyles();
   const [cod, setCod] = useState(false);
+  const [openM, setOpenM] = useState(false);
+  const history = useHistory();
+
+  const getbody = () => {
+    var success = !props.status && props.msg === "SUCCESS";
+    return (
+      <div style={modalStyle} className={classes.paper}>
+        <Grid container justify="center">
+          <Grid item>
+            <h2>{success ? "Payment Successful" : "Payment Failure"}</h2>
+          </Grid>
+          <Grid item>
+            <img src={success ? "/imgs/success.png" : "/imgs/failure.png"} />
+          </Grid>
+        </Grid>
+      </div>
+    );
+  };
 
   const handleCodChange = (e) => {
     e.preventDefault();
@@ -91,17 +125,47 @@ function Payment(props) {
       theme: {
         color: "#E1F5FE",
       },
+      modal: {
+        ondismiss: () => {
+          props.resetPaymentState();
+        },
+      },
     };
-    if (props.order_id !== "") {
+    if (props.order_id !== "" && props.status) {
       var rzp = new window.Razorpay(options);
       rzp.open();
       rzp.on("payment.failed", function (response) {
-        console.log(response.error);
+        console.log("Payment not successful due to -" + response.error.reason);
+        handleOpen();
+        props.resetPaymentState();
       });
     }
   }, [props.order_id]);
 
+  useEffect(() => {
+    if (!props.status && props.msg !== "") {
+      if (props.msg === "SUCCESS") {
+        console.log("Payment successful");
+      } else {
+        console.log("Payment not successful due to -" + props.msg);
+      }
+      handleOpen();
+    }
+  }, [props.status]);
+
   if (!props.auth.uid) return <Redirect to="/signin" />;
+
+  const handleOpen = () => {
+    setOpenM(true);
+  };
+
+  const handleClose = () => {
+    setOpenM(false);
+    if (!props.status && props.msg === "SUCCESS") {
+      history.push("/");
+      props.resetPaymentState();
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -132,11 +196,20 @@ function Payment(props) {
             onClick={handlePayment}
             className={classes.btn}
             variant="contained"
+            disabled={props.status}
           >
             Place Order
           </Button>
         </Grid>
       </Grid>
+      <Modal
+        open={openM}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {getbody()}
+      </Modal>
     </div>
   );
 }
@@ -147,13 +220,14 @@ const mapStateToProps = (state) => {
     profile: state.firebase.profile,
     order_id: state.payment.order_id,
     status: state.payment.status,
-    err_msg: state.payment.err_msg,
+    msg: state.payment.msg,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createOrder: (cod) => dispatch(createOrder(cod)),
+    resetPaymentState: () => dispatch(resetPaymentState()),
     verifyOrder: (razorpay_signature, razorpay_order_id, razorpay_payment_id) =>
       dispatch(
         verifyOrder(razorpay_signature, razorpay_order_id, razorpay_payment_id)

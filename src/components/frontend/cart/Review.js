@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button } from "@material-ui/core";
 import ProductCard from "../product/ProductHCard";
@@ -9,10 +9,6 @@ import CartAddress from "./CartAddress";
 
 import { connect } from "react-redux";
 import { loadCartItems } from "../../../store/actions/cartActions";
-import {
-  createOrder,
-  verifyOrder,
-} from "../../../store/actions/paymentActions";
 
 import { Redirect } from "react-router-dom";
 
@@ -50,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     fontWeight: 600,
     marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
   rootAddress: {
     padding: theme.spacing(1),
@@ -60,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Review(props) {
   const classes = useStyles();
+  if (!props.auth.uid) return <Redirect to="/signin" />;
 
   return (
     <div className={classes.root}>
@@ -87,6 +85,7 @@ function Review(props) {
               className={classes.btn}
               variant="contained"
               color="primary"
+              disabled={props.cart.length <= 0}
             >
               Make Payment
             </Button>
@@ -113,20 +112,12 @@ const mapStateToProps = (state) => {
     cart: state.cart.items,
     auth: state.firebase.auth,
     profile: state.firebase.profile,
-    order_id: state.payment.order_id,
-    status: state.payment.status,
-    err_msg: state.payment.err_msg,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCartItems: (items) => dispatch(loadCartItems(items)),
-    createOrder: () => dispatch(createOrder()),
-    verifyOrder: (razorpay_signature, razorpay_order_id, razorpay_payment_id) =>
-      dispatch(
-        verifyOrder(razorpay_signature, razorpay_order_id, razorpay_payment_id)
-      ),
   };
 };
 

@@ -247,5 +247,6 @@ export const syncCart = () => {
 export const clearCart = () => {
   return (dispatch, getState) => {
     dispatch({ type: "CLEAR_CART" });
+    dispatch(syncCart());
   };
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button } from "@material-ui/core";
 import CartAddress from "../cart/CartAddress";
@@ -7,6 +7,11 @@ import { connect } from "react-redux";
 
 import { signOut } from "../../../store/actions/authActions";
 
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
+import OrderCard from "./OrderCard";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#eaeded",
@@ -14,18 +19,32 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100vh",
   },
   userImg: {
-    width: 250,
-    height: 250,
+    width: 150,
+    height: 150,
     paddingTop: 30,
   },
   logoutBtn: {
     textAlign: "center",
     marginTop: 10,
   },
+  ordersRoot: {
+    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    backgroundColor: "#FFFFFF",
+    borderRadius: theme.shape.borderRadius,
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 function Account(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    console.log(props.orders);
+  }, [props.orders]);
 
   const handleLogout = () => {
     props.signOut();
@@ -51,8 +70,15 @@ function Account(props) {
           </Grid>
         </Grid>
         <Grid xs={12} item container justify="center">
-          <Grid item xs={6}>
+          <Grid item xs={10} lg={6}>
             <CartAddress profile={props.profile} open={false} />
+          </Grid>
+          <Grid item xs={10} lg={8}>
+            <div className={classes.ordersRoot}>
+              <h2>Orders</h2>
+              {props.orders &&
+                props.orders.map((order) => <OrderCard order={order} />)}
+            </div>
           </Grid>
         </Grid>
       </Grid>
@@ -70,7 +96,18 @@ const mapStatetoProps = (state) => {
   return {
     profile: state.firebase.profile,
     auth: state.firebase.auth,
+    orders: state.firestore.ordered.orders,
   };
 };
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(Account);
+export default compose(
+  connect(mapStatetoProps, mapDispatchtoProps),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: "orders",
+        where: [["user_id", "==", props.auth.uid]],
+      },
+    ];
+  })
+)(Account);

@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
   addressDiv: {
     borderRadius: theme.shape.borderRadius,
     backgroundColor: "#ccc",
-    margin: theme.spacing(2),
-    padding: theme.spacing(3),
+    margin: theme.spacing(1),
+    padding: theme.spacing(2),
   },
   addressHead: {
     fontSize: 18,

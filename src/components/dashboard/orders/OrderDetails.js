@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  makeStyles,
-  Grid,
-  Typography,
-  Divider,
-  IconButton,
-} from "@material-ui/core";
-import { Done, Clear } from "@material-ui/icons";
-import Tooltip from "@material-ui/core/Tooltip";
+import { makeStyles, Grid, Typography, Divider } from "@material-ui/core";
 import ProductSummary from "./ProductSummary";
+import ActionButton from "./actionButton";
 
 import {
   cancelOrder,
@@ -162,30 +155,24 @@ function OrderDetails(props) {
           <Grid item xs={6}>
             <Grid item container justify="center">
               <Grid item>
-                <Tooltip title="Delivered Order">
-                  <IconButton
-                    onClick={handleDeliver}
-                    aria-label="delivered"
-                    className={classes.orderBtns}
-                  >
-                    <Done />
-                  </IconButton>
-                </Tooltip>
+                <ActionButton
+                  deliver={true}
+                  handleDelivery={handleDeliver}
+                  handleCancel={handleCancel}
+                  id={props.order.id}
+                />
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={6}>
             <Grid item container justify="center">
               <Grid item>
-                <Tooltip title="Cancel Order">
-                  <IconButton
-                    onClick={handleCancel}
-                    aria-label="cancel"
-                    className={classes.orderBtns}
-                  >
-                    <Clear />
-                  </IconButton>
-                </Tooltip>
+                <ActionButton
+                  deliver={false}
+                  handleDelivery={handleDeliver}
+                  handleCancel={handleCancel}
+                  id={props.order.id}
+                />
               </Grid>
             </Grid>
           </Grid>

@@ -30,7 +30,7 @@ function ProductSummary({ product }) {
         <Grid item xs={2} justify="flex-end">
           <Typography component="p">
             {" "}
-            Price: <b>₹ {product.price}</b>{" "}
+            Unit price: <b>₹ {product.price}</b>{" "}
           </Typography>
         </Grid>
       </Grid>

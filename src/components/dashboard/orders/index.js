@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../common/PageHeader";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import OrdersTable from "./OrdersTable";
 import ReceiptIcon from "@material-ui/icons/Receipt";
 import OrderDetails from "./OrderDetails";
+
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -27,93 +31,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// TODO: Remove this sample data and connect it with redux store
-
-const sampleData = [
-  {
-    orderId: "HSHD39483NKDH",
-    transactionId: "GDSJHF7EWRWQUER",
-    customerName: "Bharath Chandra",
-    address:
-      "#202, sri kalyan residency, sri venkat sai enclave, eshwar villas road",
-    locality: "Nizampet",
-    phoneNum: "7981415977",
-    date: "22-09-2020",
-    time: "5:30 AM",
-    netPrice: 500,
-    itemsCount: 2,
-    paymentType: "Cash on delivery",
-    products: [
-      {
-        productId: "a1",
-        title: "Natural ground nut oil",
-        price: "200",
-        varient: "1 liters",
-        imageData: "/imgs/default.jpg",
-      },
-      {
-        productId: "a2",
-        title: "Natural sunflower oil",
-        price: "300",
-        varient: "1.5 liters",
-        imageData: "/imgs/default.jpg",
-      },
-    ],
-  },
-  {
-    orderId: "ADFDFDFW37WEUKJ8",
-    transactionId: "MFDSKFJDHF8Y38RWQW",
-    customerName: "bharath",
-    address:
-      "#202, sri kalyan residency, sri venkat sai enclave, eshwar villas road",
-    locality: "nizampet",
-    phoneNum: "7981415977",
-    date: "22-09-2020",
-    time: "5:30 AM",
-    netPrice: 500,
-    itemsCount: 2,
-    paymentType: "Net banking",
-    products: [
-      {
-        productId: "a1",
-        title: "Natural ground nut oil",
-        price: 200,
-        varient: "1 liters",
-        imageData: "/imgs/default.jpg",
-      },
-      {
-        productId: "a2",
-        title: "Natural sunflower oil",
-        price: 300,
-        varient: "1.5 liters",
-        imageData: "/imgs/default.jpg",
-      },
-      {
-        productId: "a3",
-        title: "Natural sunflower oil",
-        price: 300,
-        varient: "1.5 liters",
-        imageData: "/imgs/default.jpg",
-      },
-      {
-        productId: "a4",
-        title: "Natural sunflower oil",
-        price: 300,
-        varient: "1.5 liters",
-        imageData: "/imgs/default.jpg",
-      },
-    ],
-  },
-];
-
-function Orders() {
+function Orders(props) {
   const classes = useStyles();
-  const [orders] = useState(sampleData);
-  const [orderSelected, setOrderSelected] = useState(sampleData[0]);
+  const [orderSelected, setOrderSelected] = useState({});
 
   const changeOrderSelected = (order) => {
     setOrderSelected(order);
   };
+
+  useEffect(() => {
+    if (props.orders && props.orders.length > 0) {
+      setOrderSelected(props.orders[0]);
+    }
+  }, [props.orders]);
+
+  useEffect(() => {
+    console.log(orderSelected);
+  }, [orderSelected]);
 
   return (
     <div className={classes.divAlign}>
@@ -122,20 +56,49 @@ function Orders() {
         icon={<ReceiptIcon fontSize="large" />}
         subTitle={"View and update order status"}
       />
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6}>
-          <OrdersTable
-            orders={orders}
-            orderSelected={orderSelected}
-            changeOrderSelected={changeOrderSelected}
-          />
+      {props.orders && props.orders.length > 0 && (
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <OrdersTable
+              orders={props.orders}
+              orderSelected={orderSelected}
+              changeOrderSelected={changeOrderSelected}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <OrderDetails order={orderSelected} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <OrderDetails order={orderSelected} />
-        </Grid>
-      </Grid>
+      )}
     </div>
   );
 }
+// const mapDispatchtoProps = (dispatch) => {
+//   return {
+//     signOut: () => dispatch(signOut()),
+//   };
+// };
 
-export default Orders;
+const mapStatetoProps = (state) => {
+  console.log(state.firestore.ordered.orders);
+  return {
+    profile: state.firebase.profile,
+    auth: state.firebase.auth,
+    orders: state.firestore.ordered.orders,
+  };
+};
+export default compose(
+  connect(mapStatetoProps, null),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: "orders",
+        where: [
+          ["completed", "==", true],
+          ["deliverd", "==", false],
+          ["cancelled", "==", false],
+        ],
+      },
+    ];
+  })
+)(Orders);

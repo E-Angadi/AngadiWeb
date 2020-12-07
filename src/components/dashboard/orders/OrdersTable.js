@@ -27,13 +27,25 @@ const useStyles = makeStyles((theme) => ({
 const headCells = [
   { id: "orderId", label: "Order ID", disableSorting: true },
   { id: "date", label: "Date", disableSorting: true },
-  { id: "netPrice", label: "Price" },
-  { id: "locality", label: "Locality" },
+  { id: "amount", label: "Amount" },
+  { id: "pincode", label: "Pincode" },
   { id: "view", label: "View", disableSorting: true },
 ];
 
 // FIXME: orderId is not wraping in tablecell
 // FIXME: table content is overflowing on small screen device
+
+const getTime = (time) => {
+  var date = new Date(time.toDate().toString());
+  return date.toLocaleTimeString("en-IN");
+};
+
+const getDate = (time) => {
+  var date = new Date(time.toDate().toString());
+  return (
+    date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+  );
+};
 
 const wrapStyle = {
   whiteSpace: "normal",
@@ -64,8 +76,8 @@ function OrdersTable({ orders, orderSelected, changeOrderSelected }) {
         else
           return items.filter(
             (x) =>
-              x.locality.toLowerCase().includes(target.value.toLowerCase()) ||
-              x.orderId.toLowerCase().includes(target.value.toLowerCase())
+              x.pincode.includes(target.pincode) ||
+              x.id.toLowerCase().includes(target.value.toLowerCase())
           );
       },
     });
@@ -75,7 +87,7 @@ function OrdersTable({ orders, orderSelected, changeOrderSelected }) {
     <div className={classes.pageContent}>
       <Toolbar>
         <Controls.Input
-          label="Search with locality or order id"
+          label="Search with Pincode or Order ID"
           className={classes.searchInput}
           InputProps={{
             startAdornment: (
@@ -93,12 +105,11 @@ function OrdersTable({ orders, orderSelected, changeOrderSelected }) {
           {recordsAfterPagingAndSorting().map((item) => {
             var isSelected = item === orderSelected;
             return (
-              <TableRow key={item.orderId}>
-                <TableCell style={wrapStyle}>{item.orderId} </TableCell>
-                {console.log(item.date)}
-                <TableCell>{item.date} </TableCell>
-                <TableCell>{item.netPrice} </TableCell>
-                <TableCell>{item.locality} </TableCell>
+              <TableRow key={item.id}>
+                <TableCell style={wrapStyle}>{item.id} </TableCell>
+                <TableCell>{getDate(item.time)} </TableCell>
+                <TableCell>{item.amount} </TableCell>
+                <TableCell>{item.pincode} </TableCell>
                 <TableCell>
                   <IconButton
                     color="primary"

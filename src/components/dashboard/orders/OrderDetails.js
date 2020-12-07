@@ -34,8 +34,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getItems = (cart) => {
+  const items = [];
+  if (!cart) return items;
+  const citems = cart.split(",");
+  citems.forEach((c) => {
+    const sc = c.split(";");
+    if (sc.length === 4)
+      items.push({
+        title: sc[0],
+        quantity: parseInt(sc[1]),
+        price: sc[2],
+        variant: sc[3],
+      });
+  });
+  return items;
+};
+
+const getItemsCount = (cart) => {
+  return cart.split(",").length;
+};
+
+const getTime = (time) => {
+  var date = new Date(time.toDate().toString());
+  return date.toLocaleTimeString("en-IN");
+};
+
+const getDate = (time) => {
+  var date = new Date(time.toDate().toString());
+  return (
+    date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+  );
+};
+
 function OrderDetails({ order }) {
   const classes = useStyles();
+  if (!order.time) {
+    return <div className={classes.root}></div>;
+  } else {
+    console.log(order);
+  }
   return (
     <div className={classes.root}>
       <div className={classes.metadata}>
@@ -44,10 +82,10 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Order Id:</b> {order.orderId}
+                  <b>Order Id:</b> {order.id}
                 </Typography>
                 <Typography component="p">
-                  <b>Transaction Id:</b> {order.transactionId}
+                  <b>Payment Id:</b> {order.payment_id}
                 </Typography>
               </Grid>
             </Grid>
@@ -56,10 +94,10 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Date:</b> {order.date}
+                  <b>Date:</b> {getDate(order.time)}
                 </Typography>
                 <Typography component="p">
-                  <b>Time:</b> {order.time}
+                  <b>Time:</b> {getTime(order.time)}
                 </Typography>
               </Grid>
             </Grid>
@@ -73,13 +111,13 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Customer Name: </b> {order.customerName}
+                  <b>Customer Name: </b> {order.user_name}
                 </Typography>
                 <Typography component="p">
-                  <b>Phone Number: </b> {order.phoneNum}
+                  <b>Phone Number: </b> {order.pnum}
                 </Typography>
                 <Typography component="p">
-                  <b>Locality: </b> {order.locality}
+                  <b>Pincode: </b> {order.pincode}
                 </Typography>
                 <Typography component="p">
                   <b>Address: </b> {order.address}
@@ -91,13 +129,14 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Item Count: </b> {order.itemsCount}
+                  <b>Item Count: </b> {getItemsCount(order.cart)}
                 </Typography>
                 <Typography component="p">
-                  <b>Total Price: </b> {order.netPrice}
+                  <b>Total Price: </b> {order.amount}
                 </Typography>
                 <Typography component="p">
-                  <b>Payment Type: </b> {order.paymentType}
+                  <b>Payment Type: </b>{" "}
+                  {order.cod ? "Cash On Delivery" : "Online Payment"}
                 </Typography>
               </Grid>
             </Grid>
@@ -130,8 +169,8 @@ function OrderDetails({ order }) {
           </Grid>
         </Grid>
       </div>
-      {order.products &&
-        order.products.map((product) => (
+      {getItemsCount(order.cart) > 0 &&
+        getItems(order.cart).map((product) => (
           <ProductSummary key={product.productId} product={product} />
         ))}
     </div>

@@ -13,24 +13,24 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductSummary({ product }) {
   const classes = useStyles();
-  console.log(product);
   return (
     <Paper className={classes.productDiv}>
       <Grid container spacing={1}>
-        <Grid item xs={2}>
-          <img src={product.imageData} width={"100%"} alt={product.title} />
-        </Grid>
         <Grid item xs={10}>
           <Typography variant="h6">
-            <b>{product.title}</b>
+            <b>
+              {product.title} ({product.variant})
+            </b>
           </Typography>
           <Typography component="p">
             {" "}
-            Price: <b>{product.price}</b>{" "}
+            quantity: <b>{product.quantity}</b>{" "}
           </Typography>
+        </Grid>
+        <Grid item xs={2} justify="flex-end">
           <Typography component="p">
             {" "}
-            Variant: <b>{product.varient}</b>{" "}
+            Price: <b>₹ {product.price}</b>{" "}
           </Typography>
         </Grid>
       </Grid>

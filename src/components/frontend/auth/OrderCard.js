@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Hidden } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   orderDiv: {
@@ -63,8 +64,18 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     textTransform: "none",
     margin: 4,
-    width: 150,
+    width: "100%",
     height: 36,
+    lineHeight: 1,
+  },
+  itemDiv: {
+    display: "contents",
+  },
+  moreDiv: {
+    color: "rgba(0,0,0,.8)",
+    fontSize: 12,
+    fontWeight: 700,
+    padding: 4,
   },
 }));
 
@@ -91,6 +102,8 @@ const getItemsCount = (cart) => {
 
 function OrderCard({ order }) {
   const classes = useStyles();
+  const maxCount = 3;
+
   return (
     <div className={classes.orderDiv}>
       <Grid container>
@@ -106,38 +119,80 @@ function OrderCard({ order }) {
           </div>
           <div className={classes.totalVal}>₹ {order.amount} </div>
         </Grid>
-        <Grid item container className={classes.itemGrid} xs={9}>
-          {getItems(order.cart).map((item) => (
-            <>
-              <Grid item xs={10}>
-                <div className={classes.title}>
-                  {item.name}({item.variant})
+        <Grid item container className={classes.itemGrid} xs={12} sm={9}>
+          {getItems(order.cart).map((item, idx) => {
+            if (idx === maxCount) {
+              return (
+                <Grid container justify="center">
+                  <Grid className={classes.moreDiv} item xs="auto">
+                    + {getItemsCount(order.cart) - maxCount} more
+                  </Grid>
+                </Grid>
+              );
+            } else if (idx <= maxCount - 1) {
+              return (
+                <div className={classes.itemDiv} key={idx}>
+                  <Grid item xs={10}>
+                    <div className={classes.title}>
+                      {item.name} ({item.variant})
+                    </div>
+                    <div className={classes.quantity}>
+                      Quantity: {item.quantity}{" "}
+                    </div>
+                  </Grid>
+                  <Grid item xs={2} justify="flex-end">
+                    <div className={classes.unitP}>₹ {item.price} </div>
+                  </Grid>
                 </div>
-                <div className={classes.quantity}>
-                  Quantity: {item.quantity}{" "}
-                </div>
-              </Grid>
-              <Grid item xs={2} justify="flex-end">
-                <div className={classes.unitP}>₹ {item.price} </div>
-              </Grid>
-            </>
-          ))}
+              );
+            }
+          })}
         </Grid>
-        <Grid item xs={3} className={classes.btnsGrid} container>
-          <Grid item xs="auto" justify="flex-end">
+        <Hidden xsDown>
+          <Grid
+            item
+            xs={3}
+            className={classes.btnsGrid}
+            container
+            justify="flex-end"
+          >
+            <Grid item xs="8">
+              <Button
+                component={Link}
+                to="/aboutus"
+                color="primary"
+                className={classes.orderBtn}
+                variant="contained"
+              >
+                Need Help
+              </Button>
+              <Button className={classes.orderBtn} variant="outlined">
+                Cancel Order
+              </Button>
+            </Grid>
+          </Grid>
+        </Hidden>
+      </Grid>
+      <Hidden smUp>
+        <Grid className={classes.btnsGrid} container justify="space-around">
+          <Grid item xs="auto">
             <Button
+              component={Link}
+              to="/aboutus"
               color="primary"
               className={classes.orderBtn}
               variant="contained"
             >
               Need Help
             </Button>
+          </Grid>
+          <Grid item xs="auto">
             <Button className={classes.orderBtn} variant="outlined">
               Cancel Order
             </Button>
           </Grid>
         </Grid>
-      </Grid>
+      </Hidden>
     </div>
   );
 }

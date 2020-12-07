@@ -45,6 +45,8 @@ app.post("/create_order", async (req, res) => {
         pincode: pincode,
         pnum: pnum,
         cod: true,
+        cancelled: false,
+        time: new Date(),
       });
       res.json({ msg: "COD ordered placed", code: 200 });
     } catch (err) {
@@ -97,6 +99,8 @@ app.post("/create_order", async (req, res) => {
         pnum: pnum,
         deliverd: false,
         cod: false,
+        cancelled: false,
+        time: new Date(),
       });
     } catch (err) {
       console.log(err);

@@ -78,6 +78,9 @@ function Account(props) {
               <h2>Orders</h2>
               {props.orders &&
                 props.orders.map((order) => <OrderCard order={order} />)}
+              {props.orders && props.orders.length === 0 && (
+                <p>No Previous Orders</p>
+              )}
             </div>
           </Grid>
         </Grid>

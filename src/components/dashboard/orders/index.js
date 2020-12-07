@@ -73,11 +73,6 @@ function Orders(props) {
     </div>
   );
 }
-// const mapDispatchtoProps = (dispatch) => {
-//   return {
-//     signOut: () => dispatch(signOut()),
-//   };
-// };
 
 const mapStatetoProps = (state) => {
   console.log(state.firestore.ordered.orders);

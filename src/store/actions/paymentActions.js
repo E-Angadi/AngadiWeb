@@ -110,3 +110,39 @@ export const resetPaymentState = () => {
     dispatch({ type: "RESET_PAY_STATE" });
   };
 };
+
+export const cancelOrder = (orderID) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("orders")
+      .doc(orderID)
+      .update({
+        cancelled: true,
+      })
+      .then(() => {
+        dispatch({ type: "CANCEL_SUCCESS", orderID: orderID });
+      })
+      .catch((err) => {
+        dispatch({ type: "CANCEL_ERR", err: err });
+      });
+  };
+};
+
+export const deliveredOrder = (orderID) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("orders")
+      .doc(orderID)
+      .update({
+        deliverd: true,
+      })
+      .then(() => {
+        dispatch({ type: "DELIVERED_SUCCESS", orderID: orderID });
+      })
+      .catch((err) => {
+        dispatch({ type: "DELIVERED_ERR", err: err });
+      });
+  };
+};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useTable from "../../common/useTable";
 import {
   makeStyles,
@@ -35,11 +35,6 @@ const headCells = [
 // FIXME: orderId is not wraping in tablecell
 // FIXME: table content is overflowing on small screen device
 
-const getTime = (time) => {
-  var date = new Date(time.toDate().toString());
-  return date.toLocaleTimeString("en-IN");
-};
-
 const getDate = (time) => {
   var date = new Date(time.toDate().toString());
   return (
@@ -54,12 +49,16 @@ const wrapStyle = {
 
 function OrdersTable({ orders, orderSelected, changeOrderSelected }) {
   const classes = useStyles();
-  const [records] = useState(orders);
+  const [records, setRecords] = useState(orders);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
     },
   });
+
+  useEffect(() => {
+    setRecords(orders);
+  }, [orders]);
 
   const {
     TblContainer,
@@ -102,10 +101,10 @@ function OrdersTable({ orders, orderSelected, changeOrderSelected }) {
       <TblContainer>
         <TblHead />
         <TableBody>
-          {recordsAfterPagingAndSorting().map((item) => {
+          {recordsAfterPagingAndSorting().map((item, idx) => {
             var isSelected = item === orderSelected;
             return (
-              <TableRow key={item.id}>
+              <TableRow key={idx}>
                 <TableCell style={wrapStyle}>{item.id} </TableCell>
                 <TableCell>{getDate(item.time)} </TableCell>
                 <TableCell>{item.amount} </TableCell>

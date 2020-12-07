@@ -10,6 +10,12 @@ import { Done, Clear } from "@material-ui/icons";
 import Tooltip from "@material-ui/core/Tooltip";
 import ProductSummary from "./ProductSummary";
 
+import {
+  cancelOrder,
+  deliveredOrder,
+} from "../../../store/actions/paymentActions";
+import { connect } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "80vh",
@@ -67,13 +73,21 @@ const getDate = (time) => {
   );
 };
 
-function OrderDetails({ order }) {
+function OrderDetails(props) {
   const classes = useStyles();
-  if (!order.time) {
+
+  const handleCancel = () => {
+    props.cancelOrder(props.order.id);
+  };
+
+  const handleDeliver = () => {
+    props.deliveredOrder(props.order.id);
+  };
+
+  if (!props.order.time) {
     return <div className={classes.root}></div>;
-  } else {
-    console.log(order);
   }
+
   return (
     <div className={classes.root}>
       <div className={classes.metadata}>
@@ -82,10 +96,10 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Order Id:</b> {order.id}
+                  <b>Order Id:</b> {props.order.id}
                 </Typography>
                 <Typography component="p">
-                  <b>Payment Id:</b> {order.payment_id}
+                  <b>Payment Id:</b> {props.order.payment_id}
                 </Typography>
               </Grid>
             </Grid>
@@ -94,10 +108,10 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Date:</b> {getDate(order.time)}
+                  <b>Date:</b> {getDate(props.order.time)}
                 </Typography>
                 <Typography component="p">
-                  <b>Time:</b> {getTime(order.time)}
+                  <b>Time:</b> {getTime(props.order.time)}
                 </Typography>
               </Grid>
             </Grid>
@@ -111,16 +125,16 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Customer Name: </b> {order.user_name}
+                  <b>Customer Name: </b> {props.order.user_name}
                 </Typography>
                 <Typography component="p">
-                  <b>Phone Number: </b> {order.pnum}
+                  <b>Phone Number: </b> {props.order.pnum}
                 </Typography>
                 <Typography component="p">
-                  <b>Pincode: </b> {order.pincode}
+                  <b>Pincode: </b> {props.order.pincode}
                 </Typography>
                 <Typography component="p">
-                  <b>Address: </b> {order.address}
+                  <b>Address: </b> {props.order.address}
                 </Typography>
               </Grid>
             </Grid>
@@ -129,14 +143,14 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Typography component="p">
-                  <b>Item Count: </b> {getItemsCount(order.cart)}
+                  <b>Item Count: </b> {getItemsCount(props.order.cart)}
                 </Typography>
                 <Typography component="p">
-                  <b>Total Price: </b> {order.amount}
+                  <b>Total Price: </b> {props.order.amount}
                 </Typography>
                 <Typography component="p">
                   <b>Payment Type: </b>{" "}
-                  {order.cod ? "Cash On Delivery" : "Online Payment"}
+                  {props.order.cod ? "Cash On Delivery" : "Online Payment"}
                 </Typography>
               </Grid>
             </Grid>
@@ -148,8 +162,12 @@ function OrderDetails({ order }) {
           <Grid item xs={6}>
             <Grid item container justify="center">
               <Grid item>
-                <Tooltip title="Done Order">
-                  <IconButton aria-label="done" className={classes.orderBtns}>
+                <Tooltip title="Delivered Order">
+                  <IconButton
+                    onClick={handleDeliver}
+                    aria-label="delivered"
+                    className={classes.orderBtns}
+                  >
                     <Done />
                   </IconButton>
                 </Tooltip>
@@ -160,7 +178,11 @@ function OrderDetails({ order }) {
             <Grid item container justify="center">
               <Grid item>
                 <Tooltip title="Cancel Order">
-                  <IconButton aria-label="cancel" className={classes.orderBtns}>
+                  <IconButton
+                    onClick={handleCancel}
+                    aria-label="cancel"
+                    className={classes.orderBtns}
+                  >
                     <Clear />
                   </IconButton>
                 </Tooltip>
@@ -169,12 +191,19 @@ function OrderDetails({ order }) {
           </Grid>
         </Grid>
       </div>
-      {getItemsCount(order.cart) > 0 &&
-        getItems(order.cart).map((product) => (
+      {getItemsCount(props.order.cart) > 0 &&
+        getItems(props.order.cart).map((product) => (
           <ProductSummary key={product.productId} product={product} />
         ))}
     </div>
   );
 }
 
-export default OrderDetails;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    cancelOrder: (id) => dispatch(cancelOrder(id)),
+    deliveredOrder: (id) => dispatch(deliveredOrder(id)),
+  };
+};
+
+export default connect(null, mapDispatchtoProps)(OrderDetails);

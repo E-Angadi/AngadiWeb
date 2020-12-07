@@ -48,6 +48,15 @@ const paymentReducer = (state = initstate, action) => {
       };
     case "RESET_PAY_STATE":
       return initstate;
+    case "CANCEL_SUCCESS":
+      return state;
+    case "CANCEL_ERR":
+      console.log("Order Cancel Error -" + action.err);
+      return state;
+    case "DELIVERED_SUCCESS":
+      return state;
+    case "DELIVERED_ERR":
+      return state;
     default:
       return state;
   }

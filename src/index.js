@@ -21,6 +21,7 @@ import {
 import firebaseConfig from "./config/firebaseConfig";
 import firebase from "firebase/app";
 import { composeWithDevTools } from "redux-devtools-extension";
+import Loading from "./components/frontend/Loading";
 
 const store = createStore(
   rootReducer,
@@ -32,7 +33,7 @@ const store = createStore(
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector((state) => state.firebase.auth);
-  if (!isLoaded(auth)) return <div>splash screen...</div>;
+  if (!isLoaded(auth)) return <Loading />;
   return children;
 }
 

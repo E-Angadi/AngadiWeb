@@ -130,11 +130,10 @@ function AddProductForm(props) {
       var taxValue = parseFloat(taxes[taxe].value, 10);
       console.log(taxValue);
       if (taxes[taxe].select === 0) {
-        totalPrice -= price * (taxValue / 100);
+        totalPrice += price * (taxValue / 100);
       } else {
-        totalPrice -= taxValue;
+        totalPrice += taxValue;
       }
-      console.log(totalPrice);
     }
 
     var taxedPrice = totalPrice;
@@ -221,12 +220,15 @@ function AddProductForm(props) {
 
   const onAddTax = () => {
     if (validateTax()) {
-      var tmp = values.taxes;
-      tmp.push({
-        name: values.taxName,
-        select: values.taxSelect,
-        value: values.tax,
-      });
+      var tmp = [
+        ...values.taxes,
+        {
+          name: values.taxName,
+          select: values.taxSelect,
+          value: values.tax,
+        },
+      ];
+
       setValues({
         ...values,
         taxes: tmp,

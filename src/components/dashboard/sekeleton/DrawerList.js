@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const base = "/myspace";
+const base = "/dashboard";
 
 const itemsList1 = [
   {

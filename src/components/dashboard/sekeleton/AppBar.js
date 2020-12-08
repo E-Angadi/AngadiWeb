@@ -8,6 +8,8 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -62,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TopAppBar({ props }) {
+function TopAppBar({ Pprops, auth, profile }) {
   const classes = useStyles();
   const logo = "/imgs/logo.png";
 
@@ -71,6 +73,15 @@ function TopAppBar({ props }) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  setTimeout(() => {
+    console.log(auth.uid);
+    console.log(profile);
+    if (!auth.uid || !profile.isAdmin) {
+      return <Redirect to="/" />;
+    }
+  }, 2000);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -105,7 +116,7 @@ function TopAppBar({ props }) {
         </Toolbar>
       </AppBar>
       <SideDrawer
-        {...props}
+        {...Pprops}
         open={mobileOpen}
         handleOpen={handleDrawerToggle}
       />
@@ -113,4 +124,11 @@ function TopAppBar({ props }) {
   );
 }
 
-export default TopAppBar;
+const mapStatetoProps = (state) => {
+  return {
+    profile: state.firebase.profile,
+    auth: state.firebase.auth,
+  };
+};
+
+export default connect(mapStatetoProps, null)(TopAppBar);

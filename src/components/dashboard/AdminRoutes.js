@@ -16,36 +16,36 @@ export class AdminRoutes extends Component {
     return (
       <div>
         <MuiThemeProvider theme={Admintheme}>
-          <AppBar props={this.props} />
+          <AppBar Pprops={this.props} />
           <Switch>
-            <Route exact path="/myspace" component={Orders} />
-            <Route exact path="/myspace/locations" component={Locations} />
+            <Route exact path="/dashboard" component={Orders} />
+            <Route exact path="/dashboard/locations" component={Locations} />
             <Route
               exact
-              path="/myspace/products/management"
+              path="/dashboard/products/management"
               component={ProductManagament}
             />
             <Route
               exact
-              path="/myspace/products/addproduct"
+              path="/dashboard/products/addproduct"
               component={AddProduct}
             />
             <Route
               exact
-              path="/myspace/products/addproduct/:productId"
+              path="/dashboard/products/addproduct/:productId"
               component={AddProduct}
             />
             <Route
               exact
-              path="/myspace/products/addcategory"
+              path="/dashboard/products/addcategory"
               component={AddCategory}
             />
             <Route
               exact
-              path="/myspace/products/combo"
+              path="/dashboard/products/combo"
               component={ComboManagement}
             />
-            <Route exact path="/myspace/banners" component={Banners} />
+            <Route exact path="/dashboard/banners" component={Banners} />
           </Switch>
         </MuiThemeProvider>
       </div>

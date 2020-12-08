@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button } from "@material-ui/core";
 import CartAddress from "../cart/CartAddress";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { signOut } from "../../../store/actions/authActions";
@@ -42,9 +42,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Account(props) {
   const classes = useStyles();
+  let history = useHistory();
 
   const handleLogout = () => {
     props.signOut();
+    history.push("/");
   };
 
   if (!props.auth.uid) return <Redirect to="/" />;

@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path="/myspace" component={AdminRoutes} />
+        <Route path="/dashboard" component={AdminRoutes} />
         <Route path="/" component={PublicRoutes} />
       </Switch>
     </div>

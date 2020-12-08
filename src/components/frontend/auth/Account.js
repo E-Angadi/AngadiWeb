@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { signOut } from "../../../store/actions/authActions";
+import { cancelOrder } from "../../../store/actions/paymentActions";
 
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
@@ -42,10 +43,6 @@ const useStyles = makeStyles((theme) => ({
 function Account(props) {
   const classes = useStyles();
 
-  useEffect(() => {
-    console.log(props.orders);
-  }, [props.orders]);
-
   const handleLogout = () => {
     props.signOut();
   };
@@ -77,7 +74,12 @@ function Account(props) {
             <div className={classes.ordersRoot}>
               <h2>Orders</h2>
               {props.orders &&
-                props.orders.map((order) => <OrderCard order={order} />)}
+                props.orders.map((order) => (
+                  <OrderCard
+                    cancelOrder={(id) => props.cancelOrder(id)}
+                    order={order}
+                  />
+                ))}
               {props.orders && props.orders.length === 0 && (
                 <p>No Previous Orders</p>
               )}
@@ -92,6 +94,7 @@ function Account(props) {
 const mapDispatchtoProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut()),
+    cancelOrder: (id) => dispatch(cancelOrder(id)),
   };
 };
 
@@ -109,7 +112,10 @@ export default compose(
     return [
       {
         collection: "orders",
-        where: [["user_id", "==", props.auth.uid]],
+        where: [
+          ["user_id", "==", props.auth.uid],
+          ["completed", "==", true],
+        ],
       },
     ];
   })

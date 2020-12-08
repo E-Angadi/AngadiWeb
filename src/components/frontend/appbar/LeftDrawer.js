@@ -144,7 +144,7 @@ function LeftDrawer(props) {
                   color="primary"
                   variant="outlined"
                   component={Link}
-                  to={props.auth.uid ? "/orders" : "/signup"}
+                  to={props.auth.uid ? "/account" : "/signup"}
                   onClick={handleClick}
                 >
                   {props.auth.uid ? "Orders" : "Sign Up"}

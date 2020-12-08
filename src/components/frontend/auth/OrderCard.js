@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Button, Hidden } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Hidden,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     padding: 4,
   },
+  dialog: {
+    minWidth: 300,
+  },
 }));
 
 const getItems = (cart) => {
@@ -100,9 +113,27 @@ const getItemsCount = (cart) => {
   return cart.split(",").length;
 };
 
-function OrderCard({ order }) {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+function OrderCard({ order, cancelOrder }) {
   const classes = useStyles();
   const maxCount = 3;
+  const [openAlert, setOpenAlert] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpenAlert(true);
+  };
+
+  const handleClose = () => {
+    setOpenAlert(false);
+  };
+
+  const handleCancelYes = () => {
+    cancelOrder(order.id);
+    handleClose();
+  };
 
   return (
     <div className={classes.orderDiv}>
@@ -110,10 +141,12 @@ function OrderCard({ order }) {
         <Grid item xs={6}>
           <div className={classes.status}>Order Status</div>
           <div className={classes.statusVal}>
-            {order.delivered ? "Delivered" : "Shipping"}
+            {order.deliverd && "Delivered"}
+            {order.cancelled && "Cancelled"}
+            {!order.deliverd && !order.cancelled && "Shipping"}
           </div>
         </Grid>
-        <Grid item xs={6} justify="flex-end">
+        <Grid item xs={6} container justify="flex-end">
           <div className={classes.total}>
             Order Total ({getItemsCount(order.cart)} items)
           </div>
@@ -140,7 +173,7 @@ function OrderCard({ order }) {
                       Quantity: {item.quantity}{" "}
                     </div>
                   </Grid>
-                  <Grid item xs={2} justify="flex-end">
+                  <Grid item xs={2} container justify="flex-end">
                     <div className={classes.unitP}>₹ {item.price} </div>
                   </Grid>
                 </div>
@@ -156,7 +189,7 @@ function OrderCard({ order }) {
             container
             justify="flex-end"
           >
-            <Grid item xs="8">
+            <Grid item xs={8}>
               <Button
                 component={Link}
                 to="/aboutus"
@@ -166,7 +199,12 @@ function OrderCard({ order }) {
               >
                 Need Help
               </Button>
-              <Button className={classes.orderBtn} variant="outlined">
+              <Button
+                onClick={handleClickOpen}
+                className={classes.orderBtn}
+                variant="outlined"
+                disabled={order.cancelled}
+              >
                 Cancel Order
               </Button>
             </Grid>
@@ -187,12 +225,40 @@ function OrderCard({ order }) {
             </Button>
           </Grid>
           <Grid item xs="auto">
-            <Button className={classes.orderBtn} variant="outlined">
+            <Button
+              onClick={handleClickOpen}
+              disabled={order.cancelled}
+              className={classes.orderBtn}
+              variant="outlined"
+            >
               Cancel Order
             </Button>
           </Grid>
         </Grid>
       </Hidden>
+      <Dialog
+        open={openAlert}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle className={classes.dialog}>Alert!</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Are you sure to cancel order ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelYes} color="primary">
+            Yes
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

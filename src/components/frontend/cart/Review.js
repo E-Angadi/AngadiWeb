@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Button } from "@material-ui/core";
 import ProductCard from "../product/ProductHCard";
@@ -6,6 +6,7 @@ import PaymentDetails from "./PaymentDetails";
 import CheckoutStepper from "./CheckoutStepper";
 import { Link } from "react-router-dom";
 import CartAddress from "./CartAddress";
+import AddressForm from "./AddressForm";
 
 import { connect } from "react-redux";
 import { loadCartItems } from "../../../store/actions/cartActions";
@@ -57,23 +58,30 @@ const useStyles = makeStyles((theme) => ({
 
 function Review(props) {
   const classes = useStyles();
-  if (!props.auth.uid) return <Redirect to="/signin" />;
+  const [proceed, setProceed] = useState(false);
 
   const proceedPayment = (cart, profile) => {
     return (
-      cart.length <= 0 &&
+      cart.length > 0 &&
       profile.delivery !== "" &&
       profile.pincode !== "" &&
-      profile.pNum
+      profile.pNum !== ""
     );
   };
+
+  useEffect(() => {
+    setProceed(proceedPayment(props.cart, props.profile));
+  }, [props.profile, props.cart]);
+
+  if (!props.auth.uid) return <Redirect to="/signin" />;
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} lg={8}>
           <span className={classes.cartTitle}>Select Delivery Address </span>
-          <CartAddress profile={props.profile} open={true} />
+          {/* <CartAddress profile={props.profile} open={true} /> */}
+          <AddressForm profile={props.profile} />
         </Grid>
         <Grid item xs={12} lg={4}>
           <CheckoutStepper activeStep={1} />
@@ -94,7 +102,7 @@ function Review(props) {
               className={classes.btn}
               variant="contained"
               color="primary"
-              disabled={!proceedPayment(props.cart, props.profile)}
+              disabled={!proceed}
             >
               Make Payment
             </Button>

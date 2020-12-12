@@ -92,6 +92,7 @@ export const updateUserInfo = (userID, userInfo) => {
       .collection("users")
       .doc(userID)
       .update({
+        name: userInfo.name,
         delivery: userInfo.main,
         pincode: userInfo.pincode,
         pNum: userInfo.phoneNum,

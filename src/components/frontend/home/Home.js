@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ImageCarousel from "./ImageCarousel";
+import RMCarousel from "./RMCarousel";
 import CategorySwiper from "../category/CategorySwiper";
 import ProductSwiper from "../product/ProductSwiper";
 
@@ -15,7 +15,7 @@ function Home() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <ImageCarousel />
+      <RMCarousel />
       <ProductSwiper title={"Top Deals"} />
       <CategorySwiper />
     </div>

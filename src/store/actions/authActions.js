@@ -101,3 +101,9 @@ export const updateUserInfo = (userID, userInfo) => {
       .catch((err) => dispatch({ type: "USER_UPDATE_FAILURE", err }));
   };
 };
+
+export const resetAuthErr = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "RESET_AUTH_ERR" });
+  };
+};

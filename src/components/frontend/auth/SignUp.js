@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
 import Form from "../../common/Form";
@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 
-import { signUp } from "../../../store/actions/authActions";
+import { signUp, resetAuthErr } from "../../../store/actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,19 +87,24 @@ const picodeSelect = [{ id: 0, title: "None" }];
 
 function SignUp(props) {
   const classes = useStyles();
-  const [dOpen, setDOpen] = useState(false);
+  const [dOpen, setDOpen] = useState({ open: false, msg: "" });
+
+  useEffect(() => {
+    if (props.authError !== null) {
+      setDOpen({ ...dOpen, open: true, msg: props.authError });
+      props.resetAuthErr();
+    }
+  }, [props.authError]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
       if (values.password !== values.confirmPassword) {
-        handleClickOpen();
+        handleDifferentPassword();
         return;
       }
       var locations = props.locations[0].locations.split(",");
       var pincode = locations[values.pincode - 1];
-      // console.log(locations);
-      // console.log(pincode);
       props.signUp({
         ...values,
         pincode: pincode,
@@ -107,12 +112,20 @@ function SignUp(props) {
     }
   };
 
+  const handleDifferentPassword = () => {
+    setDOpen({
+      ...dOpen,
+      open: true,
+      msg: "Please check your password fields",
+    });
+  };
+
   const handleClickOpen = () => {
-    setDOpen(true);
+    setDOpen({ ...dOpen, open: true });
   };
 
   const handleClose = () => {
-    setDOpen(false);
+    setDOpen({ ...dOpen, open: false });
   };
 
   const getPincodes = () => {
@@ -252,14 +265,14 @@ function SignUp(props) {
         </Grid>
       </Grid>
       <Dialog
-        open={dOpen}
+        open={dOpen.open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please check your password fields
+            {dOpen.msg}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -286,6 +299,7 @@ const mapStateToProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     signUp: (newUser) => dispatch(signUp(newUser)),
+    resetAuthErr: () => dispatch(resetAuthErr()),
   };
 };
 

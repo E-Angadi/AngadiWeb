@@ -114,7 +114,12 @@ function CartAddress(props) {
         ? ""
         : "We can't deliver to your area if your pincode is not in the list.";
     if ("phoneNum" in fieldValues)
-      tmp.phoneNum = fieldValues.phoneNum ? "" : "Phone Number is required.";
+      tmp.phoneNum =
+        fieldValues.phoneNum &&
+        fieldValues.phoneNum.length === 10 &&
+        fieldValues.phoneNum > 0
+          ? ""
+          : "Enter Valid Phone Number.";
     setErrors({
       ...tmp,
     });
@@ -177,15 +182,6 @@ function CartAddress(props) {
             Add / Change Address
           </Button>
         </Grid>
-        {!proceedPayment(props.profile) && (
-          <Grid item xs={12} container justify="center">
-            <Grid item xs="auto">
-              <p className={classes.infoErr}>
-                Fill all contact info proceed further..
-              </p>
-            </Grid>
-          </Grid>
-        )}
       </Grid>
       <Drawer anchor="right" open={open} onClose={closeDrawer}>
         <div className={classes.drawer}>

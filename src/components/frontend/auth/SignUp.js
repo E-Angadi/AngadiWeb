@@ -156,14 +156,17 @@ function SignUp(props) {
       tmp.confirmPassword = fieldValues.confirmPassword
         ? ""
         : "This field is required or check password again.";
-    if ("main" in fieldValues)
-      tmp.main = fieldValues.main ? "" : "Address is required.";
     if ("pincode" in fieldValues)
       tmp.pincode = fieldValues.pincode
         ? ""
         : "We can't deliver to your area if your pincode is not in the list.";
     if ("phoneNum" in fieldValues)
-      tmp.phoneNum = fieldValues.phoneNum ? "" : "Phone Number is required.";
+      tmp.phoneNum =
+        fieldValues.phoneNum &&
+        fieldValues.phoneNum.length === 10 &&
+        fieldValues.phoneNum > 0
+          ? ""
+          : "Phone Number is required.";
     setErrors({
       ...tmp,
     });
@@ -232,7 +235,7 @@ function SignUp(props) {
                 />
                 <Controls.InputArea
                   name="main"
-                  label="Delivery Address"
+                  label="Delivery Address (Optional)"
                   value={values.main}
                   onChange={handleInputChange}
                   error={errors.main}

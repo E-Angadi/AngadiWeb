@@ -68,12 +68,9 @@ function CartAddress(props) {
     setOpen(false);
   };
 
-  const proceedPayment = (cart, profile) => {
+  const proceedPayment = (profile) => {
     return (
-      cart.length <= 0 &&
-      profile.delivery !== "" &&
-      profile.pincode !== "" &&
-      profile.pNum
+      profile.delivery !== "" && profile.pincode !== "" && profile.pNum !== ""
     );
   };
 
@@ -180,7 +177,7 @@ function CartAddress(props) {
             Add / Change Address
           </Button>
         </Grid>
-        {!proceedPayment(props.cart, props.profile) && (
+        {!proceedPayment(props.profile) && (
           <Grid item xs={12} container justify="center">
             <Grid item xs="auto">
               <p className={classes.infoErr}>

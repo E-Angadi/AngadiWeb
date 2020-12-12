@@ -10,9 +10,9 @@ import { firestoreConnect } from "react-redux-firebase";
 const useStyles = makeStyles((theme) => ({
   imgStyles: {
     width: "100%",
-    height: "calc(100vw*0.1904)",
+    height: "calc(100vw*0.2)",
     [theme.breakpoints.down("xs")]: {
-      height: "calc(100vw*0.41758)",
+      height: "calc(100vw*0.42)",
     },
   },
 }));

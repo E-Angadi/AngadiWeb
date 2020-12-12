@@ -8,7 +8,7 @@ import { Link, Redirect } from "react-router-dom";
 
 import { connect } from "react-redux";
 
-import { signIn } from "../../../store/actions/authActions";
+import { signIn, anonymousSignup } from "../../../store/actions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,7 +115,10 @@ function SignIn(props) {
     validate
   );
 
-  const handleGuest = () => {};
+  const handleGuest = () => {
+    console.log("Hello World");
+    props.anonymousSignup();
+  };
 
   if (props.auth.uid) return <Redirect to="/" />;
 
@@ -192,6 +195,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     signIn: (creds) => dispatch(signIn(creds)),
+    anonymousSignup: () => dispatch(anonymousSignup()),
   };
 };
 

@@ -58,6 +58,33 @@ export const signUp = (user) => {
   };
 };
 
+export const anonymousSignup = () => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then((resp) => {
+        console.log(resp.user.uid);
+        return firestore.collection("users").doc(resp.user.uid).set({
+          name: resp.user.uid,
+          delivery: "",
+          pincode: "",
+          pNum: "",
+          isAdmin: false,
+          isGuest: true,
+          cart: "",
+        });
+      })
+      .then(() => {
+        dispatch({ type: "SIGNUP_SUCCESS" });
+        dispatch(syncCart());
+      })
+      .catch((err) => dispatch({ type: "SGINUP_ERR", err }));
+  };
+};
+
 export const updateUserInfo = (userID, userInfo) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();

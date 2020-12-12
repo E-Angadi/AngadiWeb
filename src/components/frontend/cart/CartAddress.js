@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: 280,
   },
+  infoErr: {
+    color: "red",
+  },
 }));
 
 const picodeSelect = [{ id: 0, title: "None" }];
@@ -63,6 +66,15 @@ function CartAddress(props) {
 
   const closeDrawer = () => {
     setOpen(false);
+  };
+
+  const proceedPayment = (cart, profile) => {
+    return (
+      cart.length <= 0 &&
+      profile.delivery !== "" &&
+      profile.pincode !== "" &&
+      profile.pNum
+    );
   };
 
   useEffect(() => {
@@ -168,6 +180,15 @@ function CartAddress(props) {
             Add / Change Address
           </Button>
         </Grid>
+        {!proceedPayment(props.cart, props.profile) && (
+          <Grid item xs={12} container justify="center">
+            <Grid item xs="auto">
+              <p className={classes.infoErr}>
+                Fill all contact info proceed further..
+              </p>
+            </Grid>
+          </Grid>
+        )}
       </Grid>
       <Drawer anchor="right" open={open} onClose={closeDrawer}>
         <div className={classes.drawer}>
@@ -208,6 +229,8 @@ const mapStateToProps = (state) => {
   return {
     locations: state.firestore.ordered.locations,
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
+    cart: state.cart.items,
   };
 };
 

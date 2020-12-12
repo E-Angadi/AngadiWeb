@@ -59,6 +59,15 @@ function Review(props) {
   const classes = useStyles();
   if (!props.auth.uid) return <Redirect to="/signin" />;
 
+  const proceedPayment = (cart, profile) => {
+    return (
+      cart.length <= 0 &&
+      profile.delivery !== "" &&
+      profile.pincode !== "" &&
+      profile.pNum
+    );
+  };
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -85,7 +94,7 @@ function Review(props) {
               className={classes.btn}
               variant="contained"
               color="primary"
-              disabled={props.cart.length <= 0}
+              disabled={!proceedPayment(props.cart, props.profile)}
             >
               Make Payment
             </Button>

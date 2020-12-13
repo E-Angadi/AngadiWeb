@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import ProductCard from "../product/ProductCard";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   productRoot: {
@@ -54,7 +55,7 @@ function ProductGrid(props) {
   const handleChange = (event, value) => {
     setPage(value);
   };
-  const pageLimit = 25;
+  const pageLimit = configs.maxPageCards;
   const { data } = props;
 
   return (

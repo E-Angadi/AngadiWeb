@@ -35,16 +35,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const searchFilter = (data, search) => {
-//   if (search === "") {
-//     return data;
-//   }
-//   const res = data.filter((obj) =>
-//     obj.name.toLowerCase().includes(search.toLowerCase())
-//   );
-//   return res;
-// };
-
 function SearchProduct(props) {
   const classes = useStyles();
   const search = props.match.params.searchParam;
@@ -70,11 +60,6 @@ function SearchProduct(props) {
     </div>
   );
 }
-
-// const capitalize = (s) => {
-//   if (typeof s !== "string") return "";
-//   return s.charAt(0).toUpperCase() + s.slice(1);
-// };
 
 const mapStateToProps = (state) => {
   console.log(state);

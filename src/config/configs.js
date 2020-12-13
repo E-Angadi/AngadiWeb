@@ -22,3 +22,6 @@ configs.viewall = "#900325";
 configs.razorpay = {
   key_id: "rzp_test_lxD9jsRSbpBOAz",
 };
+
+// max cards in single pagination
+configs.maxPageCards = 20;

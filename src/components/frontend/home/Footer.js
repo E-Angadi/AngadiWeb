@@ -2,10 +2,11 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#c5c5c5",
+    backgroundColor: theme.palette.footer.main,
     padding: theme.spacing(2),
     paddingTop: theme.spacing(3),
     boxSizing: "border-box",
@@ -92,26 +93,23 @@ function Footer() {
             </ul>
             <div className={classes.services}>Download App</div>
             <a
-              href="https://www.google.com/"
+              href={configs.contactInfo.androidAppLink}
               target="_blank"
               rel="noopener noreferrer"
               className={classes.downloadImg}
             >
               <img
                 src="/imgs/play_store.png"
-                alt="Download suryakantham app from playstore"
+                alt="Download app from playstore"
               />
             </a>
 
             <a
-              href="https://www.google.com/"
+              href={configs.contactInfo.iosAppLink}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                src="/imgs/ios_store.png"
-                alt="Download suryakantham app from appsrore"
-              />
+              <img src="/imgs/ios_store.png" alt="Download app from appstore" />
             </a>
           </Grid>
         </Grid>
@@ -128,11 +126,15 @@ function Footer() {
               {" "}
               WhatsApp us :{" "}
               <a
-                href="https://wa.me/917000370003?text=Hi"
+                href={
+                  "https://wa.me/" +
+                  configs.contactInfo.watsappNum +
+                  "?text=Needed support"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                7981415977
+                {configs.contactInfo.watsappNum}
               </a>
             </span>
             <span className={classes.footerSpan}>
@@ -140,7 +142,7 @@ function Footer() {
               delayed deliveries, billing errors or other problems, Kindly email
               us on{" "}
               <a
-                href="mailto:t.bharathchandra@gmail.com"
+                href={"mailto:" + configs.contactInfo.email}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -153,9 +155,7 @@ function Footer() {
       <Divider />
       <Grid container justify="center" alignItems="center">
         <Grid item>
-          <span className={classes.copyright}>
-            &#169; Suryakantham Sahajahara
-          </span>
+          <span className={classes.copyright}>&#169; {configs.title}</span>
         </Grid>
       </Grid>
     </footer>

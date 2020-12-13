@@ -15,6 +15,7 @@ import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 import { signUp, resetAuthErr } from "../../../store/actions/authActions";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -120,10 +121,6 @@ function SignUp(props) {
     });
   };
 
-  const handleClickOpen = () => {
-    setDOpen({ ...dOpen, open: true });
-  };
-
   const handleClose = () => {
     setDOpen({ ...dOpen, open: false });
   };
@@ -190,8 +187,8 @@ function SignUp(props) {
             <div className={classes.imageDiv}>
               <img
                 className={classes.logo}
-                src="/imgs/logo1.png"
-                alt="suryakantham sahajahara"
+                src="/imgs/logo.png"
+                alt={configs.title}
               />
             </div>
             <Divider className={classes.divider} />

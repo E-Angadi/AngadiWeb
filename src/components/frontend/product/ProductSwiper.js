@@ -14,6 +14,7 @@ import "swiper/components/pagination/pagination.scss";
 import "swiper/components/scrollbar/scrollbar.scss";
 
 import { loadSpecials } from "../../../store/actions/productActions";
+import { configs } from "../../../config/configs";
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   viewall: {
     float: "right",
-    color: "#900325",
+    color: configs.viewall,
     fontWeight: 700,
     [theme.breakpoints.down("sm")]: {
       fontWeight: 600,

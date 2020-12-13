@@ -5,7 +5,6 @@ import ProductCard from "../product/ProductHCard";
 import PaymentDetails from "./PaymentDetails";
 import CheckoutStepper from "./CheckoutStepper";
 import { Link } from "react-router-dom";
-import CartAddress from "./CartAddress";
 import AddressForm from "./AddressForm";
 
 import { connect } from "react-redux";

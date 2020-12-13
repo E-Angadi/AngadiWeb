@@ -9,6 +9,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { signIn, anonymousSignup } from "../../../store/actions/authActions";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -130,8 +131,8 @@ function SignIn(props) {
             <div className={classes.imageDiv}>
               <img
                 className={classes.logo}
-                src="/imgs/logo1.png"
-                alt="suryakantham sahajahara"
+                src="/imgs/logo.png"
+                alt={configs.title}
               />
             </div>
             <Divider className={classes.divider} />

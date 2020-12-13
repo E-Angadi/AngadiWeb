@@ -19,6 +19,7 @@ import {
   verifyOrder,
   resetPaymentState,
 } from "../../../store/actions/paymentActions";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,14 +104,13 @@ function Payment(props) {
       return;
     }
     var options = {
-      key: "rzp_test_lxD9jsRSbpBOAz",
+      key: configs.razorpay.key_id,
       amount: calcTPrice(props.cart) * 100,
       currency: "INR",
-      name: "Suryakantham Sahajahaara",
-      description: "Buy authentic Indian groceries and Ayurvedam products",
+      name: configs.title,
+      description: configs.description,
       order_id: props.order_id,
       handler: (res) => {
-        console.log(res);
         props.verifyOrder(
           res.razorpay_signature,
           res.razorpay_order_id,
@@ -123,7 +123,7 @@ function Payment(props) {
         contact: props.profile.pNum,
       },
       theme: {
-        color: "#E1F5FE",
+        color: configs.secondary,
       },
       modal: {
         ondismiss: () => {

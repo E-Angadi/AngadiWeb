@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MyAppBar(props) {
   const classes = useStyles();
-  const logo = "/imgs/logo1.png";
+  const logo = "/imgs/logo.png";
   const trigger = useScrollTrigger({
     disableHysteresis: true,
   });

@@ -3,7 +3,6 @@ import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
 import Close from "@material-ui/icons/Close";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -12,6 +11,8 @@ import LeftDrawerList from "./LeftDrawerList";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
+
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     width: "245px",
     padding: theme.spacing(2),
-    backgroundColor: "#E1F5FE",
+    backgroundColor: theme.palette.secondary.main,
   },
 }));
 
@@ -161,22 +162,26 @@ function LeftDrawer(props) {
             {" "}
             WhatsApp us :{" "}
             <a
-              href="https://wa.me/917000370003?text=Hi"
+              href={
+                "https://wa.me/" +
+                configs.contactInfo.watsappNum +
+                "?text=Needed support"
+              }
               target="_blank"
               rel="noopener noreferrer"
             >
-              7981415977
+              {configs.contactInfo.watsappNum}
             </a>
           </span>
           <span className={classes.footerSpan}>
             If you encounter any bugs, glitches, lack of functionality, delayed
             deliveries, billing errors or other problems, Kindly email us on{" "}
             <a
-              href="mailto:t.bharathchandra@gmail.com"
+              href={"mailto:" + configs.contactInfo.email}
               target="_blank"
               rel="noopener noreferrer"
             >
-              t.bharathchandra@gmail.com
+              Email
             </a>
           </span>
           <h3 className={classes.headingFooter}>Download App</h3>
@@ -188,25 +193,25 @@ function LeftDrawer(props) {
           >
             <Grid item xs={6}>
               <a
-                href="https://www.google.com/"
+                href={configs.contactInfo.androidAppLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img
                   src="/imgs/play_store.png"
-                  alt="Download suryakantham app from playstore"
+                  alt="Download app from playstore"
                 />
               </a>
             </Grid>
             <Grid item xs={6}>
               <a
-                href="https://www.google.com/"
+                href={configs.contactInfo.iosAppLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img
                   src="/imgs/ios_store.png"
-                  alt="Download suryakantham app from appsrore"
+                  alt="Download app from appsrore"
                 />
               </a>
             </Grid>

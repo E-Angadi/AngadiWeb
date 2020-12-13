@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadCategories } from "../../../store/actions/categoryActions";
+import { configs } from "../../../config/configs";
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
   viewall: {
     float: "right",
-    color: "#900325",
+    color: configs.viewall,
     fontWeight: 700,
     [theme.breakpoints.down("sm")]: {
       fontWeight: 600,

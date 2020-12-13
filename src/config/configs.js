@@ -1,11 +1,11 @@
 export const configs = {};
 
-configs.title = "Suryakantham Sahajahaara";
-configs.description = "Buy authentic Indian groceries and Ayurvedam products";
+configs.title = "E Angadi";
+configs.description = "Buy Online from Angadi | All payment options available";
 
 configs.contactInfo = {
-  email: "t.bharathchandra@gmail.com",
-  watsappNum: "7981415977",
+  email: "example@gmail.com",
+  watsappNum: "9999999999",
   androidAppLink: "#",
   iosAppLink: "#",
 };

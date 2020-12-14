@@ -24,7 +24,7 @@ const picodeSelect = [{ id: 0, title: "None" }];
 const initialFValues = {
   name: "",
   main: "",
-  pincode: "",
+  pincode: 0,
   phoneNum: "",
 };
 
@@ -56,6 +56,8 @@ function AddressForm(props) {
 
   const checkChange = (profile, values) => {
     var pincodes = getPincodes();
+    if (pincodes.length < 1) return false;
+    console.log(values.pincode);
     return (
       profile.name === values.name &&
       profile.delivery === values.main &&
@@ -81,7 +83,7 @@ function AddressForm(props) {
       main: props.profile.delivery ? props.profile.delivery : "",
       pincode: props.profile.pincode
         ? getPincodeIndex(props.profile.pincode)
-        : "",
+        : 0,
       phoneNum: props.profile.pNum ? props.profile.pNum : "",
     });
   }, [props.profile]);

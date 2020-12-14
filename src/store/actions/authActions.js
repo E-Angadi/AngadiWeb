@@ -70,7 +70,7 @@ export const anonymousSignup = () => {
         return firestore.collection("users").doc(resp.user.uid).set({
           name: resp.user.uid,
           delivery: "",
-          pincode: "",
+          pincode: 0,
           pNum: "",
           isAdmin: false,
           isGuest: true,

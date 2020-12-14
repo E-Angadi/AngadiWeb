@@ -1,5 +1,20 @@
-# Angadi-Web-Firebase
+<p align="center">
+  <a href="https://github.com/E-Angadi/AngadiWeb">
+    <img src="public/imgs/logo.png" alt="Logo" width="500" height="150">
+  </a>
 
-### A easy to deploy e-commerce web application for small and medium businesses with firebase as backend.
+  <h3 align="center">E Angadi</h3>
 
-## :construction: Work in Progress :construction:
+  <p align="center">
+    A fully configurable e-commerce web application with dashboard using Firebase at backend. 
+    <br />
+    <a href="https://github.com/E-Angadi/AngadiWeb"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/E-Angadi/AngadiWeb">View Demo</a>
+    ·
+    <a href="https://github.com/E-Angadi/AngadiWeb/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/E-Angadi/AngadiWeb/issues">Request Feature</a>
+  </p>
+</p>

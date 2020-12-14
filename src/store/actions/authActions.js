@@ -46,6 +46,7 @@ export const signUp = (user) => {
           pincode: user.pincode,
           pNum: user.phoneNum,
           isAdmin: false,
+          isGuest: false,
           cart: "",
         });
       })
@@ -66,9 +67,9 @@ export const anonymousSignup = () => {
       .signInAnonymously()
       .then((resp) => {
         return firestore.collection("users").doc(resp.user.uid).set({
-          name: resp.user.uid,
+          name: "GUEST",
           delivery: "",
-          pincode: 0,
+          pincode: "None",
           pNum: "",
           isAdmin: false,
           isGuest: true,

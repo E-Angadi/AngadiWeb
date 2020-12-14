@@ -35,6 +35,11 @@ function AddressForm(props) {
     let tmp = { ...errors };
     if ("main" in fieldValues)
       tmp.main = fieldValues.main ? "" : "Address is required.";
+    if ("name" in fieldValues)
+      tmp.name =
+        fieldValues.name && fieldValues.name !== "GUEST"
+          ? ""
+          : "Please provide your name";
     if ("pincode" in fieldValues)
       tmp.pincode = fieldValues.pincode
         ? ""
@@ -57,6 +62,8 @@ function AddressForm(props) {
   const checkChange = (profile, values) => {
     var pincodes = getPincodes();
     if (pincodes.length < 1) return false;
+    console.log(profile.pincode);
+    console.log(pincodes[values.pincode]);
     return (
       profile.name === values.name &&
       profile.delivery === values.main &&
@@ -71,7 +78,7 @@ function AddressForm(props) {
       main: props.profile.delivery ? props.profile.delivery : "",
       pincode: props.profile.pincode
         ? getPincodeIndex(props.profile.pincode)
-        : "",
+        : 0,
       phoneNum: props.profile.pNum ? props.profile.pNum : "",
     });
   };

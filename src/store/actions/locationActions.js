@@ -16,3 +16,11 @@ export const writeLocations = (pincodes) => {
       });
   };
 };
+
+export const openCheckDialog = () => {
+  return (dispatch) => dispatch({ type: "OPEN_PINCODE_DIALOG" });
+};
+
+export const closeCheckDialog = () => {
+  return (dispatch) => dispatch({ type: "CLOSE_PINCODE_DIALOG" });
+};

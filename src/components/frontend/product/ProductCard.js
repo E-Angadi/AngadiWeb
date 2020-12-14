@@ -6,6 +6,11 @@ import { Link } from "react-router-dom";
 
 import { addItem, removeItem } from "../../../store/actions/cartActions";
 import { connect } from "react-redux";
+import {
+  openCheckDialog,
+  closeCheckDialog,
+} from "../../../store/actions/locationActions";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -167,8 +172,10 @@ function ProductCard(props) {
   }, [props.cart]);
 
   const handleAdd = () => {
+    if (props.cart.length === 0 && configs.openPincodeEmptyCart) {
+      props.openCheckDialog();
+    }
     props.addItem(productData);
-    // plusCount();
   };
 
   const plusCount = () => {
@@ -248,6 +255,7 @@ function ProductCard(props) {
 const mapStateToProps = (state) => {
   return {
     cart: state.cart.items,
+    openPincodesCheck: state.location.openCheck,
   };
 };
 
@@ -255,6 +263,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addItem: (item) => dispatch(addItem(item)),
     removeItem: (item) => dispatch(removeItem(item)),
+    openCheckDialog: () => dispatch(openCheckDialog()),
+    closeCheckDialog: () => dispatch(closeCheckDialog()),
   };
 };
 

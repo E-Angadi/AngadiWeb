@@ -25,3 +25,6 @@ configs.razorpay = {
 
 // max cards in single pagination
 configs.maxPageCards = 20;
+
+// Open Pincodes check dialog when user clicks on "Add to my cart" button when the cart is empty
+configs.openPincodeEmptyCart = false;

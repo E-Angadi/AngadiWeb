@@ -19,6 +19,11 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 
+import {
+  openCheckDialog,
+  closeCheckDialog,
+} from "../../../store/actions/locationActions";
+
 const useStyles = makeStyles((theme) => ({
   catDelivery: {
     background: "url(/imgs/location-on.svg) left center no-repeat",
@@ -121,17 +126,16 @@ function OrDivider() {
 
 function PincodeDialog(props) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const [pincode, setPincode] = useState("");
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState("");
 
   const handleClickOpen = () => {
-    setOpen(true);
+    props.openCheckDialog();
   };
 
   const handleClose = () => {
-    setOpen(false);
+    props.closeCheckDialog();
   };
 
   const title = "Choose your location";
@@ -172,7 +176,7 @@ function PincodeDialog(props) {
       </div>
       <Hidden xsDown>
         <Dialog
-          open={open}
+          open={props.open}
           onClose={handleClose}
           aria-labelledby="pincode-check-dialog"
         >
@@ -219,7 +223,7 @@ function PincodeDialog(props) {
         </Dialog>
       </Hidden>
       <Hidden smUp>
-        <Drawer anchor={"bottom"} open={open} onClose={handleClose}>
+        <Drawer anchor={"bottom"} open={props.open} onClose={handleClose}>
           <span className={classes.titlesm}> {title} </span>
           <span className={classes.contentTextSm}>{contentText} </span>
           <SignInBtn handleSignIn={handleClose} />
@@ -260,10 +264,18 @@ function PincodeDialog(props) {
 const mapStateToProps = (state) => {
   return {
     locations: state.firestore.ordered.locations,
+    open: state.location.openCheck,
+  };
+};
+
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    openCheckDialog: () => dispatch(openCheckDialog()),
+    closeCheckDialog: () => dispatch(closeCheckDialog()),
   };
 };
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchtoProps),
   firestoreConnect([{ collection: "locations" }])
 )(PincodeDialog);

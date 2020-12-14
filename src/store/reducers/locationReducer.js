@@ -1,4 +1,6 @@
-const initstate = {};
+const initstate = {
+  openCheck: false,
+};
 
 const locationReducer = (state = initstate, action) => {
   switch (action.type) {
@@ -6,6 +8,16 @@ const locationReducer = (state = initstate, action) => {
       return state;
     case "WRITE_LOCATIONS_ERR":
       return state;
+    case "OPEN_PINCODE_DIALOG":
+      return {
+        ...state,
+        openCheck: true,
+      };
+    case "CLOSE_PINCODE_DIALOG":
+      return {
+        ...state,
+        openCheck: false,
+      };
     default:
       return state;
   }

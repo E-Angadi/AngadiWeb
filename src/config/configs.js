@@ -25,6 +25,10 @@ configs.razorpay = {
 
 // max cards in single pagination
 configs.maxPageCards = 20;
+// max categories on category bar below header
+configs.maxCategoriesOnBar = 16;
+// max categories on category box
+configs.maxCategoriesInBox = 16;
 
 // Open Pincodes check dialog when user clicks on "Add to my cart" button when the cart is empty
 configs.openPincodeEmptyCart = false;

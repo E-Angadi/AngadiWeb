@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { loadCategories } from "../../../store/actions/categoryActions";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +49,7 @@ const sliceCat = (categories, limit = 15) => {
 
 function CategoriesBox(props) {
   const classes = useStyles();
-  const scat = sliceCat(props.categories);
+  const scat = sliceCat(props.categories, configs.maxCategoriesInBox);
 
   useEffect(() => {
     props.loadCategories();

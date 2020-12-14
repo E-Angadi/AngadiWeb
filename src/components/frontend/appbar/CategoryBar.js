@@ -6,6 +6,7 @@ import PincodeDialog from "./PincodeDialog";
 import { connect } from "react-redux";
 
 import { loadCategories } from "../../../store/actions/categoryActions";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   catBarRoot: {
@@ -54,11 +55,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const catLimit = 8;
-
 function CategoryBar(props) {
   const classes = useStyles();
-
+  const catLimit = configs.maxCategoriesOnBar;
   useEffect(() => {
     props.loadCategories();
   }, []);

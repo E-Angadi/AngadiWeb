@@ -58,16 +58,13 @@ export default function UploadImageButton(props) {
         maxFileSize={5000000}
         open={open}
         onAdd={(newFileObjs) => {
-          console.log("onAdd", newFileObjs);
           if (fileObjects.length >= filesLimit && filesLimit === 1) {
-            console.log("inside condition");
             setAlertOpen(true);
           } else {
             setFileObjects([].concat(fileObjects, newFileObjs));
           }
         }}
         onDelete={(deleteFileObj) => {
-          console.log("onDelete", deleteFileObj);
           var newFileObjs = fileObjects;
           var index = newFileObjs.indexOf(deleteFileObj);
           if (index !== -1) {
@@ -81,7 +78,6 @@ export default function UploadImageButton(props) {
           setFileObjects([]);
         }}
         onSave={() => {
-          console.log("onSave", fileObjects);
           setOpen(false);
           callbackSave(fileObjects, true);
           setFileObjects([]);

@@ -57,7 +57,6 @@ function AddressForm(props) {
   const checkChange = (profile, values) => {
     var pincodes = getPincodes();
     if (pincodes.length < 1) return false;
-    console.log(values.pincode);
     return (
       profile.name === values.name &&
       profile.delivery === values.main &&

@@ -40,7 +40,6 @@ export const signUp = (user) => {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((resp) => {
-        console.log(resp.user.uid);
         return firestore.collection("users").doc(resp.user.uid).set({
           name: user.username,
           delivery: user.main,
@@ -66,7 +65,6 @@ export const anonymousSignup = () => {
       .auth()
       .signInAnonymously()
       .then((resp) => {
-        console.log(resp.user.uid);
         return firestore.collection("users").doc(resp.user.uid).set({
           name: resp.user.uid,
           delivery: "",

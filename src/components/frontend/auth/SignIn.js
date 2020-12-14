@@ -117,7 +117,6 @@ function SignIn(props) {
   );
 
   const handleGuest = () => {
-    console.log("Hello World");
     props.anonymousSignup();
   };
 

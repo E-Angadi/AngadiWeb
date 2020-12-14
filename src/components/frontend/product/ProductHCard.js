@@ -128,7 +128,6 @@ function ProductHCard(props) {
 
   useEffect(() => {
     var cartP = props.cart.find((x) => x.id === props.item.id);
-    console.log(cartP);
     if (cartP) {
       setCount(cartP.quantity);
     } else {

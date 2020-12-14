@@ -159,7 +159,6 @@ function ProductCard(props) {
 
   useEffect(() => {
     var cartP = props.cart.find((x) => x.id === productData.id);
-    console.log(cartP);
     if (cartP) {
       setCount(cartP.quantity);
     } else {

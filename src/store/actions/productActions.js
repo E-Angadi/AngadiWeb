@@ -133,7 +133,6 @@ export const loadSpecials = () => {
           });
         })
         .then((specials) => {
-          console.log(specials);
           dispatch({ type: "LOAD_SPECIALS", specials });
         });
     }

@@ -125,7 +125,6 @@ function ImageCarousel(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     banners: state.firestore.ordered.banners,
   };

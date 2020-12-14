@@ -62,7 +62,6 @@ function SearchProduct(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     products: state.firestore.ordered.products,
     categories: state.firestore.ordered.categories,

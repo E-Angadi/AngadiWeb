@@ -79,7 +79,6 @@ function Review(props) {
       <Grid container spacing={3}>
         <Grid item xs={12} lg={8}>
           <span className={classes.cartTitle}>Select Delivery Address </span>
-          {/* <CartAddress profile={props.profile} open={true} /> */}
           <AddressForm profile={props.profile} />
         </Grid>
         <Grid item xs={12} lg={4}>

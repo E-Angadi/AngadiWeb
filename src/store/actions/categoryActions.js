@@ -174,7 +174,6 @@ export const disableSubmit = () => {
 export const loadCategories = () => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-    console.log("load categories called");
     var state = getState();
     if (state.category.categories.length === 0) {
       firestore
@@ -187,7 +186,6 @@ export const loadCategories = () => {
           });
         })
         .then((categories) => {
-          console.log(categories);
           dispatch({ type: "LOAD_CATEGORIES", categories });
         });
     }

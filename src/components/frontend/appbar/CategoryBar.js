@@ -54,8 +54,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// TODO: hook actual category with link to category view
-
 const catLimit = 8;
 
 function CategoryBar(props) {

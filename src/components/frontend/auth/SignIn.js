@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider, Button } from "@material-ui/core";
 import Form from "../../common/Form";
@@ -6,9 +6,18 @@ import useForm from "../../common/useForm";
 import Controls from "../../common/controls/Controls";
 import { Link, Redirect } from "react-router-dom";
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+
 import { connect } from "react-redux";
 
-import { signIn, anonymousSignup } from "../../../store/actions/authActions";
+import {
+  signIn,
+  anonymousSignup,
+  resetAuthErr,
+} from "../../../store/actions/authActions";
 import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
@@ -89,6 +98,18 @@ const initialFValues = {
 
 function SignIn(props) {
   const classes = useStyles();
+  const [dOpen, setDOpen] = useState({ open: false, msg: "" });
+
+  useEffect(() => {
+    if (props.authError !== null) {
+      setDOpen({ ...dOpen, open: true, msg: props.authError });
+      props.resetAuthErr();
+    }
+  }, [props.authError]);
+
+  const handleClose = () => {
+    setDOpen({ ...dOpen, open: false });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -181,6 +202,26 @@ function SignIn(props) {
           </Button>
         </Grid>
       </Grid>
+      <Dialog
+        open={dOpen.open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {dOpen.msg}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Controls.Button
+            className={classes.btn}
+            text="Cancel"
+            type="cancel"
+            onClick={handleClose}
+          />
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
@@ -196,6 +237,7 @@ const mapDispatchtoProps = (dispatch) => {
   return {
     signIn: (creds) => dispatch(signIn(creds)),
     anonymousSignup: () => dispatch(anonymousSignup()),
+    resetAuthErr: () => dispatch(resetAuthErr()),
   };
 };
 

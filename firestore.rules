@@ -4,23 +4,22 @@ service cloud.firestore {
   
     match /banners/{document} {
     	allow read: if true
-      allow write, update, delete: 
+      allow write, update, delete, create: 
         if request.auth != null 
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
     }
     
     match /products/{document} {
     	allow read: 
-      	if resource.data.visibility == true 
-        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
-      allow write, update, delete: 
+      	if true
+      allow write, update, delete, create: 
         if request.auth != null 
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
     }
     
     match /categories/{document} {
     	allow read: if true
-      allow write, update, delete: 
+      allow write, update, delete, create: 
         if request.auth != null 
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
     }
@@ -33,7 +32,7 @@ service cloud.firestore {
     }
     
     match /orders/{document} {
-    	allow read, write, update:
+        allow read, write, update, create:
       	if request.auth != null
         && (resource.data.user_id == request.auth.uid
         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true)
@@ -47,10 +46,21 @@ service cloud.firestore {
       	if request.auth != null
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
     	
-      allow read, write, update:
+      allow read:
       	if request.auth != null
         && (request.auth.uid == userId 
         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true)
+        
+      allow write, update:
+      	if request.auth != null
+        && (request.auth.uid == userId 
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true)
+        && (!('isAdmin' in request.resource.data) 
+        || request.resource.data['isAdmin'] != true)
+        
+      allow create:
+      	if request.resource.data['isAdmin'] != true
     }
+    
   }
 }

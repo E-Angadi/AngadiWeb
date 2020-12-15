@@ -8,7 +8,7 @@
   <p align="center">
     A fully configurable e-commerce web application with dashboard using Firebase at backend. 
     <br />
-    <a href="https://github.com/E-Angadi/AngadiWeb"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/E-Angadi/AngadiWeb" target="blank"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://eangadi-a2aa8.web.app/">View Demo</a>

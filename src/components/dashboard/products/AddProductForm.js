@@ -254,7 +254,7 @@ function AddProductForm(props) {
           <Grid item>
             <Controls.Button
               component={Link}
-              to="/myspace/products/addcategory"
+              to="/dashboard/products/addcategory"
               text={"Add categories"}
               color="primary"
             />

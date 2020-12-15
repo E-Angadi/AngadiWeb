@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     width: 170,
   },
   paperTitle: {
-    height: "50px",
+    height: "40px",
     display: "inline-block",
     fontSize: "1.2rem",
     fontWeight: 600,
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1rem",
     },
     overflow: "hidden",
+    color: "#000000",
   },
 }));
 

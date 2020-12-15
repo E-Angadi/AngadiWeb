@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   paperRoot: {
     padding: theme.spacing(1),
-    color: theme.palette.primary.main,
+    color: "#000000",
     fontWeight: 400,
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
@@ -20,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
   paperTitle: {
     height: "50px",
     display: "inline-block",
-    fontSize: "1.2rem",
-    fontWeight: 500,
+    fontWeight: 700,
     [theme.breakpoints.down("md")]: {
       fontSize: "1rem",
     },
     overflow: "hidden",
+    color: "#000000",
   },
 }));
 

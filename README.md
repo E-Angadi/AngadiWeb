@@ -1,6 +1,7 @@
-<style>img{border-radius: 50%;}</style>
+
 
 <p align="center">
+  <style>img{border-radius: 50%;}</style>
   <a href="https://github.com/E-Angadi/AngadiWeb">
     <img src="public/imgs/LOGO2.png" alt="Logo" height="500" width="1000" style="border-radius: 50%;">
   </a>

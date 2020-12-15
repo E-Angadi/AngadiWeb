@@ -11,7 +11,7 @@
     <a href="https://github.com/E-Angadi/AngadiWeb"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/E-Angadi/AngadiWeb">View Demo</a>
+    <a href="https://eangadi-a2aa8.web.app/">View Demo</a>
     ·
     <a href="https://github.com/E-Angadi/AngadiWeb/issues">Report Bug</a>
     ·

@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(1),
       marginBottom: theme.spacing(1),
     },
+    clear: "both",
   },
   viewall: {
     float: "right",
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
       width: "auto",
       marginRight: 10,
     },
+    clear: "both",
   },
 }));
 
@@ -84,8 +86,8 @@ function ProductSwiper(props) {
       <Swiper
         className={classes.root}
         slidesPerView={"auto"}
-        autoHeight={true}
         navigation
+        height={300}
       >
         {props.special &&
           props.special.map((productData, idx) => (

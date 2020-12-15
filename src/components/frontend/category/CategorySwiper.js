@@ -97,8 +97,8 @@ function CategorySwiper(props) {
       <Swiper
         className={classes.swiperRoot}
         slidesPerView={"auto"}
-        autoHeight={true}
         navigation
+        height={300}
       >
         {props.categories &&
           props.categories.map((cate) => (

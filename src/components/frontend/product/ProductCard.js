@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid rgba(111,114,132,.25)",
     borderRadius: theme.shape.borderRadius,
     position: "relative",
+    boxSizing: "border-box",
   },
   fullwidthroot: {
     backgroundColor: "#FFFFFF",

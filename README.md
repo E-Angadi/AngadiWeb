@@ -1,8 +1,6 @@
-
-
 <p align="center">
   <a href="https://github.com/E-Angadi/AngadiWeb">
-    <img src="public/imgs/LOGO2.png" alt="Logo" height="400" width="800" style="border-radius: 50%;">
+    <img src="images/LOGO2.png" alt="Logo" height="400" width="800" style="border-radius: 2%;">
   </a>
 
   <h3 align="center">E Angadi</h3>

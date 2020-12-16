@@ -1,4 +1,5 @@
 import axios from "axios";
+import { configs } from "../../config/configs";
 import { clearCart } from "./cartActions";
 
 const calcTPrice = (items) => {
@@ -51,7 +52,7 @@ export const createOrder = (cod) => async (dispatch, getState) => {
       };
 
       const res = await axios.post(
-        "https://us-central1-angadi-6266d.cloudfunctions.net/payment/create_order",
+        configs.functionsURL + "/create_order",
         options
       );
       if (cod) {
@@ -88,7 +89,7 @@ export const verifyOrder = (
         razorpay_payment_id,
       };
       const res = await axios.post(
-        "https://us-central1-angadi-6266d.cloudfunctions.net/payment/verify_order",
+        configs.functionsURL + "/verify_order",
         options
       );
       dispatch({

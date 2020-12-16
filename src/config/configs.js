@@ -32,3 +32,7 @@ configs.maxCategoriesInBox = 16;
 
 // Open Pincodes check dialog when user clicks on "Add to my cart" button when the cart is empty
 configs.openPincodeEmptyCart = false;
+
+// Firebase functions base_url
+configs.functionsURL =
+  "https://us-central1-angadi-6266d.cloudfunctions.net/payment";

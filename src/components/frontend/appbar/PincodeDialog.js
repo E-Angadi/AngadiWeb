@@ -172,7 +172,7 @@ function PincodeDialog(props) {
     <>
       <div className={classes.catDelivery} onClick={handleClickOpen}>
         <span>Delivery to </span>
-        <span className={classes.pincode}> 500090</span>
+        <span className={classes.pincode}>Select</span>
       </div>
       <Hidden xsDown>
         <Dialog

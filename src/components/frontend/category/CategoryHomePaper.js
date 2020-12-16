@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     width: 170,
   },
   paperTitle: {
-    height: "40px",
+    height: "52px",
     display: "inline-block",
     fontSize: "1.2rem",
     fontWeight: 600,

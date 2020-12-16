@@ -33,8 +33,8 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Steps to Deployment</a></li>
+        <li><a href="#prerequisites-steps">Prerequisites</a></li>
+        <li><a href="#steps-to-deployment">Steps to Deployment</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -182,3 +182,11 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
 19. Open the hosted site after 10-15 mins, signin with your admin email address and password.
 
 20. Deployment is complete you can add products and categories in the dashboard as explained in the <a href="#usage">Usage</a>.
+
+<!-- USAGE EXAMPLES -->
+
+## Usage
+
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+
+_For more examples, please refer to the [Documentation](https://example.com)_

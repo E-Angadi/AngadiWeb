@@ -64,6 +64,7 @@ AngadiWeb is an e-commerce application built with an intention to help small and
 - Completely configurable.
 - Deliverable location control.
 - Guest user login is also available.
+- Efficiently designed to reduce the firebase billing.
 
 ### Built With
 
@@ -179,14 +180,26 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
     ```sh
     firebase deploy --only firestore:rules
     ```
-19. Open the hosted site after 10-15 mins, signin with your admin email address and password.
+19. Open the hosted site after 10-15 mins, signin with your admin email address and password. Add few categories and products as explained in the <a href="#usage">Usage</a> Section.
 
-20. Deployment is complete you can add products and categories in the dashboard as explained in the <a href="#usage">Usage</a>.
+20. Now test the application by placing an order by adding few products into the cart with admin account and normal account. You should see those placed orders in your dashboard. You should also see payment received in your razorpay dashboard.
+
+21. If step 20 is successful and if your razorpay verification process is completed before, generate the `key_id` and `key_secret` in live mode and replace those with test mode keys which we placed in step 7. Also setup the payment capturing setting in your razorpay dashboard if need for your bussiness.
+
+22. Now build the project again as explained in step 16 and host it as explained in step 17. Your Deployment is successful.
+
+NOTE: some common errors which we encounter while firebase deployment can be resolved by logging out and logging in again by using below commands
+
+```sh
+firebase logout
+```
+
+and then
+
+```sh
+firebase login
+```
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_

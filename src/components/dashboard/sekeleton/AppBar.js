@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,7 +9,6 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -68,19 +67,11 @@ function TopAppBar({ Pprops, auth, profile }) {
   const classes = useStyles();
   const logo = "/imgs/logo.png";
 
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  setTimeout(() => {
-    console.log(auth.uid);
-    console.log(profile);
-    if (!auth.uid || !profile.isAdmin) {
-      return <Redirect to="/" />;
-    }
-  }, 2000);
 
   return (
     <div className={classes.root}>

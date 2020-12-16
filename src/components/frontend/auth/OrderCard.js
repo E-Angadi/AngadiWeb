@@ -203,7 +203,7 @@ function OrderCard({ order, cancelOrder }) {
                 onClick={handleClickOpen}
                 className={classes.orderBtn}
                 variant="outlined"
-                disabled={order.cancelled}
+                disabled={order.deliverd || order.cancelled}
               >
                 Cancel Order
               </Button>
@@ -227,7 +227,7 @@ function OrderCard({ order, cancelOrder }) {
           <Grid item xs="auto">
             <Button
               onClick={handleClickOpen}
-              disabled={order.cancelled}
+              disabled={order.deliverd || order.cancelled}
               className={classes.orderBtn}
               variant="outlined"
             >

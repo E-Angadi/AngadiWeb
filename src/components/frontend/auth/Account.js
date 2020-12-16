@@ -76,8 +76,9 @@ function Account(props) {
             <div className={classes.ordersRoot}>
               <h2>Orders</h2>
               {props.orders &&
-                props.orders.map((order) => (
+                props.orders.map((order, idx) => (
                   <OrderCard
+                    key={idx}
                     cancelOrder={(id) => props.cancelOrder(id)}
                     order={order}
                   />

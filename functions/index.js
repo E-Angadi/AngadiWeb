@@ -10,7 +10,7 @@ admin.initializeApp();
 
 const rz_key = {
   key_id: "rzp_test_lxD9jsRSbpBOAz",
-  key_secret: "lQTt1SjkuuhmLP6A0A0wQVqz",
+  key_secret: "xxxxxxxxxxxxxxxxxxxx",
 };
 
 const instance = new rzp(rz_key);

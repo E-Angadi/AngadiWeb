@@ -56,7 +56,7 @@ service cloud.firestore {
         && (request.auth.uid == userId 
         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true)
         && (!('isAdmin' in request.resource.data) 
-        || request.resource.data['isAdmin'] != true)
+        || request.resource.data['isAdmin'] == resource.data.isAdmin)
         
       allow create:
       	if request.resource.data['isAdmin'] != true

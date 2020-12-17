@@ -17,7 +17,15 @@
     ·
     <a href="https://github.com/E-Angadi/AngadiWeb/issues">Request Feature</a>
     <br/>
+      <br/>
+      <p align='center' style='font-size: 12px;'>Liked our work, wanna buy us a coffee?
+      <br/>
+      <a href="https://www.buymeacoffee.com/bharathchandra" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="26" width="100" style="border-radius:1px" />
+      </p>
+      <br/>
+  
   </p>
+
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -60,7 +68,7 @@
 
 [![E Angadi](/images/s1.png)](https://eangadi-a2aa8.web.app/)
 
-AngadiWeb is an e-commerce application built with an intention to help small and medium bussinesses to deploy there own e-commerce soltuion within no time.
+AngadiWeb is an e-commerce application built with an intention to help small and medium businesses to deploy there own e-commerce solution within no time.
 
 <b>Special Features of AngadiWeb:</b>
 

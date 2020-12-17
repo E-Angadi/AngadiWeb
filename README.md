@@ -37,7 +37,16 @@
         <li><a href="#steps-to-deployment">Steps to Deployment</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#all-about-categories">All about categories</a></li>
+        <li><a href="#all-about-products">All about products</a></li>
+        <li><a href="#all-about-banners">All about banners</a></li>
+        <li><a href="#all-about-locations">All about locations</a></li>
+        <li><a href="#all-about-orders">All about orders</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -65,6 +74,7 @@ AngadiWeb is an e-commerce application built with an intention to help small and
 - Deliverable location control.
 - Guest user login is also available.
 - Efficiently designed to reduce the firebase billing.
+- Fully Responsive Design
 
 ### Built With
 
@@ -203,3 +213,69 @@ firebase login
 <!-- USAGE EXAMPLES -->
 
 ## Usage
+
+### All about Categories
+
+![All about Categories](/images/cs.png)
+
+<b>Steps to add a category</b>
+
+- Enter the category name and description in the title and description fields
+- Click the Add Image button to add a category image, recommended size of 200 px X 200 px. similarly, add a banner image with the size shown the in the default image (1000 X 200).
+- Hit on the submit button to create the category, a notification will show up after successfully creating a category.
+
+<b>Update/Delete a Category</b>
+
+- Click on the edit icon in the card below the add category form to edit the respective category name or description
+- Click on the change image or change banner image button to change change image or banner image of the category.
+- It is recommended to not to delete any category before deleting all the products in it.
+
+### All about Products
+
+![All about Products](/images/ps.png)
+
+<b>Steps to add a product</b>
+
+- Check ON the Product Visibility switch to make that product visible in the website.
+- Check ON the Special Offer switch to make that product visible in top deals swiper in the home page.
+- Enter the product title, description, select the category, select the units and enter the value, price, discount percentage, add multiple taxes in percentage / amount form by clicking on add new tax button.
+- Add a product image of size 420 px X 420 px by clicking on add image button. After filling all the details about the product, hit the submit button. You will receive a notification about product creation in top right corner.
+
+![All about Products](/images/pms.png)
+<b>Update/Delete a Product</b>
+
+- Search product by its name or product id
+- Edit the product details by clicking on the edit icon. Edit the the product iage by clciking on the image icon the table row. Same with the delete icon.
+
+## All about Banners
+
+![All about Banners](/images/bs.png)
+
+<b>Steps to add a banner</b>
+
+- Paste the link to which user has to be navigated, when clicked on the banner
+- Add banners with size shown in the placeholder images in the form.
+
+<b>Delete a Banner</b>
+
+- Hit the delete icon to delete banner.
+
+## All about Locations
+
+![All about Locations](/images/ls.png)
+
+<b>Steps to add/remove a location</b>
+
+- Enter the deliverable pincode in the pincode field and hit add pincode.
+- Remove the pincode by clicking the cross button.
+
+## All about Orders
+
+![All about Locations](/images/os.png)
+
+<b>Manage your orders</b>
+
+- Search the order by it's order id or delivery pincode.
+- You will receive all the orders placed in the table. Click on the view button the view all details of the order placed.
+- Click on the tick icon after delivery or click on the cross ison to cancel the order.
+- If the order is Cash on delivey type it will be displayed in payment type field.

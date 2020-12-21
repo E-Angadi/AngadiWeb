@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
 import CategoriesBox from "../category/CategoriesBox";
 import ProductGrid from "./ProductGrid";
 
 import { connect } from "react-redux";
-import { compose } from "redux";
-import { firestoreConnect } from "react-redux-firebase";
+
+import { search } from "../../../store/actions/searchActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +39,18 @@ function SearchProduct(props) {
   const classes = useStyles();
   const search = props.match.params.searchParam;
 
+  useEffect(() => {
+    props.search(props.match.params.searchParam);
+  }, [props.match.params.searchParam]);
+
+  if (props.searching) {
+    return <div>loading results.......</div>;
+  }
+
+  if (!props.searching && props.err) {
+    return <div>Error while loading results</div>;
+  }
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
@@ -53,7 +65,7 @@ function SearchProduct(props) {
               Showing all results for{" "}
               <span className={classes.searchTitle}>{search}</span>
             </span>
-            {props.products && <ProductGrid data={props.products} />}
+            {props.results && <ProductGrid data={props.results} />}
           </div>
         </Grid>
       </Grid>
@@ -63,23 +75,17 @@ function SearchProduct(props) {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.firestore.ordered.products,
     categories: state.firestore.ordered.categories,
+    results: state.search.results,
+    err: state.search.err,
+    searching: state.search.searching,
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect((props) => {
-    var search = props.match.params.searchParam;
-    return [
-      {
-        collection: "products",
-        where: [
-          ["title", ">=", search],
-          ["title", "<=", search + "\uf8ff"],
-        ],
-      },
-    ];
-  })
-)(SearchProduct);
+const matchDispatchToProps = (dispatch) => {
+  return {
+    search: (query) => dispatch(search(query)),
+  };
+};
+
+export default connect(mapStateToProps, matchDispatchToProps)(SearchProduct);

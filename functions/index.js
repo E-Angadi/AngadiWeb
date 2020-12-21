@@ -4,6 +4,9 @@ const bp = require("body-parser");
 const cors = require("cors");
 const rzp = require("razorpay");
 const crypto = require("crypto");
+
+const search = require("./search");
+
 var admin = require("firebase-admin");
 
 admin.initializeApp();
@@ -173,3 +176,7 @@ app.post("/verify_order", async (req, res) => {
 });
 
 exports.payment = functions.https.onRequest(app);
+exports.addFirestoreDataToAlgolia = search.addFirestoreDataToAlgolia;
+exports.onProductCreated = search.onProductCreated;
+exports.onProductUpdated = search.onProductUpdated;
+exports.onProductDeleted = search.onProductDeleted;

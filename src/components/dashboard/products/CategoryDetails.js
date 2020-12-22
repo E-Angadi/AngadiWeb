@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Grid, Divider } from "@material-ui/core";
+import { makeStyles, Grid, Divider, Paper, Switch } from "@material-ui/core";
 import UploadImageButton from "../../common/UploadImageButton";
 import { connect } from "react-redux";
 import {
@@ -10,6 +10,7 @@ import {
 } from "../../../store/actions/categoryActions";
 import DeleteIconDialog from "../../common/DeleteIconDialog";
 import CategoryEditDialog from "./CategoryEditDialog";
+import AddUnitForm from "./AddUnitForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     marginTop: -20,
+    marginBottom: 10,
+  },
+  paper: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(1),
+  },
+  unitTitle: {
+    fontSize: 18,
+  },
+  deleteIcon: {
+    float: "right",
   },
 }));
 
@@ -86,6 +98,10 @@ function CategoryDetails(props) {
   const handleDelete = () => {
     props.delete(props.category);
   };
+
+  const handleUnitDelete = () => {};
+
+  const handleUnitChange = () => {};
 
   return (
     <div className={classes.root}>
@@ -145,6 +161,52 @@ function CategoryDetails(props) {
         </Grid>
       </Grid>
       <Divider className={classes.divider} />
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <AddUnitForm />
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item xs="auto">
+                <Switch
+                  color="primary"
+                  onChange={handleUnitChange}
+                  checked={true}
+                />
+                <span className={classes.unitTitle}>Kgs</span>
+              </Grid>
+
+              <Grid item xs="auto">
+                <DeleteIconDialog
+                  callbackDelete={() => handleUnitDelete()}
+                  alertText="Are sure to delete this unit?"
+                />
+              </Grid>
+            </Grid>
+          </Paper>
+
+          <Paper className={classes.paper}>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item xs="auto">
+                <Switch
+                  color="primary"
+                  onChange={handleUnitChange}
+                  checked={true}
+                />
+                <span className={classes.unitTitle}>Kgs</span>
+              </Grid>
+
+              <Grid item xs="auto">
+                <DeleteIconDialog
+                  callbackDelete={() => handleUnitDelete()}
+                  alertText="Are sure to delete this unit?"
+                />
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 }

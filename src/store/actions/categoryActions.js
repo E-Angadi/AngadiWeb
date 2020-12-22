@@ -191,3 +191,108 @@ export const loadCategories = () => {
     }
   };
 };
+
+const deSerializeItems = (units) => {
+  const items = [];
+  if (!units) return items;
+  const citems = units.split("|");
+  citems.forEach((c) => {
+    const sc = c.split(";");
+    if (sc.length === 2)
+      items.push({ title: sc[0], visibility: sc[1] === 1 ? true : false });
+  });
+  return items;
+};
+
+const serializeItems = (items) => {
+  var cart = [];
+  items.forEach((item) => {
+    cart.push(item.title + ";" + item.visibility ? 1 : 0);
+  });
+  return cart.join("|");
+};
+
+const removeUnitItem = (items, title) => {
+  var idx = items.findIndex((item) => item.title === title);
+  if (idx !== -1) {
+    return [...items.slice(0, idx), ...items.slice(idx + 1)];
+  } else return [];
+};
+
+export const addUnitToCategory = (categoryId, unit) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("categories")
+      .doc(categoryId)
+      .get()
+      .then((doc) => {
+        let data = doc.data();
+        let units = deSerializeItems(data.units);
+        units.push({ title: unit, visibility: true });
+        return serializeItems(units);
+      })
+      .then((units) => {
+        return firestore.collection("categories").doc(categoryId).update({
+          units: units,
+        });
+      })
+      .then(() => {
+        dispatch({ type: "ADDED_NEW_UNIT", categoryId: categoryId });
+      })
+      .catch((err) => {
+        dispatch({ type: "ERR_ADDING_NEW_UNIT", err: err });
+      });
+  };
+};
+
+export const removeUnit = (categoryId, unitTitle) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("categories")
+      .doc(categoryId)
+      .get()
+      .then((doc) => {
+        let data = doc.data();
+        let units = deSerializeItems(data.units);
+        return serializeItems(removeUnitItem(units, unitTitle));
+      })
+      .then((units) => {
+        return firestore.collection("categories").doc(categoryId).update({
+          units: units,
+        });
+      })
+      .then(() => {
+        dispatch({ type: "REMOVED_UNIT", categoryId: categoryId });
+      })
+      .catch((err) => {
+        dispatch({ type: "ERR_REMOVING_UNIT", err: err });
+      });
+  };
+};
+
+export const changeVisibility = (visibility, unit, categoryId) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("products")
+      .where("categoryId", "==", categoryId)
+      .where("unit", "==", unit)
+      .get()
+      .then((res) => {
+        let batch = firestore.batch();
+        res.docs.forEach((doc) => {
+          const docRef = firestore.collection("products").doc(doc.id);
+          batch.update(docRef, { visibility: visibility });
+        });
+        return batch.commit();
+      })
+      .then(() => {
+        dispatch({ type: "UPDATED_ALL_PRODUCTS" });
+      })
+      .catch((err) => {
+        dispatch({ type: "ERR_UPDATED_ALL_PRODUCTS", err: err });
+      });
+  };
+};

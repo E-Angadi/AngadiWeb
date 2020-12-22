@@ -60,8 +60,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
   paper: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
+    marginLeft: 0,
     padding: theme.spacing(1),
+    backgroundColor: "#EAEDED",
   },
   unitTitle: {
     fontSize: 18,
@@ -185,7 +187,6 @@ function CategoryDetails(props) {
               </Grid>
             </Grid>
           </Paper>
-
           <Paper className={classes.paper}>
             <Grid container justify="space-between" alignItems="center">
               <Grid item xs="auto">
@@ -205,6 +206,8 @@ function CategoryDetails(props) {
               </Grid>
             </Grid>
           </Paper>
+          <b>Note:</b> Use switch button to change visibility of all the
+          products using the unit.
         </Grid>
       </Grid>
     </div>

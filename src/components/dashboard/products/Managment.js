@@ -189,7 +189,7 @@ function Management(props) {
           <Controls.Button
             text={"Add Product"}
             component={Link}
-            to={"/myspace/products/addproduct"}
+            to={"/dashboard/products/addproduct"}
             className={classes.addProductBtn}
           />
         </Toolbar>

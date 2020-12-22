@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -22,6 +22,8 @@ function CategoryEditDialog(props) {
   };
 
   const { title, description, callbackUpdate } = props;
+  console.log(title);
+  console.log(description);
 
   const initialFValues = {
     title: title ? title : "Category Title",
@@ -43,7 +45,14 @@ function CategoryEditDialog(props) {
       return Object.values(tmp).every((x) => x === "");
   };
 
-  const { values, errors, setErrors, handleInputChange } = useForm(
+  useEffect(() => {
+    setValues({
+      title: props.title,
+      description: props.description,
+    });
+  }, [props.title, props.description]);
+
+  const { values, errors, setErrors, handleInputChange, setValues } = useForm(
     initialFValues,
     true,
     validate

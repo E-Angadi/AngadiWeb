@@ -16,15 +16,7 @@ const serializeItems = (items) => {
 
   items.forEach((item) => {
     cart.push(
-      item.title +
-        ";" +
-        item.quantity +
-        ";" +
-        item.totalPrice +
-        ";" +
-        item.unitValue +
-        " " +
-        item.unit
+      item.title + ";" + item.quantity + ";" + item.totalPrice + ";" + item.unit
     );
   });
   return cart.join(",");

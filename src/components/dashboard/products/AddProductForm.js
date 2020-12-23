@@ -33,7 +33,6 @@ const initialFValues = {
   description: "",
   category: 0,
   unitSelect: 0,
-  unitValue: 0,
   price: 0,
   taxName: "",
   taxSelect: 0,
@@ -95,11 +94,6 @@ function AddProductForm(props) {
       tmp.category = fieldValues.category
         ? ""
         : "Select a category or create new ";
-    if ("unitValue" in fieldValues)
-      tmp.unitValue =
-        fieldValues.unitValue > 0
-          ? ""
-          : "Value should be a number and greater then 0";
     if ("unitSelect" in fieldValues)
       tmp.unitSelect =
         fieldValues.unitSelect !== 0
@@ -161,7 +155,6 @@ function AddProductForm(props) {
     if (validate()) {
       var discount = parseFloat(values.discount, 10);
       var price = parseFloat(values.price);
-      var unitValue = parseFloat(values.unitValue);
       var { taxedPrice, totalPrice } = calculateTotal(
         price,
         discount,
@@ -184,7 +177,6 @@ function AddProductForm(props) {
         totalPrice: totalPrice,
         price: price,
         taxedPrice: taxedPrice,
-        unitValue: unitValue,
         discount: discount,
         unit: units[values.unitSelect - 1].title,
       };
@@ -356,25 +348,14 @@ function AddProductForm(props) {
           </Grid>
           <Grid xs={12} sm={6} item>
             <Grid xs={12} item container>
-              <Grid xs={6} item>
-                <Controls.Select
-                  name="unitSelect"
-                  label="Select Unit"
-                  value={values.unitSelect ? values.unitSelect : 0}
-                  onChange={handleInputChange}
-                  options={getUnits()}
-                  error={errors.unitSelect}
-                />
-              </Grid>
-              <Grid xs={6} item>
-                <Controls.Input
-                  name="unitValue"
-                  label="Value"
-                  value={values.unitValue}
-                  onChange={handleInputChange}
-                  error={errors.unitValue}
-                />
-              </Grid>
+              <Controls.Select
+                name="unitSelect"
+                label="Select Unit"
+                value={values.unitSelect ? values.unitSelect : 0}
+                onChange={handleInputChange}
+                options={getUnits()}
+                error={errors.unitSelect}
+              />
             </Grid>
             <Grid xs={12} item container>
               <Grid xs={6} item>

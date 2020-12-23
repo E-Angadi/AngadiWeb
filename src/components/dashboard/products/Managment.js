@@ -212,7 +212,7 @@ function Management(props) {
                     {item.visibility ? "Visible" : "Not Visible"}{" "}
                   </Typography>
                 </TableCell>
-                <TableCell>{`${item.unitValue} ${item.unit}`} </TableCell>
+                <TableCell>{item.unit} </TableCell>
                 <TableCell>
                   <img width={"100px"} alt={item.title} src={item.imageURL} />
                 </TableCell>

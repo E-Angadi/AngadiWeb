@@ -12,7 +12,7 @@ import {
   closeSnackbar,
   disableSubmit,
 } from "../../../store/actions/productActions";
-import { getTaxSelect, getUnitSelect } from "../common/constMaps";
+import { getTaxSelect } from "../common/constMaps";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -27,8 +27,6 @@ import Clear from "@material-ui/icons/Clear";
 import IconButton from "@material-ui/core/IconButton";
 
 const taxSelect = getTaxSelect();
-
-const unitSelect = getUnitSelect();
 
 const initialFValues = {
   title: "",
@@ -45,6 +43,18 @@ const initialFValues = {
   visibility: true,
   special: false,
   taxes: [],
+};
+
+const deSerializeItems = (units) => {
+  const items = [];
+  if (!units) return items;
+  const citems = units.split("|");
+  citems.forEach((c) => {
+    const sc = c.split(";");
+    if (sc.length === 2)
+      items.push({ title: sc[0], visibility: sc[1] === "1" });
+  });
+  return items;
 };
 
 function AddProductForm(props) {
@@ -90,6 +100,11 @@ function AddProductForm(props) {
         fieldValues.unitValue > 0
           ? ""
           : "Value should be a number and greater then 0";
+    if ("unitSelect" in fieldValues)
+      tmp.unitSelect =
+        fieldValues.unitSelect !== 0
+          ? ""
+          : "select a category with units and select a unit";
     if ("price" in fieldValues)
       tmp.price =
         fieldValues.price > 0
@@ -158,6 +173,11 @@ function AddProductForm(props) {
         alert("Please check your tax and discount values");
         return;
       }
+
+      let index = props.categories.findIndex((c) => c.id === values.category);
+      let category = props.categories[index];
+      let units = deSerializeItems(category.units);
+
       props.disableSubmit();
       var res = {
         ...values,
@@ -166,11 +186,13 @@ function AddProductForm(props) {
         taxedPrice: taxedPrice,
         unitValue: unitValue,
         discount: discount,
+        unit: units[values.unitSelect - 1].title,
       };
 
       delete res.tax;
       delete res.taxName;
       delete res.taxSelect;
+      delete res.unitSelect;
 
       setValues({
         ...values,
@@ -193,6 +215,23 @@ function AddProductForm(props) {
       }
     }
     return selectCategories;
+  };
+
+  const getUnits = () => {
+    const selectUnits = [{ id: 0, title: "None" }];
+    if (props.categories && values.category !== 0) {
+      let index = props.categories.findIndex((c) => c.id === values.category);
+      if (index < 0) return selectUnits;
+      let category = props.categories[index];
+      if (!category) return selectUnits;
+      if (!category.units) return selectUnits;
+      const citems = category.units.split("|");
+      citems.forEach((c, idx) => {
+        const sc = c.split(";");
+        if (sc.length === 2) selectUnits.push({ id: idx + 1, title: sc[0] });
+      });
+    }
+    return selectUnits;
   };
 
   const imageSave = (fileobjs) => {
@@ -323,8 +362,8 @@ function AddProductForm(props) {
                   label="Select Unit"
                   value={values.unitSelect ? values.unitSelect : 0}
                   onChange={handleInputChange}
-                  options={unitSelect}
-                  error={errors.uniSelect}
+                  options={getUnits()}
+                  error={errors.unitSelect}
                 />
               </Grid>
               <Grid xs={6} item>

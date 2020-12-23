@@ -174,7 +174,7 @@ function ProductHCard(props) {
                 <span> </span>
                 <span className={classes.variant}>
                   {props.item.unitValue + " "}
-                  {props.item.unitSelect === 0 ? "kg" : "l"}{" "}
+                  {props.item.unit}{" "}
                 </span>
                 <span className={classes.save}>
                   save ₹ {props.item.taxedPrice - props.item.totalPrice}

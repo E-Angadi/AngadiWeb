@@ -215,7 +215,7 @@ function ProductCard(props) {
         <span> </span>
         <span className={classes.variant}>
           {productData.unitValue + " "}
-          {productData.unitSelect === 0 ? "kg" : "l"}{" "}
+          {productData.unit}{" "}
         </span>
         <span className={classes.save}>
           save ₹{productData.taxedPrice - productData.totalPrice}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,7 +8,7 @@ import Slide from "@material-ui/core/Slide";
 import { Edit, Close } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { getTaxSelect, getUnitSelect } from "../common/constMaps";
+import { getTaxSelect } from "../common/constMaps";
 import Form from "../../common/Form";
 import Grid from "@material-ui/core/Grid";
 import Controls from "../../common/controls/Controls";
@@ -40,7 +40,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const taxSelect = getTaxSelect();
 
-const unitSelect = getUnitSelect();
+const deSerializeItems = (units) => {
+  const items = [];
+  if (!units) return items;
+  const citems = units.split("|");
+  citems.forEach((c) => {
+    const sc = c.split(";");
+    if (sc.length === 2)
+      items.push({ title: sc[0], visibility: sc[1] === "1" });
+  });
+  return items;
+};
 
 function ProductEditDialog(props) {
   const classes = useStyles();
@@ -58,7 +68,7 @@ function ProductEditDialog(props) {
     title: props.product.title,
     description: props.product.description,
     category: props.product.category,
-    unitSelect: props.product.unitSelect,
+    unitSelect: 0,
     unitValue: props.product.unitValue,
     price: props.product.price,
     discount: props.product.discount,
@@ -69,6 +79,37 @@ function ProductEditDialog(props) {
     tax: 0,
     taxSelect: 0,
   };
+
+  const getUnitSelect = () => {
+    let units = getUnits();
+    let select = units.findIndex((u) => u.title === props.product.unit);
+    if (select < 0) return 0;
+    else return select;
+  };
+
+  const getUnits = () => {
+    const selectUnits = [{ id: 0, title: "None" }];
+    if (props.categories && props.categoryId !== 0) {
+      let index = props.categories.findIndex((c) => c.id === props.categoryId);
+      if (index < 0) return selectUnits;
+      let category = props.categories[index];
+      if (!category) return selectUnits;
+      if (!category.units) return selectUnits;
+      const citems = category.units.split("|");
+      citems.forEach((c, idx) => {
+        const sc = c.split(";");
+        if (sc.length === 2) selectUnits.push({ id: idx + 1, title: sc[0] });
+      });
+    }
+    return selectUnits;
+  };
+
+  useEffect(() => {
+    setValues({
+      ...values,
+      unitSelect: getUnitSelect(),
+    });
+  }, []);
 
   const validateTax = (fieldValues = values) => {
     let tmp = { ...errors };
@@ -102,6 +143,11 @@ function ProductEditDialog(props) {
         fieldValues.unitValue > 0
           ? ""
           : "Value should be a number and greater then 0";
+    if ("unitSelect" in fieldValues)
+      tmp.unitSelect =
+        fieldValues.unitSelect !== 0
+          ? ""
+          : "select a category with units and select a unit";
     if ("price" in fieldValues)
       tmp.price =
         fieldValues.price > 0
@@ -190,6 +236,10 @@ function ProductEditDialog(props) {
         alert("Please check your tax and discount values");
         return;
       }
+      let index = props.categories.findIndex((c) => c.id === props.categoryId);
+      let category = props.categories[index];
+      let units = deSerializeItems(category.units);
+
       var res = {
         ...values,
         totalPrice: totalPrice,
@@ -197,11 +247,13 @@ function ProductEditDialog(props) {
         taxedPrice: taxedPrice,
         unitValue: unitValue,
         discount: discount,
+        unit: units[values.unitSelect - 1].title,
       };
 
       delete res.tax;
       delete res.taxName;
       delete res.taxSelect;
+      delete res.unitSelect;
 
       props.callbackSave(res, props.product);
       setOpen(false);
@@ -283,8 +335,8 @@ function ProductEditDialog(props) {
                       label="Select Unit"
                       value={values.unitSelect ? values.unitSelect : 0}
                       onChange={handleInputChange}
-                      options={unitSelect}
-                      error={errors.uniSelect}
+                      options={getUnits()}
+                      error={errors.unitSelect}
                     />
                   </Grid>
                   <Grid xs={6} item>

@@ -15,7 +15,6 @@ const serializeItems = (items) => {
   var cart = [];
 
   items.forEach((item) => {
-    var unit = item.unitSelect === 0 ? "kg" : "l";
     cart.push(
       item.title +
         ";" +
@@ -25,7 +24,7 @@ const serializeItems = (items) => {
         ";" +
         item.unitValue +
         " " +
-        unit
+        item.unit
     );
   });
   return cart.join(",");

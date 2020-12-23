@@ -5,6 +5,7 @@ import Form from "../../common/Form";
 import Controls from "../../common/controls/Controls";
 import useForm from "../../common/useForm";
 import { connect } from "react-redux";
+import { addUnitToCategory } from "../../../store/actions/categoryActions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +23,7 @@ const initialFValues = {
   visibility: true,
 };
 
-function AddUnitForm() {
+function AddUnitForm(props) {
   const classes = useStyles();
 
   const validate = (fieldValues = values) => {
@@ -48,6 +49,7 @@ function AddUnitForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      props.addUnitToCategory(props.categoryId, values.title);
       resetForm();
     }
   };
@@ -75,4 +77,11 @@ function AddUnitForm() {
   );
 }
 
-export default AddUnitForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addUnitToCategory: (categoryId, unit) =>
+      dispatch(addUnitToCategory(categoryId, unit)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddUnitForm);

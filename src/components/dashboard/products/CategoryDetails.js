@@ -7,6 +7,7 @@ import {
   updateCategoryImage,
   deleteCategory,
   updateCategoryBannerImage,
+  removeUnit,
 } from "../../../store/actions/categoryActions";
 import DeleteIconDialog from "../../common/DeleteIconDialog";
 import CategoryEditDialog from "./CategoryEditDialog";
@@ -101,7 +102,21 @@ function CategoryDetails(props) {
     props.delete(props.category);
   };
 
-  const handleUnitDelete = () => {};
+  const deSerializeItems = (units) => {
+    const items = [];
+    if (!units) return items;
+    const citems = units.split("|");
+    citems.forEach((c) => {
+      const sc = c.split(";");
+      if (sc.length === 2)
+        items.push({ title: sc[0], visibility: sc[1] === "1" });
+    });
+    return items;
+  };
+
+  const handleUnitDelete = (idx) => {
+    props.removeUnit(props.category.id, idx);
+  };
 
   const handleUnitChange = () => {};
 
@@ -165,49 +180,31 @@ function CategoryDetails(props) {
       <Divider className={classes.divider} />
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          <AddUnitForm />
+          <AddUnitForm categoryId={props.category.id} />
         </Grid>
         <Grid item xs={6}>
-          <Paper className={classes.paper}>
-            <Grid container justify="space-between" alignItems="center">
-              <Grid item xs="auto">
-                <Switch
-                  color="primary"
-                  onChange={handleUnitChange}
-                  checked={true}
-                />
-                <span className={classes.unitTitle}>Kgs</span>
+          {deSerializeItems(props.category.units).map((unit, idx) => (
+            <Paper key={idx} className={classes.paper}>
+              <Grid container justify="space-between" alignItems="center">
+                <Grid item xs="auto">
+                  <Switch
+                    color="primary"
+                    onChange={handleUnitChange}
+                    checked={unit.visibility}
+                  />
+                  <span className={classes.unitTitle}>{unit.title}</span>
+                </Grid>
+                <Grid item xs="auto">
+                  <DeleteIconDialog
+                    callbackDelete={() => handleUnitDelete(idx)}
+                    alertText="Are sure to delete this unit?"
+                  />
+                </Grid>
               </Grid>
-
-              <Grid item xs="auto">
-                <DeleteIconDialog
-                  callbackDelete={() => handleUnitDelete()}
-                  alertText="Are sure to delete this unit?"
-                />
-              </Grid>
-            </Grid>
-          </Paper>
-          <Paper className={classes.paper}>
-            <Grid container justify="space-between" alignItems="center">
-              <Grid item xs="auto">
-                <Switch
-                  color="primary"
-                  onChange={handleUnitChange}
-                  checked={true}
-                />
-                <span className={classes.unitTitle}>Kgs</span>
-              </Grid>
-
-              <Grid item xs="auto">
-                <DeleteIconDialog
-                  callbackDelete={() => handleUnitDelete()}
-                  alertText="Are sure to delete this unit?"
-                />
-              </Grid>
-            </Grid>
-          </Paper>
+            </Paper>
+          ))}
           <b>Note:</b> Use switch button to change visibility of all the
-          products using the unit.
+          products using that unit.
         </Grid>
       </Grid>
     </div>
@@ -221,6 +218,7 @@ const matchDispatchToProps = (dispatch) => {
     updateBanner: (category, imageData) =>
       dispatch(updateCategoryBannerImage(category, imageData)),
     delete: (category) => dispatch(deleteCategory(category)),
+    removeUnit: (categoryId, unit) => dispatch(removeUnit(categoryId, unit)),
   };
 };
 

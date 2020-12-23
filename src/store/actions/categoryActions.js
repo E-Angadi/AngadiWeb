@@ -10,7 +10,7 @@ export const createCategory = (category) => {
         description: category.description,
         imageURL: "",
         bannerImageURL: "",
-        createdAt: new Date(),
+        units: "",
       })
       .then((resp) => {
         fileID = resp.id;
@@ -199,7 +199,7 @@ const deSerializeItems = (units) => {
   citems.forEach((c) => {
     const sc = c.split(";");
     if (sc.length === 2)
-      items.push({ title: sc[0], visibility: sc[1] === 1 ? true : false });
+      items.push({ title: sc[0], visibility: sc[1] === "1" });
   });
   return items;
 };
@@ -207,15 +207,21 @@ const deSerializeItems = (units) => {
 const serializeItems = (items) => {
   var cart = [];
   items.forEach((item) => {
-    cart.push(item.title + ";" + item.visibility ? 1 : 0);
+    let data = item.title + ";";
+    if (item.visibility) {
+      data += "1";
+    } else {
+      data += "0";
+    }
+    cart.push(data);
   });
   return cart.join("|");
 };
 
-const removeUnitItem = (items, title) => {
-  var idx = items.findIndex((item) => item.title === title);
-  if (idx !== -1) {
-    return [...items.slice(0, idx), ...items.slice(idx + 1)];
+const removeUnitItem = (items, idx) => {
+  if (idx > -1) {
+    items.splice(idx, 1);
+    return items;
   } else return [];
 };
 
@@ -229,7 +235,10 @@ export const addUnitToCategory = (categoryId, unit) => {
       .then((doc) => {
         let data = doc.data();
         let units = deSerializeItems(data.units);
-        units.push({ title: unit, visibility: true });
+        let index = units.findIndex((u) => u.title === unit);
+        if (index < 0) {
+          units.push({ title: unit, visibility: true });
+        }
         return serializeItems(units);
       })
       .then((units) => {
@@ -246,7 +255,7 @@ export const addUnitToCategory = (categoryId, unit) => {
   };
 };
 
-export const removeUnit = (categoryId, unitTitle) => {
+export const removeUnit = (categoryId, idx) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
     firestore
@@ -256,7 +265,7 @@ export const removeUnit = (categoryId, unitTitle) => {
       .then((doc) => {
         let data = doc.data();
         let units = deSerializeItems(data.units);
-        return serializeItems(removeUnitItem(units, unitTitle));
+        return serializeItems(removeUnitItem(units, idx));
       })
       .then((units) => {
         return firestore.collection("categories").doc(categoryId).update({

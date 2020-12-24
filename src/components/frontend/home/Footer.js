@@ -85,11 +85,6 @@ function Footer() {
                   Terms and conditions
                 </Link>{" "}
               </li>
-              <li>
-                <Link className={classes.servicesItem} to="/privacy-policy">
-                  Privacy policy
-                </Link>
-              </li>
             </ul>
             <div className={classes.services}>Download App</div>
             <a

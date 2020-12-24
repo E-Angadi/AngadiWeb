@@ -3,6 +3,9 @@ export const configs = {};
 configs.title = "E Angadi";
 configs.description = "Buy Online from Angadi | All payment options available";
 
+configs.aboutus =
+  "E Angadi is a easy to deploy e commerce application with all payment options, specially designed for Indian user space";
+
 configs.contactInfo = {
   email: "example@gmail.com",
   watsappNum: "9999999999",

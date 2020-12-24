@@ -17,6 +17,8 @@ import SignUp from "./auth/SignUp";
 import Account from "./auth/Account";
 import Footer from "./home/Footer";
 import SpecialProducts from "./product/SpecialProducts";
+import TC from "./home/TC";
+import AboutUs from "./home/AboutUs";
 
 class PublicRoutes extends Component {
   render() {
@@ -40,6 +42,8 @@ class PublicRoutes extends Component {
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/account" component={Account} />
+          <Route exact path="/terms-and-conditions" component={TC} />
+          <Route exact path="/aboutus" component={AboutUs} />
           <Route path="/404" component={PageNotFound} />
           <Redirect to="/404" />
         </Switch>

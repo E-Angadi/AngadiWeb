@@ -8,6 +8,7 @@ import {
   deleteCategory,
   updateCategoryBannerImage,
   removeUnit,
+  changeVisibility,
 } from "../../../store/actions/categoryActions";
 import DeleteIconDialog from "../../common/DeleteIconDialog";
 import CategoryEditDialog from "./CategoryEditDialog";
@@ -118,8 +119,6 @@ function CategoryDetails(props) {
     props.removeUnit(props.category.id, idx);
   };
 
-  const handleUnitChange = () => {};
-
   return (
     <div className={classes.root}>
       <Grid container>
@@ -189,7 +188,13 @@ function CategoryDetails(props) {
                 <Grid item xs="auto">
                   <Switch
                     color="primary"
-                    onChange={handleUnitChange}
+                    onChange={() =>
+                      props.changeVisibility(
+                        !unit.visibility,
+                        unit.title,
+                        props.category.id
+                      )
+                    }
                     checked={unit.visibility}
                   />
                   <span className={classes.unitTitle}>{unit.title}</span>
@@ -219,6 +224,8 @@ const matchDispatchToProps = (dispatch) => {
       dispatch(updateCategoryBannerImage(category, imageData)),
     delete: (category) => dispatch(deleteCategory(category)),
     removeUnit: (categoryId, unit) => dispatch(removeUnit(categoryId, unit)),
+    changeVisibility: (visibility, unit, categoryId) =>
+      dispatch(changeVisibility(visibility, unit, categoryId)),
   };
 };
 

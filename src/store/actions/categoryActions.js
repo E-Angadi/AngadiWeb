@@ -286,7 +286,7 @@ export const changeVisibility = (visibility, unit, categoryId) => {
     const firestore = getFirestore();
     firestore
       .collection("products")
-      .where("categoryId", "==", categoryId)
+      .where("category", "==", categoryId)
       .where("unit", "==", unit)
       .get()
       .then((res) => {
@@ -296,6 +296,19 @@ export const changeVisibility = (visibility, unit, categoryId) => {
           batch.update(docRef, { visibility: visibility });
         });
         return batch.commit();
+      })
+      .then(() => {
+        return firestore.collection("categories").doc(categoryId).get();
+      })
+      .then((doc) => {
+        let data = doc.data();
+        let units = deSerializeItems(data.units);
+        let index = units.findIndex((u) => u.title === unit);
+        units[index].visibility = visibility;
+        return firestore
+          .collection("categories")
+          .doc(categoryId)
+          .update({ units: serializeItems(units) });
       })
       .then(() => {
         dispatch({ type: "UPDATED_ALL_PRODUCTS" });

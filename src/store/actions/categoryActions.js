@@ -10,7 +10,7 @@ export const createCategory = (category) => {
         description: category.description,
         imageURL: "",
         bannerImageURL: "",
-        createdAt: new Date(),
+        units: "",
       })
       .then((resp) => {
         fileID = resp.id;
@@ -189,5 +189,132 @@ export const loadCategories = () => {
           dispatch({ type: "LOAD_CATEGORIES", categories });
         });
     }
+  };
+};
+
+const deSerializeItems = (units) => {
+  const items = [];
+  if (!units) return items;
+  const citems = units.split("|");
+  citems.forEach((c) => {
+    const sc = c.split(";");
+    if (sc.length === 2)
+      items.push({ title: sc[0], visibility: sc[1] === "1" });
+  });
+  return items;
+};
+
+const serializeItems = (items) => {
+  var cart = [];
+  items.forEach((item) => {
+    let data = item.title + ";";
+    if (item.visibility) {
+      data += "1";
+    } else {
+      data += "0";
+    }
+    cart.push(data);
+  });
+  return cart.join("|");
+};
+
+const removeUnitItem = (items, idx) => {
+  if (idx > -1) {
+    items.splice(idx, 1);
+    return items;
+  } else return [];
+};
+
+export const addUnitToCategory = (categoryId, unit) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("categories")
+      .doc(categoryId)
+      .get()
+      .then((doc) => {
+        let data = doc.data();
+        let units = deSerializeItems(data.units);
+        let index = units.findIndex((u) => u.title === unit);
+        if (index < 0) {
+          units.push({ title: unit, visibility: true });
+        }
+        return serializeItems(units);
+      })
+      .then((units) => {
+        return firestore.collection("categories").doc(categoryId).update({
+          units: units,
+        });
+      })
+      .then(() => {
+        dispatch({ type: "ADDED_NEW_UNIT", categoryId: categoryId });
+      })
+      .catch((err) => {
+        dispatch({ type: "ERR_ADDING_NEW_UNIT", err: err });
+      });
+  };
+};
+
+export const removeUnit = (categoryId, idx) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("categories")
+      .doc(categoryId)
+      .get()
+      .then((doc) => {
+        let data = doc.data();
+        let units = deSerializeItems(data.units);
+        return serializeItems(removeUnitItem(units, idx));
+      })
+      .then((units) => {
+        return firestore.collection("categories").doc(categoryId).update({
+          units: units,
+        });
+      })
+      .then(() => {
+        dispatch({ type: "REMOVED_UNIT", categoryId: categoryId });
+      })
+      .catch((err) => {
+        dispatch({ type: "ERR_REMOVING_UNIT", err: err });
+      });
+  };
+};
+
+export const changeVisibility = (visibility, unit, categoryId) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("products")
+      .where("category", "==", categoryId)
+      .where("unit", "==", unit)
+      .get()
+      .then((res) => {
+        let batch = firestore.batch();
+        res.docs.forEach((doc) => {
+          const docRef = firestore.collection("products").doc(doc.id);
+          batch.update(docRef, { visibility: visibility });
+        });
+        return batch.commit();
+      })
+      .then(() => {
+        return firestore.collection("categories").doc(categoryId).get();
+      })
+      .then((doc) => {
+        let data = doc.data();
+        let units = deSerializeItems(data.units);
+        let index = units.findIndex((u) => u.title === unit);
+        units[index].visibility = visibility;
+        return firestore
+          .collection("categories")
+          .doc(categoryId)
+          .update({ units: serializeItems(units) });
+      })
+      .then(() => {
+        dispatch({ type: "UPDATED_ALL_PRODUCTS" });
+      })
+      .catch((err) => {
+        dispatch({ type: "ERR_UPDATED_ALL_PRODUCTS", err: err });
+      });
   };
 };

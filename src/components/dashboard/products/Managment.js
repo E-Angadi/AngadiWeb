@@ -189,7 +189,7 @@ function Management(props) {
           <Controls.Button
             text={"Add Product"}
             component={Link}
-            to={"/myspace/products/addproduct"}
+            to={"/dashboard/products/addproduct"}
             className={classes.addProductBtn}
           />
         </Toolbar>
@@ -212,9 +212,7 @@ function Management(props) {
                     {item.visibility ? "Visible" : "Not Visible"}{" "}
                   </Typography>
                 </TableCell>
-                <TableCell>
-                  {`${item.unitValue} ${unitsMap[item.unitSelect]}`}{" "}
-                </TableCell>
+                <TableCell>{item.unit} </TableCell>
                 <TableCell>
                   <img width={"100px"} alt={item.title} src={item.imageURL} />
                 </TableCell>
@@ -224,6 +222,8 @@ function Management(props) {
                       product={item}
                       categorySelect={getCategories()}
                       callbackSave={handleUpdateProduct}
+                      categories={props.categories}
+                      categoryId={item.category}
                     />
                     <UploadImageButton
                       rounded={true}
@@ -262,6 +262,7 @@ function Management(props) {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     products: state.firestore.ordered.products,
     categories: state.firestore.ordered.categories,

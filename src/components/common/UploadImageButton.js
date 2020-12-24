@@ -45,6 +45,7 @@ export default function UploadImageButton(props) {
           aria-label={"Change Image"}
           color="primary"
           onClick={() => setOpen(true)}
+          className={className ? className : classes.uploadbtnStyles}
         >
           <Image />
         </IconButton>

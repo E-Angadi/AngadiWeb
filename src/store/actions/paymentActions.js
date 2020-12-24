@@ -15,17 +15,8 @@ const serializeItems = (items) => {
   var cart = [];
 
   items.forEach((item) => {
-    var unit = item.unitSelect === 0 ? "kg" : "l";
     cart.push(
-      item.title +
-        ";" +
-        item.quantity +
-        ";" +
-        item.totalPrice +
-        ";" +
-        item.unitValue +
-        " " +
-        unit
+      item.title + ";" + item.quantity + ";" + item.totalPrice + ";" + item.unit
     );
   });
   return cart.join(",");

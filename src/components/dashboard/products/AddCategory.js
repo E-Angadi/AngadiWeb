@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PageHeader from "../common/PageHeader";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { LibraryAdd } from "@material-ui/icons";
 import { Paper } from "@material-ui/core";
+
 import AddCategoryForm from "./AddCategoryForm";
-import CategoryCard from "./CategoryCard";
+import CategoryTable from "./CategoryTable";
+import CategoryDetails from "./CategoryDetails";
+
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
@@ -20,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   divAlign: {
     marginTop: "100px",
     marginLeft: "240px",
+    paddingBottom: 20,
     backgroundColor: "#E4E4E4",
     minHeight: "calc(100vh - 100px)",
     padding: "0px",
@@ -33,13 +37,22 @@ const useStyles = makeStyles((theme) => ({
     margin: "20px",
     padding: "20px",
   },
-  gridRootStyle: {
-    padding: theme.spacing(2),
-  },
 }));
 
 function AddCategory(props) {
   const classes = useStyles();
+  const [categorySelected, setCategorySelected] = useState({});
+
+  const changeCategorySelected = (category) => {
+    setCategorySelected(category);
+  };
+
+  useEffect(() => {
+    if (props.categories && props.categories.length > 0) {
+      setCategorySelected(props.categories[0]);
+    }
+  }, [props.categories]);
+
   return (
     <div className={classes.divAlign}>
       <PageHeader
@@ -54,18 +67,21 @@ function AddCategory(props) {
           </Paper>
         </Grid>
       </Grid>
-      <div className={classes.gridRootStyle}>
-        <Grid container spacing={2} justify="center">
-          {props.categories &&
-            props.categories.map((category) => {
-              return (
-                <Grid key={category.id} item xs={12} sm={4}>
-                  <CategoryCard category={category} />
-                </Grid>
-              );
-            })}
+
+      {props.categories && props.categories.length > 0 && (
+        <Grid container spacing={1}>
+          <Grid item xs={4}>
+            <CategoryTable
+              categories={props.categories}
+              categorySelected={categorySelected}
+              changeCategorySelected={changeCategorySelected}
+            />
+          </Grid>
+          <Grid item xs={8}>
+            <CategoryDetails category={categorySelected} />
+          </Grid>
         </Grid>
-      </div>
+      )}
     </div>
   );
 }

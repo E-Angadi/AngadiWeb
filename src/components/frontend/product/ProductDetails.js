@@ -178,6 +178,13 @@ const useStyles = makeStyles((theme) => ({
   shareIcon: {
     paddingRight: theme.spacing(1),
   },
+  variant: {
+    fontSize: "14px",
+    fontWeight: "bold",
+    padding: 5,
+    background: "rgba(111,114,132,.25)",
+    borderRadius: theme.shape.borderRadius,
+  },
 }));
 
 const url = "/imgs/default.jpg";
@@ -244,7 +251,8 @@ function ProductDetails(props) {
                   <span className={classes.title}>{product.title + " "}</span>
                   <span className={classes.off}>
                     {product.discount + "% off"}
-                  </span>
+                  </span>{" "}
+                  <span className={classes.variant}>{product.unit}</span>
                 </Hidden>
               )}
               <img
@@ -261,7 +269,8 @@ function ProductDetails(props) {
                   <span className={classes.title}>{product.title} </span>
                   <span className={classes.off}>
                     {product.discount + "% off"}
-                  </span>
+                  </span>{" "}
+                  <span className={classes.variant}>{product.unit}</span>
                 </Hidden>
                 <div className={classes.priceBox}>
                   <div className={classes.apriceDiv}>
@@ -284,34 +293,36 @@ function ProductDetails(props) {
                   </div>
                   <div className={classes.taxinfo}>Inclusive of all taxes</div>
                 </div>
-                <div className={classes.change}>
-                  {count < 1 && (
-                    <div className={classes.addBtn} onClick={handleAdd}>
-                      <span>Add to My Cart</span>
-                      <span className={classes.iconAddBtn}></span>
-                    </div>
-                  )}
-                  {count > 0 && (
-                    <div className={classes.changeCountDiv}>
-                      <IconButton
-                        onClick={minusCount}
-                        className={classes.countBtn}
-                        aria-label="remove"
-                      >
-                        <Remove />
-                      </IconButton>
+                {product.visibility && (
+                  <div className={classes.change}>
+                    {count < 1 && (
+                      <div className={classes.addBtn} onClick={handleAdd}>
+                        <span>Add to My Cart</span>
+                        <span className={classes.iconAddBtn}></span>
+                      </div>
+                    )}
+                    {count > 0 && (
+                      <div className={classes.changeCountDiv}>
+                        <IconButton
+                          onClick={minusCount}
+                          className={classes.countBtn}
+                          aria-label="remove"
+                        >
+                          <Remove />
+                        </IconButton>
 
-                      <div className={classes.count}>{count}</div>
-                      <IconButton
-                        onClick={plusCount}
-                        className={classes.countBtn}
-                        aria-label="add"
-                      >
-                        <Add />
-                      </IconButton>
-                    </div>
-                  )}
-                </div>
+                        <div className={classes.count}>{count}</div>
+                        <IconButton
+                          onClick={plusCount}
+                          className={classes.countBtn}
+                          aria-label="add"
+                        >
+                          <Add />
+                        </IconButton>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className={classes.shareDiv}>
                   <EmailShareButton url={window.location.href}>
                     <EmailIcon

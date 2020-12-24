@@ -90,11 +90,15 @@ function ProductSwiper(props) {
         height={300}
       >
         {props.special &&
-          props.special.map((productData, idx) => (
-            <SwiperSlide key={idx}>
-              <ProductCard productData={productData} />
-            </SwiperSlide>
-          ))}
+          props.special.map((productData) => {
+            if (productData.visibility) {
+              return (
+                <SwiperSlide key={productData.id}>
+                  <ProductCard productData={productData} />
+                </SwiperSlide>
+              );
+            }
+          })}
       </Swiper>
     </div>
   );

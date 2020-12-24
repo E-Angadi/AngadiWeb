@@ -92,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     marginLeft: theme.spacing(1),
   },
+  nosave: {
+    height: "16px",
+  },
   variant: {
     fontSize: "12px",
     fontWeight: "bold",
@@ -199,10 +202,14 @@ function ProductCard(props) {
             src={productData.imageURL}
             alt={productData.title}
           />
-          <span className={classes.off}>
-            <span className={classes.offNum}>{productData.discount + "%"}</span>{" "}
-            off
-          </span>
+          {productData.discount > 0 && (
+            <span className={classes.off}>
+              <span className={classes.offNum}>
+                {productData.discount + "%"}
+              </span>{" "}
+              off
+            </span>
+          )}
         </div>
         <span className={classes.title}>
           {truncateString(productData.title, titleLimit)}
@@ -214,9 +221,12 @@ function ProductCard(props) {
         <span className={classes.dprice}>{"₹" + productData.taxedPrice}</span>
         <span> </span>
         <span className={classes.variant}>{productData.unit}</span>
-        <span className={classes.save}>
-          save ₹{productData.taxedPrice - productData.totalPrice}
-        </span>
+        {productData.discount > 0 && (
+          <span className={classes.save}>
+            save ₹{productData.taxedPrice - productData.totalPrice}
+          </span>
+        )}
+        {productData.discount === 0 && <div className={classes.nosave}> </div>}
       </div>
       <div className={classes.change}>
         {count < 1 && (

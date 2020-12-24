@@ -198,12 +198,15 @@ export const loadCartItems = () => {
               .doc(item.id)
               .get()
               .then((d) => {
-                dispatch({
-                  type: "ITEM_LOADED",
-                  product: d.data(),
-                  productId: item.id,
-                  quantity: item.quantity,
-                });
+                let data = d.data();
+                if (data.visibility) {
+                  dispatch({
+                    type: "ITEM_LOADED",
+                    product: data,
+                    productId: item.id,
+                    quantity: item.quantity,
+                  });
+                }
               })
               .catch((err) => {
                 dispatch({

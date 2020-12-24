@@ -120,6 +120,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: "18px",
   },
+  nosave: {
+    height: "16px",
+  },
 }));
 
 function ProductHCard(props) {
@@ -173,9 +176,14 @@ function ProductHCard(props) {
                 </span>
                 <span> </span>
                 <span className={classes.variant}>{props.item.unit}</span>
-                <span className={classes.save}>
-                  save ₹ {props.item.taxedPrice - props.item.totalPrice}
-                </span>
+                {props.item.discount > 0 && (
+                  <span className={classes.save}>
+                    save ₹ {props.item.taxedPrice - props.item.totalPrice}
+                  </span>
+                )}
+                {props.item.discount === 0 && (
+                  <div className={classes.nosave} />
+                )}
               </div>
               <div className={classes.quanDiv}>
                 <div className={classes.quanPrice}>

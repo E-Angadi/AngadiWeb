@@ -7,6 +7,7 @@ import ProductGrid from "../product/ProductGrid";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import CartBox from "../cart/CartBox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +66,7 @@ function CategoryProducts(props) {
       <Grid container spacing={2}>
         <Hidden smDown>
           <Grid item md={2}>
-            <CategoriesBox />
+            <CartBox />
           </Grid>
         </Hidden>
         <Grid item xs={12} md={10} container>

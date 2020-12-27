@@ -1,18 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
-import CategoriesBox from "./CategoriesBox";
 import ProductGrid from "../product/ProductGrid";
+import CartBox from "../cart/CartBox";
 
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
-import CartBox from "../cart/CartBox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#eaeded",
     padding: theme.spacing(2),
+    paddingLeft: theme.spacing(1),
+    paddingTop: theme.spacing(1),
     minHeight: "100vh",
     [theme.breakpoints.down("xs")]: {
       padding: 0,

@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
-import CategoriesBox from "../category/CategoriesBox";
 import ProductGrid from "./ProductGrid";
 
 import { connect } from "react-redux";
 
 import { search } from "../../../store/actions/searchActions";
+import CartBox from "../cart/CartBox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#eaeded",
     padding: theme.spacing(2),
+    paddingLeft: theme.spacing(1),
+    paddingTop: theme.spacing(1),
     minHeight: "100vh",
     [theme.breakpoints.down("xs")]: {
       padding: 0,
@@ -56,7 +58,7 @@ function SearchProduct(props) {
       <Grid container spacing={2}>
         <Hidden smDown>
           <Grid item md={2}>
-            <CategoriesBox />
+            <CartBox />
           </Grid>
         </Hidden>
         <Grid item xs={12} md={10} container>

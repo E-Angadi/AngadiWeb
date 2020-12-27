@@ -162,7 +162,7 @@ function ProductCard(props) {
   var productData = props.productData;
   var fullwidth = props.fullwidth;
   var titleLimit = props.titleLimit;
-
+  console.log(productData);
   const classes = useStyles();
   const [count, setCount] = useState(0);
 

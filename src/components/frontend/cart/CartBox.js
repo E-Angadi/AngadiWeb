@@ -10,12 +10,18 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#fff",
     padding: theme.spacing(1),
-    marginBottom: theme.spacing(3),
-    height: 500,
+    height: "70vh",
+    overflowY: "auto",
   },
   head: {
     color: "#000000",
+    backgroundColor: "#FFFFFF",
     marginBottom: theme.spacing(1),
+    position: "absolute",
+    top: 0,
+    padding: theme.spacing(1),
+    paddingRight: theme.spacing(2),
+    zIndex: 10,
   },
   item: {
     padding: theme.spacing(1),
@@ -37,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    marginTop: 5,
   },
   countBtn: {
     color: "#FFFFFF",
@@ -61,6 +68,36 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textDecoration: "none",
     color: "#000000",
+  },
+  noitems: {
+    fontSize: 14,
+    color: "rgba(111,114,132,.75)",
+    marginTop: theme.spacing(2),
+  },
+  proceed: {
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: theme.palette.primary.main,
+    color: "#FFFFFF",
+    overflowX: "hidden",
+    textAlign: "center",
+    width: "100%",
+    height: 30,
+    paddingTop: 10,
+    fontSize: 16,
+    zIndex: 10,
+  },
+  mainRoot: {
+    position: "sticky",
+    width: "16.66vw",
+    top: 120,
+    marginTop: theme.spacing(2),
+  },
+  spacer: {
+    height: 46,
+  },
+  topSpacer: {
+    height: 30,
   },
 }));
 
@@ -88,51 +125,68 @@ function CartBox(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.mainRoot}>
       <Grid container className={classes.head} xs={12} justify="space-between">
         <Grid item xs="auto">
           My Cart(<b>{props.cart.length}</b>)
         </Grid>
         <Grid item xs="auto">
-          <b>{calcTPrice(props.cart)}</b>
+          <b>₹ {calcTPrice(props.cart)}</b>
         </Grid>
       </Grid>
       <Divider />
-      {props.cart.map((product) => (
-        <div className={classes.item}>
-          <Link className={classes.title} to={"/product/" + product.id}>
-            {truncateString(product.title, 50) + " "}
-            <span className={classes.variant}>{product.unit}</span>
-          </Link>
+      <div className={classes.root}>
+        <div className={classes.topSpacer} />
+        {props.cart.map((product) => (
+          <div key={product.id} className={classes.item}>
+            <Link className={classes.title} to={"/product/" + product.id}>
+              {truncateString(product.title, 50) + " "}
+              <span className={classes.variant}>{product.unit}</span>
+            </Link>
 
-          <Grid container justify="space-between" alignItems="center">
-            <Grid item xs="auto">
-              <b>₹ {product.totalPrice}</b>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item xs="auto">
+                <b>₹ {product.totalPrice}</b>
+              </Grid>
+              <Grid item xs="auto">
+                <div className={classes.changeCountDiv}>
+                  <IconButton
+                    onClick={() => props.removeItem(product)}
+                    className={classes.countBtn}
+                    aria-label="remove"
+                  >
+                    <Remove className={classes.icon} />
+                  </IconButton>
+
+                  <div className={classes.count}>{product.quantity}</div>
+
+                  <IconButton
+                    onClick={() => props.addItem(product)}
+                    className={classes.countBtn}
+                    aria-label="add"
+                  >
+                    <Add className={classes.icon} />
+                  </IconButton>
+                </div>
+              </Grid>
             </Grid>
+          </div>
+        ))}
+        <div className={classes.spacer} />
+
+        {props.cart.length === 0 && (
+          <Grid className={classes.noitems} container justify="center">
             <Grid item xs="auto">
-              <div className={classes.changeCountDiv}>
-                <IconButton
-                  onClick={() => props.removeItem(product)}
-                  className={classes.countBtn}
-                  aria-label="remove"
-                >
-                  <Remove className={classes.icon} />
-                </IconButton>
-
-                <div className={classes.count}>{product.quantity}</div>
-
-                <IconButton
-                  onClick={() => props.addItem(product)}
-                  className={classes.countBtn}
-                  aria-label="add"
-                >
-                  <Add className={classes.icon} />
-                </IconButton>
-              </div>
+              No items in the cart
             </Grid>
           </Grid>
-        </div>
-      ))}
+        )}
+      </div>
+      {props.cart.length > 0 && (
+        <Link to="/checkout/review">
+          <div className={classes.proceed}>Proceed to Review</div>
+        </Link>
+      )}
     </div>
   );
 }

@@ -48,12 +48,12 @@ exports.onProductCreated = functions.firestore
 
 exports.onProductUpdated = functions.firestore
   .document("products/{productId}")
-  .onUpdate((snap, context) => {
-    const product = snap.data();
-    product.objectID = context.params.productId;
+  .onUpdate((change, context) => {
+    const newData = change.after.data();
+    newData.objectID = context.params.productId;
     var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
     var index = client.initIndex(ALGOLIA_INDEX_NAME);
-    return index.partialUpdateObject(product);
+    return index.partialUpdateObject(newData);
   });
 
 exports.onProductDeleted = functions.firestore

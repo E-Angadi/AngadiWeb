@@ -44,11 +44,14 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     position: "absolute",
-    width: 300,
+    width: 400,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     justifyContent: "center",
+  },
+  confirmMsg: {
+    textAlign: "center",
   },
 }));
 
@@ -78,8 +81,10 @@ function Payment(props) {
     return (
       <div style={modalStyle} className={classes.paper}>
         <Grid container justify="center">
-          <Grid item>
-            <h2>{success ? "Payment Successful" : "Payment Failure"}</h2>
+          <Grid item xs={12}>
+            <h2 className={classes.confirmMsg}>
+              {success ? "Order Placed" : "Failure Placing Order"}
+            </h2>
           </Grid>
           <Grid item>
             <img src={success ? "/imgs/success.png" : "/imgs/failure.png"} />

@@ -36,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     fontWeight: 600,
   },
+  algolia: {
+    fontSize: 14,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 12,
+    },
+  },
 }));
 
 function SearchProduct(props) {
@@ -73,7 +79,7 @@ function SearchProduct(props) {
               </Grid>
               <Grid item>
                 {configs.usingAlgoliaFree && (
-                  <span>
+                  <span className={classes.algolia}>
                     Search powered <br /> by <b>Algolia</b>
                   </span>
                 )}

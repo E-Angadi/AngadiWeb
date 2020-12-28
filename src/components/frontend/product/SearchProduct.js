@@ -67,7 +67,14 @@ function SearchProduct(props) {
               Showing all results for{" "}
               <span className={classes.searchTitle}>{search}</span>
             </span>
-            {props.results && <ProductGrid data={props.results} />}
+            {props.results && (
+              <ProductGrid
+                data={props.results}
+                page={1}
+                count={props.results.length}
+                nextPage={() => {}}
+              />
+            )}
           </div>
         </Grid>
       </Grid>

@@ -63,7 +63,14 @@ function SpecialProducts(props) {
         </Hidden>
         <Grid item xs={12} md={10} container>
           <div className={classes.main}>
-            {props.products && <ProductGrid data={props.products} />}
+            {props.products && (
+              <ProductGrid
+                data={props.products}
+                page={1}
+                count={props.products.length}
+                nextPage={() => {}}
+              />
+            )}
           </div>
         </Grid>
       </Grid>

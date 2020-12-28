@@ -185,6 +185,12 @@ const useStyles = makeStyles((theme) => ({
     background: "rgba(111,114,132,.25)",
     borderRadius: theme.shape.borderRadius,
   },
+  ofs: {
+    color: "grey",
+    fontWeight: 400,
+    fontSize: 20,
+    marginTop: 30,
+  },
 }));
 
 const url = "/imgs/default.jpg";
@@ -346,6 +352,9 @@ function ProductDetails(props) {
                     />
                   </WhatsappShareButton>
                 </div>
+                {!product.visibility && (
+                  <div className={classes.ofs}>Out of Stock</div>
+                )}
               </div>
             )}
           </Grid>

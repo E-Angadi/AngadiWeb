@@ -73,17 +73,15 @@ function ProductGrid(props) {
       <div className={classes.productRoot}>
         <Grid container spacing={1}>
           {sliceProducts(data, page, pageLimit).map((product) => {
-            if (product.visibility) {
-              return (
-                <Grid key={product.id} item xs={6} sm={4} md={3} xl={2}>
-                  <ProductCard
-                    productData={product}
-                    fullwidth={true}
-                    titleLimit={50}
-                  />
-                </Grid>
-              );
-            }
+            return (
+              <Grid key={product.id} item xs={6} sm={4} md={3} xl={2}>
+                <ProductCard
+                  productData={product}
+                  fullwidth={true}
+                  titleLimit={50}
+                />
+              </Grid>
+            );
           })}
         </Grid>
         <Grid container justify="center">

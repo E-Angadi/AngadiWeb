@@ -142,6 +142,7 @@ export const loadSpecials = () => {
       firestore
         .collection("products")
         .where("special", "==", true)
+        .where("visibility", "==", true)
         .get()
         .then((snapshot) => {
           return snapshot.docs.map((doc) => {

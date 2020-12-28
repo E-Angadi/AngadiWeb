@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import { search } from "../../../store/actions/searchActions";
 import CartBox from "../cart/CartBox";
+import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,10 +64,22 @@ function SearchProduct(props) {
         </Hidden>
         <Grid item xs={12} md={10} container>
           <div className={classes.main}>
-            <span className={classes.searchHead}>
-              Showing all results for{" "}
-              <span className={classes.searchTitle}>{search}</span>
-            </span>
+            <Grid container justify="space-between">
+              <Grid item>
+                <span className={classes.searchHead}>
+                  Showing all results for{" "}
+                  <span className={classes.searchTitle}>{search}</span>
+                </span>
+              </Grid>
+              <Grid item>
+                {configs.usingAlgoliaFree && (
+                  <span>
+                    Search powered <br /> by <b>Algolia</b>
+                  </span>
+                )}
+              </Grid>
+            </Grid>
+
             {props.results && (
               <ProductGrid
                 data={props.results}

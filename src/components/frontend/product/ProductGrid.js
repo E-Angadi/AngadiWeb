@@ -51,8 +51,11 @@ const getProductCountInPage = (data, page, limit) => {
 
 function ProductGrid(props) {
   const classes = useStyles();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(props.page);
   const handleChange = (event, value) => {
+    if (value > page) {
+      props.nextPage();
+    }
     setPage(value);
   };
   const pageLimit = configs.maxPageCards;
@@ -65,7 +68,7 @@ function ProductGrid(props) {
         <span className={classes.pageCount}>
           {getProductCountInPage(data, page, pageLimit)}
         </span>{" "}
-        of <span className={classes.pageCount}> {data.length}</span> items
+        of <span className={classes.pageCount}> {props.count}</span> items
       </div>
       <div className={classes.productRoot}>
         <Grid container spacing={1}>
@@ -86,7 +89,7 @@ function ProductGrid(props) {
         <Grid container justify="center">
           <Grid item>
             <Pagination
-              count={Math.ceil(data.length / pageLimit)}
+              count={Math.ceil(props.count / pageLimit)}
               color="primary"
               variant="outlined"
               shape="rounded"

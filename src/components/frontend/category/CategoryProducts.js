@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
-import ProductGrid from "../product/ProductGrid";
 import CartBox from "../cart/CartBox";
+import ProductGrid from "../product/ProductGrid";
 
 import { useFirestoreConnect } from "react-redux-firebase";
 import { configs } from "../../../config/configs";
@@ -50,7 +50,7 @@ const searchCategory = (categories, id) => {
   if (!categories) return ["", ""];
   var category = categories.find((x) => x.id === id);
   if (category) {
-    return [category.bannerImageURL, category.description];
+    return [category.bannerImageURL, category.description, category.count];
   } else {
     return ["", ""];
   }
@@ -59,7 +59,7 @@ const searchCategory = (categories, id) => {
 function CategoryProducts(props) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
-
+  const cardsPerPage = configs.maxPageCards;
   const categories = useSelector((state) => state.category.categories);
   const products = useSelector((state) => state.firestore.ordered.products);
   useFirestoreConnect([
@@ -70,14 +70,21 @@ function CategoryProducts(props) {
         ["title", "asc"],
         ["discount", "asc"],
       ],
-      limit: configs.maxPageCards,
+      limit: cardsPerPage * page,
     },
   ]);
 
-  const [imageURL, description] = searchCategory(
+  const [imageURL, description, count] = searchCategory(
     categories,
     props.match.params.categoryId
   );
+
+  const nextPage = () => {
+    if (page * cardsPerPage < count) {
+      setPage(page + 1);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
@@ -94,7 +101,14 @@ function CategoryProducts(props) {
               alt={"Fresh Fruits"}
             />
             <div className={classes.description}>{description}</div>
-            {products && <ProductGrid data={products} />}
+            {products && (
+              <ProductGrid
+                data={products}
+                page={page}
+                nextPage={nextPage}
+                count={count}
+              />
+            )}
           </div>
         </Grid>
       </Grid>

@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
 import ProductGrid from "../product/ProductGrid";
 import CartBox from "../cart/CartBox";
 
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { firestoreConnect } from "react-redux-firebase";
+import { useFirestoreConnect } from "react-redux-firebase";
+import { configs } from "../../../config/configs";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,8 +58,24 @@ const searchCategory = (categories, id) => {
 
 function CategoryProducts(props) {
   const classes = useStyles();
+  const [page, setPage] = useState(1);
+
+  const categories = useSelector((state) => state.category.categories);
+  const products = useSelector((state) => state.firestore.ordered.products);
+  useFirestoreConnect([
+    {
+      collection: "products",
+      where: [["category", "==", props.match.params.categoryId]],
+      orderBy: [
+        ["title", "asc"],
+        ["discount", "asc"],
+      ],
+      limit: configs.maxPageCards,
+    },
+  ]);
+
   const [imageURL, description] = searchCategory(
-    props.categories,
+    categories,
     props.match.params.categoryId
   );
   return (
@@ -78,7 +94,7 @@ function CategoryProducts(props) {
               alt={"Fresh Fruits"}
             />
             <div className={classes.description}>{description}</div>
-            {props.products && <ProductGrid data={props.products} />}
+            {products && <ProductGrid data={products} />}
           </div>
         </Grid>
       </Grid>
@@ -86,21 +102,4 @@ function CategoryProducts(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    products: state.firestore.ordered.products,
-    categories: state.category.categories,
-  };
-};
-
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect((props) => {
-    return [
-      {
-        collection: "products",
-        where: [["category", "==", props.match.params.categoryId]],
-      },
-    ];
-  })
-)(CategoryProducts);
+export default CategoryProducts;

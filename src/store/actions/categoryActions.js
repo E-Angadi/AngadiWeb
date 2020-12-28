@@ -11,6 +11,7 @@ export const createCategory = (category) => {
         imageURL: "",
         bannerImageURL: "",
         units: "",
+        count: 0,
       })
       .then((resp) => {
         fileID = resp.id;

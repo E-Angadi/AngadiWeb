@@ -29,6 +29,15 @@ export const createProduct = (product) => {
           .update({ imageURL: downloadURL });
       })
       .then(() => {
+        var categoryRef = firestore
+          .collection("categories")
+          .doc(product.category);
+
+        return categoryRef.update({
+          count: firestore.FieldValue.increment(1),
+        });
+      })
+      .then(() => {
         dispatch({ type: "CREATE_PRODUCT", product });
       })
       .catch((err) => {
@@ -95,6 +104,14 @@ export const deleteProduct = (product) => {
           .ref()
           .child("productImages/" + product.id);
         return imageRef.delete();
+      })
+      .then(() => {
+        return firestore
+          .collection("categories")
+          .doc(product.category)
+          .update({
+            count: firestore.FieldValue.increment(-1),
+          });
       })
       .then(() => {
         dispatch({ type: "DELETE_PRODUCT", product });

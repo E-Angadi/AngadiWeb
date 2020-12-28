@@ -145,6 +145,11 @@ const useStyles = makeStyles((theme) => ({
     height: "90%",
     width: "90%",
   },
+  ofs: {
+    textAlign: "center",
+    color: "grey",
+    fontWeight: 400,
+  },
 }));
 
 const truncateString = (text, limit) => {
@@ -162,7 +167,6 @@ function ProductCard(props) {
   var productData = props.productData;
   var fullwidth = props.fullwidth;
   var titleLimit = props.titleLimit;
-  console.log(productData);
   const classes = useStyles();
   const [count, setCount] = useState(0);
 
@@ -229,11 +233,14 @@ function ProductCard(props) {
         {productData.discount === 0 && <div className={classes.nosave}> </div>}
       </div>
       <div className={classes.change}>
-        {count < 1 && (
+        {count < 1 && productData.visibility && (
           <div className={classes.addBtn} onClick={handleAdd}>
             <span>Add to My Cart</span>
             <span className={classes.iconAddBtn}></span>
           </div>
+        )}
+        {!productData.visibility && (
+          <div className={classes.ofs}>Out of Stock</div>
         )}
         {count > 0 && (
           <div className={classes.changeCountDiv}>

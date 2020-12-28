@@ -83,6 +83,11 @@ function AboutUs() {
             >
               <img src="/imgs/ios_store.png" alt="Download app from appstore" />
             </a>
+            {configs.usingAlgoliaFree && (
+              <div>
+                Search powered <br /> by <b>Algolia</b>
+              </div>
+            )}
           </div>
         </Grid>
       </Grid>

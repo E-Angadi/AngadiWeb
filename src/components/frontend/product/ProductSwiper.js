@@ -74,7 +74,7 @@ function ProductSwiper(props) {
   const { title } = props;
 
   useEffect(() => {
-    props.loadSpecials();
+    props.loadSpecials(20);
   }, []);
 
   return (
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
 
 const matchDispatchToProps = (dispatch) => {
   return {
-    loadSpecials: () => dispatch(loadSpecials()),
+    loadSpecials: (limit) => dispatch(loadSpecials(limit)),
   };
 };
 

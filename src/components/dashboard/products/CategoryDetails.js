@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     color: "grey",
   },
+  count: {
+    marginLeft: 40,
+    marginTop: 10,
+  },
   divider: {
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
@@ -173,6 +177,9 @@ function CategoryDetails(props) {
             <div className={classes.description}>
               {props.category.description}
             </div>
+          </Grid>
+          <Grid className={classes.count} item xs={12}>
+            Products Count: <b>{props.category.count}</b>
           </Grid>
         </Grid>
       </Grid>

@@ -80,9 +80,9 @@ function CategoryProducts(props) {
     props.match.params.categoryId
   );
 
-  const nextPage = () => {
+  const nextPage = (value) => {
     if (page * cardsPerPage < count) {
-      setPage(page + 1);
+      setPage(value);
     }
   };
 
@@ -106,7 +106,7 @@ function CategoryProducts(props) {
               <ProductGrid
                 data={products}
                 page={page}
-                nextPage={nextPage}
+                nextPage={(value) => nextPage(value)}
                 count={count}
               />
             )}

@@ -27,7 +27,7 @@ configs.razorpay = {
 };
 
 // max cards in single pagination
-configs.maxPageCards = 20;
+configs.maxPageCards = 1;
 // max categories on category bar below header
 configs.maxCategoriesOnBar = 16;
 // max categories on category box

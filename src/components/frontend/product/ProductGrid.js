@@ -54,7 +54,7 @@ function ProductGrid(props) {
   const [page, setPage] = useState(props.page);
   const handleChange = (event, value) => {
     if (value > page) {
-      props.nextPage();
+      props.nextPage(value);
     }
     setPage(value);
   };

@@ -93,6 +93,7 @@ export default compose(
           ["deliverd", "==", false],
           ["cancelled", "==", false],
         ],
+        orderBy: ["time", "desc"],
       },
     ];
   })

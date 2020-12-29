@@ -126,7 +126,7 @@ function CartBox(props) {
 
   return (
     <div className={classes.mainRoot}>
-      <Grid container className={classes.head} xs={12} justify="space-between">
+      <Grid container className={classes.head} justify="space-between">
         <Grid item xs="auto">
           My Cart(<b>{props.cart.length}</b>)
         </Grid>

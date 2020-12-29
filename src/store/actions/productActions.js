@@ -143,6 +143,8 @@ export const loadSpecials = () => {
         .collection("products")
         .where("special", "==", true)
         .where("visibility", "==", true)
+        .orderBy("discount", "desc")
+        .orderBy("title", "asc")
         .get()
         .then((snapshot) => {
           return snapshot.docs.map((doc) => {

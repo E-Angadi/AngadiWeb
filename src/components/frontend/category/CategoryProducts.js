@@ -67,8 +67,9 @@ function CategoryProducts(props) {
       collection: "products",
       where: [["category", "==", props.match.params.categoryId]],
       orderBy: [
+        ["visibility", "desc"],
+        ["discount", "desc"],
         ["title", "asc"],
-        ["discount", "asc"],
       ],
       limit: cardsPerPage * page,
     },

@@ -119,6 +119,7 @@ export default compose(
           ["user_id", "==", props.auth.uid],
           ["completed", "==", true],
         ],
+        orderBy: ["time", "desc"],
       },
     ];
   })

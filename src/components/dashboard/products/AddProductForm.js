@@ -86,6 +86,13 @@ function AddProductForm(props) {
     let tmp = { ...errors };
     if ("title" in fieldValues)
       tmp.title = fieldValues.title ? "" : "This field is required.";
+    if ("title" in fieldValues)
+      tmp.title =
+        fieldValues.title.includes(",") ||
+        fieldValues.title.includes(";") ||
+        fieldValues.title.includes("|")
+          ? "', | ;' these characters are not allowed in the title"
+          : "";
     if ("description" in fieldValues)
       tmp.description = fieldValues.description
         ? ""

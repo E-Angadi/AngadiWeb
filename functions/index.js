@@ -9,11 +9,13 @@ const search = require("./search");
 
 var admin = require("firebase-admin");
 
+const config = require("./config");
+
 admin.initializeApp();
 
 const rz_key = {
-  key_id: "rzp_test_lxD9jsRSbpBOAz",
-  key_secret: "xxxxxxxxxxxxxxxxxxxx",
+  key_id: config.razorpay.key_id,
+  key_secret: config.razorpay.key_secret,
 };
 
 const instance = new rzp(rz_key);

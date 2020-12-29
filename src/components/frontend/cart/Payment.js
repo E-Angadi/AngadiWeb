@@ -20,6 +20,7 @@ import {
   resetPaymentState,
 } from "../../../store/actions/paymentActions";
 import { configs } from "../../../config/configs";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   confirmMsg: {
+    textAlign: "center",
+  },
+  status: {
     textAlign: "center",
   },
 }));
@@ -89,6 +93,15 @@ function Payment(props) {
           <Grid item>
             <img src={success ? "/imgs/success.png" : "/imgs/failure.png"} />
           </Grid>
+          {success && (
+            <Grid item xs={12}>
+              <div className={classes.status}>
+                <Link to="/account#orders" onClick={handleClose}>
+                  View your order details and status
+                </Link>
+              </div>
+            </Grid>
+          )}
         </Grid>
       </div>
     );

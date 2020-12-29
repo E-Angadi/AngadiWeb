@@ -72,7 +72,7 @@ function Account(props) {
           <Grid item xs={10} lg={6}>
             <CartAddress profile={props.profile} open={false} />
           </Grid>
-          <Grid item xs={10} lg={8}>
+          <Grid id="orders" item xs={10} lg={8}>
             <div className={classes.ordersRoot}>
               <h2>Orders</h2>
               {props.orders &&

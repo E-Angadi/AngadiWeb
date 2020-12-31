@@ -20,7 +20,10 @@ const rz_key = {
 
 const instance = new rzp(rz_key);
 const app = express();
+
 app.use(cors());
+app.options("*", cors()); // enables pre-flight options
+
 app.use(bp.json());
 
 app.get("/", async (req, res) => res.send("Hello World!"));

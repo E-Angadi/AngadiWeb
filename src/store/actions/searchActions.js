@@ -1,7 +1,8 @@
 import algoliasearch from "algoliasearch";
+import { configs } from "../../config/configs";
 
-const ALGOLIA_APP_ID = "MK4FKGQT13";
-const ALGOLIA_SEARCH_ONLY_KEY = "ebf46ee984b4c1bf1997ec5969632ae7";
+const ALGOLIA_APP_ID = configs.algolia.app_id;
+const ALGOLIA_SEARCH_ONLY_KEY = configs.algolia.search_only_key;
 const algolia = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_SEARCH_ONLY_KEY);
 
 export const searchingTrue = () => {

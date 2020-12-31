@@ -26,6 +26,11 @@ configs.razorpay = {
   key_id: "rzp_test_lxD9jsRSbpBOAz",
 };
 
+configs.algolia = {
+  app_id: "MK4FKGQT13",
+  search_only_key: "ebf46ee984b4c1bf1997ec5969632ae7",
+};
+
 // max cards in single pagination
 configs.maxPageCards = 20;
 // max categories on category bar below header

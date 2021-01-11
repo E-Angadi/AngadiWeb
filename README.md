@@ -77,6 +77,7 @@ AngadiWeb is an e-commerce application built with an intention to help small and
 - Highly Secure.
 - A functional Dashboard which supports several use cases.
 - Forget about the server because everything here is on [Firebase](https://firebase.google.com/).
+- A full-text based search powered by [Algolia](https://www.algolia.com/).
 - Completely configurable.
 - Deliverable location control.
 - Guest user login is also available.
@@ -89,6 +90,7 @@ AngadiWeb is an e-commerce application built with an intention to help small and
 - [Material UI](https://material-ui.com/)
 - [Firebase](https://firebase.google.com/)
 - [Razorpay](https://razorpay.com/)
+- [Algolia](https://www.algolia.com/)
 - [Redux](https://redux.js.org/)
 - [React Redux Firebase](http://react-redux-firebase.com/docs/getting_started)
 - [React Redux](https://react-redux.js.org/)
@@ -139,29 +141,31 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
       appId: "1:111111111111:web:111111111111111111",
     };
    ```
-7. Create a Razorpay account and generate the `key_id` and `key_secret` in test mode. Follow the guide [here](https://razorpay.com/docs/payment-gateway/dashboard-guide/settings/api-keys/). Paste this `key_id` in `src/config/configs.js` and both the keys in `functions/index.js` in the variable `rz_key`
+7. Create a Razorpay account and generate the `key_id` and `key_secret` in test mode. Follow the guide [here](https://razorpay.com/docs/payment-gateway/dashboard-guide/settings/api-keys/). Paste this `key_id` in `src/config/configs.js` and both the keys in `functions/config.js`
 
-8. Complete the remaining changes with `src/config/configs.js` file like colors, title, description, etc.
+8. Create a Algolia cooount and create a index with name `products`(Case Sensitive). Generate the [API keys](https://www.algolia.com/doc/guides/security/api-keys/). Copy the app_id and search only key and paste it in the `src/config/configs.js` file. Copy the app id and admin key and paste them in the `functions/config.js`. Go through the steps in algolia, setup your search parameters as `title`, `description` such that, user can search over these two values only. You can adjust other search terms even after adding the products. Now your products data will be in sync with algolia data.
 
-9. Replace the `public/imgs/logo.png` with your logo and if possible `public/favicon.ico` with your favicon
+9. Complete the remaining changes with `src/config/configs.js` file like colors, title, description, etc.
 
-10. Move to the terminal / powershell, run the command below. Allow the firebase CLI to access your project
+10. Replace the `public/imgs/logo.png` with your logo and if possible `public/favicon.ico` with your favicon
+
+11. Move to the terminal / powershell, run the command below. Allow the firebase CLI to access your project
     ```sh
     firebase login
     ```
-11. Initialize firebase, select the options
+12. Initialize firebase, select the options
     - Use existing project
     - Select your project (Which you created in step 3)
-    - Select firebase functions and hosting
-    - Use JavaScript as language in functions and use Eslint
+    - Select firestore, functions and hosting
     - Don't override any files
+    - Use JavaScript as language in functions and use Eslint
     - Install firebase functions dependencies
     - Yes for Single Page Application (SPA)
     - Use `build` as public dist
     ```sh
     firebase init
     ```
-12. Create your Admin Account
+13. Create your Admin Account
 
     - Open the Authentication tab in your firebase console and click on the Add user button. Enter your admin email and password and hit on Add user button.
     - You can witness a user added in the list, copy the User UID of the account you just created from the list.
@@ -175,35 +179,36 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
       - name - string - (your name)
       - pNum - string - (your phone number)
 
-13. To test your application, run the command below in the terminal / powershell. open `http://localhost:3000/` in your browser.
+14. To test your application, run the command below in the terminal / powershell. open `http://localhost:3000/` in your browser.
     ```sh
     npm start
     ```
-14. open Sign In page from header or `http://localhost:3000/signin` and enter your admin email address and password to signin. Open your dashboard at `http://localhost:3000/dashboard`. Open the Locations tab in the dashboard and add few deliverable locations pincode. Now open the home page and check the colors and logo.
+15. open Sign In page from header or `http://localhost:3000/signin` and enter your admin email address and password to signin. Open your dashboard at `http://localhost:3000/dashboard`. Open the Locations tab in the dashboard and add few deliverable locations pincode. Now open the home page and check the colors and logo.
 
-15. Run the command below to deploy firebase functions which are essential for payments. copy functions url obtained after successully deploying functions. Paste that URL in `src/config/configs.js` file as value of functionsURL field.
+16. Run the command below to deploy firebase functions which are essential for payments. copy functions url obtained after successully deploying functions. Paste that URL in `src/config/configs.js` file as value of functionsURL field.
     ```sh
     firebase deploy --only functions
     ```
-16. Build the application running the command below. This will create a production code in `build` folder
+17. Build the application running the command below. This will create a production code in `build` folder
     ```sh
     npm run-script build
     ```
-17. Run the command below to host your site. you will obtain the hosted site URL after successfully hosting site. You can get the same link in the hosting tab of your firebase console.
+18. Run the command below to host your site. you will obtain the hosted site URL after successfully hosting site. You can get the same link in the hosting tab of your firebase console.
     ```sh
     firebase deploy --only hosting
     ```
-18. Run the command below to enforce security
+19. Run the command below to enforce security and indexes
     ```sh
     firebase deploy --only firestore:rules
+    firebase deploy --only firestore:indexes
     ```
-19. Open the hosted site after 10-15 mins, signin with your admin email address and password. Add few categories and products as explained in the <a href="#usage">Usage</a> Section.
+20. Open the hosted site after 10-15 mins, signin with your admin email address and password. Add few categories and products as explained in the <a href="#usage">Usage</a> Section.
 
-20. Now test the application by placing an order by adding few products into the cart with admin account and normal account. You should see those placed orders in your dashboard. You should also see payment received in your razorpay dashboard.
+21. Now test the application by placing an order by adding few products into the cart with admin account and normal account. You should see those placed orders in your dashboard. You should also see payment received in your razorpay dashboard.
 
-21. If step 20 is successful and if your razorpay verification process is completed before, generate the `key_id` and `key_secret` in live mode and replace those with test mode keys which we placed in step 7. Also setup the payment capturing setting in your razorpay dashboard if need for your bussiness.
+22. If step 20 is successful and if your razorpay verification process is completed before, generate the `key_id` and `key_secret` in live mode and replace those with test mode keys which we placed in step 7. Also setup the payment capturing setting in your razorpay dashboard if need for your bussiness.
 
-22. Now build the project again as explained in step 16 and host it as explained in step 17. Your Deployment is successful.
+23. Now build the project again as explained in step 16 and host it as explained in step 17. Your Deployment is successful.
 
 NOTE: some common errors which we encounter while firebase deployment can be resolved by logging out and logging in again by using below commands
 
@@ -231,11 +236,14 @@ firebase login
 - Click the Add Image button to add a category image, recommended size of 200 px X 200 px. similarly, add a banner image with the size shown the in the default image (1000 X 200).
 - Hit on the submit button to create the category, a notification will show up after successfully creating a category.
 
-<b>Update/Delete a Category</b>
+![All about Categories](/images/cs1.png)
 
-- Click on the edit icon in the card below the add category form to edit the respective category name or description
-- Click on the change image or change banner image button to change change image or banner image of the category.
-- It is recommended to not to delete any category before deleting all the products in it.
+<b>Edit Category Listing</b>
+
+- Search and view all the categories details and title, description, images placed and products count in that category.
+- To edit title and description, click on the edit icon beside title and to change the images, click on the image icon at bottom left of images.
+- Add new units and use the respective toggle button to change the state of all the products in that category using that unit.
+- By visibility, we mean in stock or not. So, if the product visibility is false then it will be shown as Out of Stock in the frontend.
 
 ### All about Products
 
@@ -243,7 +251,7 @@ firebase login
 
 <b>Steps to add a product</b>
 
-- Check ON the Product Visibility switch to make that product visible in the website.
+- Check ON the Product Visibility switch to make that product visible (In Stock) in the website.
 - Check ON the Special Offer switch to make that product visible in top deals swiper in the home page.
 - Enter the product title, description, select the category, select the units and enter the value, price, discount percentage, add multiple taxes in percentage / amount form by clicking on add new tax button.
 - Add a product image of size 420 px X 420 px by clicking on add image button. After filling all the details about the product, hit the submit button. You will receive a notification about product creation in top right corner.
@@ -304,6 +312,16 @@ Contributions are what make the open source community such an amazing place to b
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+<b>Scope of improvement</b>
+
+- Converting into SSR.
+- Improving the search without using algolia.
+- Multiple UI options which should be configurable.
+- Support for other payment gateways
+- Support for SMS or Email providers
+- Adding tests and automating it
+- Custom Backend.
 
 <!-- LICENSE -->
 

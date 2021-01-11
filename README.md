@@ -17,6 +17,9 @@
     ·
     <a href="https://github.com/E-Angadi/AngadiWeb/issues">Request Feature</a>
     <br/>
+    <p align='center' style='font-size: 14px;'>
+    Note: Search and Payment functionalities are intentionally disabled on demo version.
+    </p>
       <br/>
       <p align='center' style='font-size: 12px;'>Liked our work, wanna buy us a coffee?
       <br/>
@@ -143,7 +146,7 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
    ```
 7. Create a Razorpay account and generate the `key_id` and `key_secret` in test mode. Follow the guide [here](https://razorpay.com/docs/payment-gateway/dashboard-guide/settings/api-keys/). Paste this `key_id` in `src/config/configs.js` and both the keys in `functions/config.js`
 
-8. Create a Algolia cooount and create a index with name `products`(Case Sensitive). Generate the [API keys](https://www.algolia.com/doc/guides/security/api-keys/). Copy the app_id and search only key and paste it in the `src/config/configs.js` file. Copy the app id and admin key and paste them in the `functions/config.js`. Go through the steps in algolia, setup your search parameters as `title`, `description` such that, user can search over these two values only. You can adjust other search terms even after adding the products. Now your products data will be in sync with algolia data.
+8. Create a Algolia account and create a index with name `products`(Case Sensitive). Generate the [API keys](https://www.algolia.com/doc/guides/security/api-keys/). Copy the app_id and search only key and paste it in the `src/config/configs.js` file. Copy the app id and admin key and paste them in the `functions/config.js`. Go through the steps in algolia, setup your search parameters as `title`, `description` such that, user can search over these two values only. You can adjust other search terms even after adding the products. Now your products data will be in sync with algolia data.
 
 9. Complete the remaining changes with `src/config/configs.js` file like colors, title, description, etc.
 

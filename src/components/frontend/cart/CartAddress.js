@@ -140,6 +140,7 @@ function CartAddress(props) {
       props.updateUserInfo(props.auth.uid, {
         ...values,
         pincode: pincode,
+        name: props.profile.name,
       });
       setOpen(false);
     }

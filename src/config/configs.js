@@ -27,8 +27,8 @@ configs.razorpay = {
 };
 
 configs.algolia = {
-  app_id: "MK4FKGQT13",
-  search_only_key: "ebf46ee984b4c1bf1997ec5969632ae7",
+  app_id: process.env.REACT_APP_ALGOLIA_APP_ID,
+  search_only_key: process.env.REACT_APP_ALGOLIA_SEARCH_ONLY_KEY,
 };
 
 // max cards in single pagination

@@ -61,7 +61,7 @@ app.post("/create_order", async (req, res) => {
       console.log(err);
       res.json({
         code: 400,
-        msg: "Error -  order is added to orders collection",
+        msg: "Error -  order is not added to orders collection",
       });
     }
 

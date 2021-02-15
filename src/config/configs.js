@@ -23,7 +23,7 @@ configs.footer = "#c5c5c5";
 configs.viewall = "#900325";
 
 configs.razorpay = {
-  key_id: "rzp_test_lxD9jsRSbpBOAz",
+  key_id: process.env.REACT_APP_RAZORPAY_KEY_ID,
 };
 
 configs.algolia = {

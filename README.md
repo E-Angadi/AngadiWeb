@@ -128,16 +128,19 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
    ```sh
    npm install
    ```
-3. Open [firebase console](https://console.firebase.google.com/u/0/) with your Google account logged in and create a new project. Upgrade the project plan from spark to blaze by setting up your billing account. follow the instructions [here](https://docs.firerun.io/getting-started/upgrading-from-the-firebase-spark-plan-to-the-blaze-plan-tled).
-4. Hit on the firestore tab in the left drawer in the firebase console and create the firestore database with security rules in test mode. Follow this [guide](https://firebase.google.com/docs/firestore/quickstart#create).
+3. Rename a file named `.env.local.txt` to `.env.local` in root directory.
 
-5. Similarly, setup Authentication with Email/Password and Anonymous mode enabled. Also setup functions and storage with no changes made.
+4. Open [firebase console](https://console.firebase.google.com/u/0/) with your Google account logged in and create a new project. Upgrade the project plan from spark to blaze by setting up your billing account. follow the instructions [here](https://docs.firerun.io/getting-started/upgrading-from-the-firebase-spark-plan-to-the-blaze-plan-tled).
+5. Hit on the firestore tab in the left drawer in the firebase console and create the firestore database with security rules in test mode. Follow this [guide](https://firebase.google.com/docs/firestore/quickstart#create).
 
-6. Click on the web icon in project overview and create a web project with hosting enabled. and copy the Firebase SDK snippet in config mode from project settings. Replace these configs with the dummy ones below in `src/config/firebaseConfig.js`
+6. Similarly, setup Authentication with Email/Password and Anonymous mode enabled. Also setup functions and storage with no changes made.
+
+7. Click on the web icon in project overview and create a web project with hosting enabled. and copy the Firebase SDK snippet in config mode from project settings. Copy & paste each of these configs with the dummy ones present in `.env.local`.
    ```JS
     export var firebaseConfig = {
       apiKey: "AIzaSyAXvJpxppxmWraxxxxxxxxxx",
       authDomain: "yourconfigs.firebaseapp.com",
+      databaseURL: "https://yourconfigs.firebaseio.com",
       projectId: "yourconfigs",
       storageBucket: "yourconfigs.appspot.com",
       messagingSenderId: "217752987550",
@@ -145,15 +148,15 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
     };
    ```
 
-7. Complete the remaining changes with `src/config/configs.js` file like colors, title, description, etc.
+8. Complete the remaining changes with `src/config/configs.js` file like colors, title, description, etc.
 
-8. Replace the `public/imgs/logo.png` with your logo and if possible `public/favicon.ico` with your favicon
+9. Replace the `public/imgs/logo.png` with your logo and if possible `public/favicon.ico` with your favicon
 
-9. Move to the terminal / powershell, run the command below. Allow the firebase CLI to access your project
+10. Move to the terminal / powershell, run the command below. Allow the firebase CLI to access your project
     ```sh
     firebase login
     ```
-10. Initialize firebase, select the options
+11. Initialize firebase, select the options
     - Use existing project
     - Select your project (Which you created in step 3)
     - Select firestore, functions and hosting
@@ -165,8 +168,6 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
     ```sh
     firebase init
     ```
-
-11. Rename a file named `.env.local.txt` to `.env.local`.
 
 12. Create a Razorpay account and generate the `key_id` and `key_secret` in test mode. Follow the guide [here](https://razorpay.com/docs/payment-gateway/dashboard-guide/settings/api-keys/). Paste this `key_id` in `.env.local` file. Now, copy the following command and replace `"KEY ID"` and `"KEY SECRET"` with your `key_id` & `key_secret` and run it.
     ```sh

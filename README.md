@@ -178,6 +178,7 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
     ```sh
       REACT_APP_ALGOLIA_APP_ID=YOUR_APP_ID
       REACT_APP_ALGOLIA_SEARCH_ONLY_KEY=YOUR_SEARCH_ONLY_KEY
+      REACT_APP_ALGOLIA_INDEX_NAME=products
     ```
 
 15. Copy the following command and replace "APP ID" and "ADMIN KEY" with your algolia app id & admin key and run it. 

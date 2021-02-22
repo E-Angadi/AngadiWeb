@@ -136,16 +136,14 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
 6. Similarly, setup Authentication with Email/Password and Anonymous mode enabled. Also setup functions and storage with no changes made.
 
 7. Click on the web icon in project overview and create a web project with hosting enabled. and copy the Firebase SDK snippet in config mode from project settings. Copy & paste each of these configs with the dummy ones present in `.env.local`.
-   ```JS
-    export var firebaseConfig = {
-      apiKey: "AIzaSyAXvJpxppxmWraxxxxxxxxxx",
-      authDomain: "yourconfigs.firebaseapp.com",
-      databaseURL: "https://yourconfigs.firebaseio.com",
-      projectId: "yourconfigs",
-      storageBucket: "yourconfigs.appspot.com",
-      messagingSenderId: "217752987550",
-      appId: "1:111111111111:web:111111111111111111",
-    };
+   ```sh
+    REACT_APP_FIREBASE_API_KEY=your_firebase_apikey
+    REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_authDomain
+    REACT_APP_FIREBASE_DATABASE_URL=your_firebase_databaseUrl
+    REACT_APP_FIREBASE_PROJECT_ID=your_firebase_projectId
+    REACT_APP_FIREBASE_STORAGE_BUCKET=your_firebase_storageBucket
+    REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messagingSenderId
+    REACT_APP_FIREBASE_APP_ID=your_firebase_appId
    ```
 
 8. Complete the remaining changes with `src/config/configs.js` file like colors, title, description, etc.

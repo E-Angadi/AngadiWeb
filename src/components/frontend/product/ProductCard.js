@@ -222,8 +222,14 @@ function ProductCard(props) {
       <div className={classes.priceBox}>
         <span className={classes.aprice}>{"₹" + productData.totalPrice}</span>
         <span> </span>
-        <span className={classes.dprice}>{"₹" + productData.taxedPrice}</span>
-        <span> </span>
+        {productData.discount > 0 && (
+          <>
+            <span className={classes.dprice}>
+              {"₹" + productData.taxedPrice}
+            </span>
+            <span> </span>
+          </>
+        )}
         <span className={classes.variant}>{productData.unit}</span>
         {productData.discount > 0 && (
           <span className={classes.save}>

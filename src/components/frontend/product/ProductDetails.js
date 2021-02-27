@@ -255,9 +255,11 @@ function ProductDetails(props) {
               {loaded && (
                 <Hidden smUp>
                   <span className={classes.title}>{product.title + " "}</span>
-                  <span className={classes.off}>
-                    {product.discount + "% off"}
-                  </span>{" "}
+                  {product.discount > 0 && (
+                    <span className={classes.off}>
+                      {product.discount + "% off"}
+                    </span>
+                  )}{" "}
                   <span className={classes.variant}>{product.unit}</span>
                 </Hidden>
               )}
@@ -273,30 +275,36 @@ function ProductDetails(props) {
               <div className={classes.details}>
                 <Hidden xsDown>
                   <span className={classes.title}>{product.title} </span>
-                  <span className={classes.off}>
-                    {product.discount + "% off"}
-                  </span>{" "}
+                  {product.discount > 0 && (
+                    <span className={classes.off}>
+                      {product.discount + "% off"}
+                    </span>
+                  )}{" "}
                   <span className={classes.variant}>{product.unit}</span>
                 </Hidden>
                 <div className={classes.priceBox}>
-                  <div className={classes.apriceDiv}>
-                    <span>M.R.P: </span>
-                    <span className={classes.aprice}>
-                      {"₹ " + product.taxedPrice}
-                    </span>
-                  </div>
+                  {product.discount > 0 && (
+                    <div className={classes.apriceDiv}>
+                      <span>M.R.P: </span>
+                      <span className={classes.aprice}>
+                        {"₹ " + product.taxedPrice}
+                      </span>
+                    </div>
+                  )}
                   <div className={classes.priceDiv}>
                     <span>Price: </span>
                     <span className={classes.price}>
                       {"₹ " + product.totalPrice}
                     </span>
                   </div>
-                  <div className={classes.saveDiv}>
-                    <span>You Save: </span>
-                    <span className={classes.save}>
-                      {"₹ " + (product.taxedPrice - product.totalPrice)}
-                    </span>
-                  </div>
+                  {product.discount > 0 && (
+                    <div className={classes.saveDiv}>
+                      <span>You Save: </span>
+                      <span className={classes.save}>
+                        {"₹ " + (product.taxedPrice - product.totalPrice)}
+                      </span>
+                    </div>
+                  )}
                   <div className={classes.taxinfo}>Inclusive of all taxes</div>
                 </div>
                 {product.visibility && (

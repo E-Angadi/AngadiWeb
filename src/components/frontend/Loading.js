@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +20,7 @@ function Loading() {
       alignContent="center"
     >
       <Grid item xs="auto">
-        <img height={200} src="/imgs/loading.gif" />
+        <CircularProgress />
       </Grid>
     </Grid>
   );

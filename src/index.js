@@ -18,8 +18,7 @@ import {
   getFirebase,
   isLoaded,
 } from "react-redux-firebase";
-import firebaseConfig from "./config/firebaseConfig";
-import firebase from "firebase/app";
+import firebase, { firebaseConfig } from "./config/firebaseConfig";
 import { composeWithDevTools } from "redux-devtools-extension";
 import Loading from "./components/frontend/Loading";
 

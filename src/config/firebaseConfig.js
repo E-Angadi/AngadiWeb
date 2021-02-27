@@ -13,6 +13,6 @@ export var firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-firebase.initializeApp(firebaseConfig);
+var firebaseApp = firebase.initializeApp(firebaseConfig);
 
-export default firebase;
+export default firebaseApp;

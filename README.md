@@ -136,6 +136,7 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
 6. Similarly, setup Authentication with Email/Password and Anonymous mode enabled. Also setup functions and storage with no changes made.
 
 7. Click on the web icon in project overview and create a web project with hosting enabled. and copy the Firebase SDK snippet in config mode from project settings. Copy & paste each of these configs with the dummy ones present in `.env.local`.
+
    ```sh
     REACT_APP_FIREBASE_API_KEY=your_firebase_apikey
     REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_authDomain
@@ -155,6 +156,7 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
     firebase login
     ```
 11. Initialize firebase, select the options
+
     - Use existing project
     - Select your project (Which you created in step 3)
     - Select firestore, functions and hosting
@@ -163,27 +165,44 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
     - Install firebase functions dependencies
     - Yes for Single Page Application (SPA)
     - Use `build` as public dist
+
     ```sh
     firebase init
     ```
 
+    if you have worked with mulitple projects, specify firebase before running this command about your current project by using below command
+
+    ```sh
+    firebase use your_project_id
+    ```
+
 12. Create a Razorpay account and generate the `key_id` and `key_secret` in test mode. Follow the guide [here](https://razorpay.com/docs/payment-gateway/dashboard-guide/settings/api-keys/). Paste this `key_id` in `.env.local` file. Now, copy the following command and replace `"KEY ID"` and `"KEY SECRET"` with your `key_id` & `key_secret` and run it.
+
     ```sh
       firebase functions:config:set razorpay.key_id="KEY ID" razorpay.key_secret="KEY SECRET"
     ```
 
-14. Create a Algolia account and create a index with name `products`(Case Sensitive). Generate the [API keys](https://www.algolia.com/doc/guides/security/api-keys/). Copy the app_id and search only key and paste it in the `.env.local` file. Your file should look like this with your credentials
+13. Create a Algolia account and create a index with name `products`(Case Sensitive). Generate the [API keys](https://www.algolia.com/doc/guides/security/api-keys/). Copy the app_id and search only key and paste it in the `.env.local` file. Your file should look like this with your credentials
+
     ```sh
       REACT_APP_ALGOLIA_APP_ID=YOUR_APP_ID
       REACT_APP_ALGOLIA_SEARCH_ONLY_KEY=YOUR_SEARCH_ONLY_KEY
       REACT_APP_ALGOLIA_INDEX_NAME=products
     ```
 
-15. Copy the following command and replace "APP ID" and "ADMIN KEY" with your algolia app id & admin key and run it. 
+14. Copy the following command and replace "APP ID" and "ADMIN KEY" with your algolia app id & admin key and run it.
+
     ```sh
         firebase functions:config:set algolia.app_id="APP ID" algolia.admin_key="ADMIN KEY"
     ```
+
     Go through the steps in algolia, setup your search parameters as `title`, `description` such that, user can search over these two values only. You can adjust other search terms even after adding the products. Now your products data will be in sync with algolia data.
+
+15. Run the command below to deploy firebase functions which are essential for payments. copy functions url obtained after successully deploying functions. Paste that URL in `src/config/configs.js` file as value of <b>functionsURL</b> field.
+
+    ```sh
+    firebase deploy --only functions
+    ```
 
 16. Create your Admin Account
 
@@ -205,30 +224,26 @@ This is a detailed step by step instruction guide to setup your own e-commerce s
     ```
 18. open Sign In page from header or `http://localhost:3000/signin` and enter your admin email address and password to signin. Open your dashboard at `http://localhost:3000/dashboard`. Open the Locations tab in the dashboard and add few deliverable locations pincode. Now open the home page and check the colors and logo.
 
-19. Run the command below to deploy firebase functions which are essential for payments. copy functions url obtained after successully deploying functions. Paste that URL in `src/config/configs.js` file as value of functionsURL field.
-    ```sh
-    firebase deploy --only functions
-    ```
-20. Build the application running the command below. This will create a production code in `build` folder
+19. Build the application running the command below. This will create a production code in `build` folder
     ```sh
     npm run-script build
     ```
-21. Run the command below to host your site. you will obtain the hosted site URL after successfully hosting site. You can get the same link in the hosting tab of your firebase console.
+20. Run the command below to host your site. you will obtain the hosted site URL after successfully hosting site. You can get the same link in the hosting tab of your firebase console.
     ```sh
     firebase deploy --only hosting
     ```
-22. Run the command below to enforce security and indexes
+21. Run the command below to enforce security and indexes
     ```sh
     firebase deploy --only firestore:rules
     firebase deploy --only firestore:indexes
     ```
-23. Open the hosted site after 10-15 mins, signin with your admin email address and password. Add few categories and products as explained in the <a href="#usage">Usage</a> Section.
+22. Open the hosted site after 10-15 mins, signin with your admin email address and password. Add few categories and products as explained in the <a href="#usage">Usage</a> Section.
 
-24. Now test the application by placing an order by adding few products into the cart with admin account and normal account. You should see those placed orders in your dashboard. You should also see payment received in your razorpay dashboard.
+23. Now test the application by placing an order by adding few products into the cart with admin account and normal account. You should see those placed orders in your dashboard. You should also see payment received in your razorpay dashboard.
 
-25. If step 20 is successful and if your razorpay verification process is completed before, generate the `key_id` and `key_secret` in live mode and replace those with test mode keys which we placed in step 7. Also setup the payment capturing setting in your razorpay dashboard if need for your bussiness.
+24. If step 20 is successful and if your razorpay verification process is completed before, generate the `key_id` and `key_secret` in live mode and replace those with test mode keys which we placed in step 7. Also setup the payment capturing setting in your razorpay dashboard if need for your bussiness.
 
-26. Now build the project again as explained in step 16 and host it as explained in step 17. Your Deployment is successful.
+25. Now build the project again as explained in step 16 and host it as explained in step 17. Your Deployment is successful.
 
 NOTE: some common errors which we encounter while firebase deployment can be resolved by logging out and logging in again by using below commands
 

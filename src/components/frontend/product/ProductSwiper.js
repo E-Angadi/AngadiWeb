@@ -97,8 +97,8 @@ function ProductSwiper(props) {
       {!props.special.length && (
         <Skeleton
           variant="rect"
-          height={300}
-          width={200}
+          height={280}
+          width={180}
           className={classes.spacer}
         />
       )}

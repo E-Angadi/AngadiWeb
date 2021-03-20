@@ -216,7 +216,6 @@ function ProductCard(props) {
             <img
               className={classes.img}
               src={productData.imageURL}
-              alt={productData.title}
               onLoad={() => setLoaded(true)}
             />
           </div>

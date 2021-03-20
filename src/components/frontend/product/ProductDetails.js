@@ -263,11 +263,7 @@ function ProductDetails(props) {
                   <span className={classes.variant}>{product.unit}</span>
                 </Hidden>
               )}
-              <img
-                className={classes.pImage}
-                src={product.imageURL}
-                alt={title}
-              />
+              <img className={classes.pImage} src={product.imageURL} />
             </div>
           </Grid>
           <Grid item xs={12} sm={6} container>

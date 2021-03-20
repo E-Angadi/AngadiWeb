@@ -8,6 +8,7 @@ import "swiper/components/pagination/pagination.scss";
 import "swiper/components/scrollbar/scrollbar.scss";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadCategories } from "../../../store/actions/categoryActions";
@@ -79,6 +80,12 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 10,
     },
   },
+  spacer: {
+    marginTop: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 function CategorySwiper(props) {
@@ -94,14 +101,24 @@ function CategorySwiper(props) {
       <Button component={Link} to="/categories" className={classes.viewall}>
         View All
       </Button>
-      <Swiper
-        className={classes.swiperRoot}
-        slidesPerView={"auto"}
-        navigation
-        height={300}
-      >
-        {props.categories &&
-          props.categories.map((cate) => (
+
+      {!props.categories.length && (
+        <Skeleton
+          variant="rect"
+          height={200}
+          width={200}
+          className={classes.spacer}
+        />
+      )}
+
+      {props.categories && (
+        <Swiper
+          className={classes.swiperRoot}
+          slidesPerView={"auto"}
+          navigation
+          height={300}
+        >
+          {props.categories.map((cate) => (
             <SwiperSlide key={cate.id}>
               <CategoryHomePaper
                 title={cate.title}
@@ -110,7 +127,8 @@ function CategorySwiper(props) {
               />
             </SwiperSlide>
           ))}
-      </Swiper>
+        </Swiper>
+      )}
     </div>
   );
 }

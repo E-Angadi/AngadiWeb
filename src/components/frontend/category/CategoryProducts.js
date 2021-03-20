@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Hidden } from "@material-ui/core";
 import CartBox from "../cart/CartBox";
 import ProductGrid from "../product/ProductGrid";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import { useFirestoreConnect } from "react-redux-firebase";
 import { configs } from "../../../config/configs";
@@ -43,6 +44,16 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
     fontStyle: "italic",
     boxSizing: "border-box",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    },
+  },
+  placeholder: {
+    width: "100%",
+    height: "14vw",
+    [theme.breakpoints.down("sm")]: {
+      height: "19vw",
+    },
   },
 }));
 
@@ -62,6 +73,8 @@ function CategoryProducts(props) {
   const cardsPerPage = configs.maxPageCards;
   const categories = useSelector((state) => state.category.categories);
   const products = useSelector((state) => state.firestore.ordered.products);
+  const [imgLoaded, setLoaded] = useState(false);
+
   useFirestoreConnect([
     {
       collection: "products",
@@ -96,12 +109,21 @@ function CategoryProducts(props) {
         </Hidden>
         <Grid item xs={12} md={10} container>
           <div className={classes.main}>
+            {!imgLoaded && (
+              <Skeleton
+                animation="wave"
+                variant="rect"
+                className={classes.placeholder}
+              />
+            )}
             <img
               className={classes.banner}
               src={imageURL}
-              alt={"Fresh Fruits"}
+              onLoad={() => setLoaded(true)}
             />
-            <div className={classes.description}>{description}</div>
+            {description && (
+              <div className={classes.description}>{description}</div>
+            )}
             {products && (
               <ProductGrid
                 data={products}

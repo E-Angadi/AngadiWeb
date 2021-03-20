@@ -209,7 +209,7 @@ function ProductCard(props) {
               animation="wave"
               variant="rect"
               width="100%"
-              height={fullwidth ? 250 : 100}
+              height={fullwidth ? 200 : 150}
             />
           )}
           <div>

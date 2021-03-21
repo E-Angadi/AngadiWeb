@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles((theme) => ({
   paperRoot: {
@@ -34,11 +35,20 @@ const useStyles = makeStyles((theme) => ({
 // TODO: Truckate large category names
 
 function CategoryHomePaper({ title, url, categoryId }) {
+  const [imgLoaded, setLoaded] = useState(false);
   const classes = useStyles();
   return (
     <Link to={"/category/" + categoryId}>
       <Paper elevation={0} className={classes.paperRoot}>
-        <img className={classes.paperImg} src={url} alt={title} />
+        {!imgLoaded && (
+          <Skeleton animation="wave" variant="rect" width="100%" height={150} />
+        )}
+        <img
+          className={classes.paperImg}
+          src={url}
+          alt={title}
+          onLoad={() => setLoaded(true)}
+        />
         <span className={classes.paperTitle}>{title}</span>
       </Paper>
     </Link>

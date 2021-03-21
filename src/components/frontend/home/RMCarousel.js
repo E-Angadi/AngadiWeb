@@ -6,6 +6,7 @@ import Carousel from "react-material-ui-carousel";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles((theme) => ({
   imgStyles: {
@@ -20,6 +21,14 @@ const useStyles = makeStyles((theme) => ({
 function RMCarousel(props) {
   const theme = useTheme();
   const classes = useStyles();
+
+  if (!props.banners) {
+    return (
+      <div className={classes.imgStyles}>
+        <Skeleton variant="rect" animation="wave" width="100%" height="100%" />
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>

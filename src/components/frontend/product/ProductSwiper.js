@@ -15,6 +15,7 @@ import "swiper/components/scrollbar/scrollbar.scss";
 
 import { loadSpecials } from "../../../store/actions/productActions";
 import { configs } from "../../../config/configs";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
@@ -67,6 +68,15 @@ const useStyles = makeStyles((theme) => ({
     },
     clear: "both",
   },
+  spacer: {
+    marginTop: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      marginTop: theme.spacing(2),
+    },
+  },
+  float: {
+    display: "float",
+  },
 }));
 
 function ProductSwiper(props) {
@@ -83,14 +93,24 @@ function ProductSwiper(props) {
       <Button component={Link} to="/deals" className={classes.viewall}>
         View All
       </Button>
-      <Swiper
-        className={classes.root}
-        slidesPerView={"auto"}
-        navigation
-        height={300}
-      >
-        {props.special &&
-          props.special.map((productData) => {
+
+      {!props.special.length && (
+        <Skeleton
+          variant="rect"
+          height={280}
+          width={180}
+          className={classes.spacer}
+        />
+      )}
+
+      {props.special && (
+        <Swiper
+          className={classes.root}
+          slidesPerView={"auto"}
+          navigation
+          height={300}
+        >
+          {props.special.map((productData) => {
             if (productData.visibility) {
               return (
                 <SwiperSlide key={productData.id}>
@@ -99,7 +119,8 @@ function ProductSwiper(props) {
               );
             }
           })}
-      </Swiper>
+        </Swiper>
+      )}
     </div>
   );
 }

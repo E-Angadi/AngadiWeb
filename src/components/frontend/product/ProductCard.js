@@ -10,6 +10,7 @@ import {
   openCheckDialog,
   closeCheckDialog,
 } from "../../../store/actions/locationActions";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { configs } from "../../../config/configs";
 
 const useStyles = makeStyles((theme) => ({
@@ -144,6 +145,7 @@ const useStyles = makeStyles((theme) => ({
   img: {
     height: "90%",
     width: "90%",
+    display: "block",
   },
   ofs: {
     textAlign: "center",
@@ -169,6 +171,7 @@ function ProductCard(props) {
   var titleLimit = props.titleLimit;
   const classes = useStyles();
   const [count, setCount] = useState(0);
+  const [imgLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
     var cartP = props.cart.find((x) => x.id === productData.id);
@@ -201,11 +204,21 @@ function ProductCard(props) {
     <div className={fullwidth ? classes.fullwidthroot : classes.root}>
       <Link to={"/product/" + productData.id}>
         <div className={classes.imgDiv}>
-          <img
-            className={classes.img}
-            src={productData.imageURL}
-            alt={productData.title}
-          />
+          {!imgLoaded && (
+            <Skeleton
+              animation="wave"
+              variant="rect"
+              width="100%"
+              height={fullwidth ? 200 : 150}
+            />
+          )}
+          <div>
+            <img
+              className={classes.img}
+              src={productData.imageURL}
+              onLoad={() => setLoaded(true)}
+            />
+          </div>
           {productData.discount > 0 && (
             <span className={classes.off}>
               <span className={classes.offNum}>

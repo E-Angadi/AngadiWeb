@@ -16,10 +16,18 @@ const serializeItems = (items) => {
 
   items.forEach((item) => {
     cart.push(
-      item.title + ";" + item.quantity + ";" + item.totalPrice + ";" + item.unit
+      item.title +
+        ";" +
+        item.quantity +
+        ";" +
+        item.totalPrice +
+        ";" +
+        item.unit +
+        ";" +
+        item.id
     );
   });
-  return cart.join(",");
+  return cart.join("|");
 };
 
 export const createOrder = (cod) => async (dispatch, getState) => {

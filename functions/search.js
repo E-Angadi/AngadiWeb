@@ -4,7 +4,6 @@ const algoliasearch = require("algoliasearch");
 
 const ALGOLIA_APP_ID = functions.config().algolia.app_id;
 const ALGOLIA_ADMIN_KEY = functions.config().algolia.admin_key;
-const ALGOLIA_INDEX_NAME = functions.config().algolia.index_name;
 
 exports.addFirestoreDataToAlgolia = functions.https.onRequest(
   (request, response) => {
@@ -21,7 +20,7 @@ exports.addFirestoreDataToAlgolia = functions.https.onRequest(
         });
 
         var client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
-        var index = client.initIndex(ALGOLIA_INDEX_NAME);
+        var index = client.initIndex("products");
 
         return index
           .saveObjects(arr)

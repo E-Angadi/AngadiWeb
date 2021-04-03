@@ -16,36 +16,36 @@ function TCD() {
       digital signatures.
       <br />
       <br />
-      Suryakantham Sahajahara ("Website and application") is an online selling
-      channel, having its office at Nizampet, Hyderabad – 500090
+      EAngadi("Website and application") is an online selling channel, having
+      its office at Nizampet, Hyderabad – 500090
       <br />
       <br />
       Your use / access of the Website and application, its related sites and
       hyperlinks, shall be governed by the terms and conditions, policies, rules
-      of Suryakantham Sahajahara ("Terms") posted on the Website and application
-      from time to time. These Terms applies to all users (whether Registered
-      user or Guest User) of the Website and application.
+      of EAngadi("Terms") posted on the Website and application from time to
+      time. These Terms applies to all users (whether Registered user or Guest
+      User) of the Website and application.
       <br />
       <br />
       Please read the Terms and conditions very carefully before using the
       Website and application as your use of the Website and application is
       subject to your acceptance of and compliance with the Terms. If you do not
       agree or are not willing to be bound by the terms and conditions of this
-      User Agreement and any Rules and Policies of Suryakantham Sahajahara ,
-      please do not click on the " I Accept" button/check box and on the
-      "Continue" button or "Pay Now" button and do not subscribe or seek to
-      obtain access to or otherwise use the Website and application.
+      User Agreement and any Rules and Policies of EAngadi, please do not click
+      on the " I Accept" button/check box and on the "Continue" button or "Pay
+      Now" button and do not subscribe or seek to obtain access to or otherwise
+      use the Website and application.
       <br />
       <br />
       By subscribing to or using the website and application or any of our
       services through the Website and application you agree that you have read,
       understood and are bound by the Terms, Policies, directions of
-      Suryakantham Sahajahara regardless of how you subscribe to or use the
-      Website and application. This Agreement comes into effect upon your
-      "Acceptance" of these terms and conditions ("Terms") however Suryakantham
-      Sahajahara at its sole discretion reserves its right not to accept a user
-      from registering on the Website and application without assigning any
-      reason thereof.
+      EAngadiregardless of how you subscribe to or use the Website and
+      application. This Agreement comes into effect upon your "Acceptance" of
+      these terms and conditions ("Terms") however Suryakantham Sahajahara at
+      its sole discretion reserves its right not to accept a user from
+      registering on the Website and application without assigning any reason
+      thereof.
       <br />
       <br />
       <br />
@@ -63,12 +63,11 @@ function TCD() {
       Website and application.
       <br />
       <br />
-      "Suryakantham Sahajahara "/ "we"/ "us"/ "our" shall mean Suryakantham
-      Sahajahara Private Limited or its affiliates, franchisees, service
-      providers, successors and assigns "Site" means the online shopping
-      platform owned and operated by Suryakantham Sahajahara Private Limited,
-      which provides a venue to the users of Suryakantham Sahajahara to buy the
-      Products listed on Site.
+      "EAngadi"/ "we"/ "us"/ "our" shall mean EAngadi Private Limited or its
+      affiliates, franchisees, service providers, successors and assigns "Site"
+      means the online shopping platform owned and operated by EAngadiPrivate
+      Limited, which provides a venue to the users of EAngadito buy the Products
+      listed on Site.
       <br />
       <br />
       "Customer"/"Buyer" shall mean the person or any legal entity who access
@@ -106,8 +105,8 @@ function TCD() {
       photographs, trademarks, logos, sounds, music, artwork and computer code
       collectively By impliedly or expressly accepting this User Agreement,
       Policies and Terms, You also accept and agree to be bound by Rules,
-      Policies and Terms of Suryakantham Sahajahara as provided from time to
-      time in its Website and application and corresponding hyperlinks.
+      Policies and Terms of EAngadias provided from time to time in its Website
+      and application and corresponding hyperlinks.
       <br />
       <br />
       <br />
@@ -120,13 +119,12 @@ function TCD() {
       <br />
       You can use the services offered by the Website and application as a
       "Registered User". As part of the registration process on the Site,
-      Suryakantham Sahajahara may collect certain personally identifiable
-      information about you including first and last name, email address, mobile
-      phone number and contact details, Postal code, Demographic profile (like
-      your age, gender, occupation, education, address etc.) and information
-      about the pages on the site you visit/access, the links you click on the
-      site, the number of times you access the page and any such browsing
-      information.
+      EAngadi may collect certain personally identifiable information about you
+      including first and last name, email address, mobile phone number and
+      contact details, Postal code, Demographic profile (like your age, gender,
+      occupation, education, address etc.) and information about the pages on
+      the site you visit/access, the links you click on the site, the number of
+      times you access the page and any such browsing information.
       <br />
       <br />
       As a Registered User, you are responsible for maintaining the
@@ -164,12 +162,12 @@ function TCD() {
       forth in any written or on-screen notice from us.
       <br />
       <br />
-      To register with & shop with Suryakantham Sahajahara you must be eighteen
-      years of age or over. Our website and application is not directed to
-      children under the age of 18. If we become aware that a child and/ or
-      customer is under the age of 18 and has registered or using our Website
-      and application, we are entitled to remove his or her account from our
-      system and cancel any order placed by him or her.
+      To register with & shop with EAngadi you must be eighteen years of age or
+      over. Our website and application is not directed to children under the
+      age of 18. If we become aware that a child and/ or customer is under the
+      age of 18 and has registered or using our Website and application, we are
+      entitled to remove his or her account from our system and cancel any order
+      placed by him or her.
       <br />
       <br />
       You agree and undertake not to reverse engineer, modify, copy, distribute,
@@ -230,32 +228,30 @@ function TCD() {
       <br />
       <br />
       This Website and application is controlled and operated by Suryakantham
-      Sahajahara from India and Suryakantham Sahajahara makes no representation
-      that the materials are appropriate or will be available for use in other
-      locations. If you use this web site from outside the India, you are
-      entirely responsible for compliance with all applicable local laws.
+      Sahajahara from India and EAngadi makes no representation that the
+      materials are appropriate or will be available for use in other locations.
+      If you use this web site from outside the India, you are entirely
+      responsible for compliance with all applicable local laws.
       <br />
       <br />
-      Suryakantham Sahajahara has several website and applications offering
-      products, services, content and various other functionalities
-      (collectively the "Services") to specific regions worldwide. The Services
-      offered in one region may differ from those in other regions due to
-      availability, local or regional laws, shipment and other considerations.
-      Suryakantham Sahajahara does not make any warranty or representation that
-      a user in one region may obtain the Services from the Suryakantham
-      Sahajahara site in another region and Suryakantham Sahajahara may cancel a
+      EAngadi has several website and applications offering products, services,
+      content and various other functionalities (collectively the "Services") to
+      specific regions worldwide. The Services offered in one region may differ
+      from those in other regions due to availability, local or regional laws,
+      shipment and other considerations. EAngadi does not make any warranty or
+      representation that a user in one region may obtain the Services from the
+      Suryakantham Sahajahara site in another region and EAngadi may cancel a
       user's order or redirect a user to the site for that user's region if a
       user attempts to order Services offered on a site in another region.
       <br />
       <br />
-      Information that Suryakantham Sahajahara publishes on the World Wide Web
-      may contain references or cross references to Suryakantham Sahajahara
-      products, programs and services that are not announced or available in
-      your country. Such references do not imply that Suryakantham Sahajahara
-      intends to announce such products, programs or services in your country.
-      Consult your local Suryakantham Sahajahara business contact for
-      information regarding the products, programs and services that may be
-      available to you.
+      Information that EAngadi publishes on the World Wide Web may contain
+      references or cross references to Suryakantham Sahajahara products,
+      programs and services that are not announced or available in your country.
+      Such references do not imply that Suryakantham Sahajahara intends to
+      announce such products, programs or services in your country. Consult your
+      local EAngadi business contact for information regarding the products,
+      programs and services that may be available to you.
       <br />
       <br />
       <b>4) Access to Website:</b>
@@ -274,16 +270,16 @@ function TCD() {
       <b>5) Permission to access website and application:</b>
       <br />
       <br />
-      Suryakantham Sahajahara grants you a limited, revocable permission to
-      access and make personal use of this Website and application, but not to
-      download or modify it, its Contents or any portion of it, except with
-      express written consent of Suryakantham Sahajahara . This permission does
-      not include any resale or commercial use of this website and application
-      or its contents; any collection and use of any product listings,
-      descriptions, or prices; any derivative use of this website and
-      application or its contents; any downloading or copying of account
-      information for the benefit of another seller; or any use of data mining,
-      robots, or similar data gathering and extraction tools
+      EAngadi grants you a limited, revocable permission to access and make
+      personal use of this Website and application, but not to download or
+      modify it, its Contents or any portion of it, except with express written
+      consent of EAngadi . This permission does not include any resale or
+      commercial use of this website and application or its contents; any
+      collection and use of any product listings, descriptions, or prices; any
+      derivative use of this website and application or its contents; any
+      downloading or copying of account information for the benefit of another
+      seller; or any use of data mining, robots, or similar data gathering and
+      extraction tools
       <br />
       <br />
       The use of the Website and application and its Content grants no rights to
@@ -395,11 +391,10 @@ function TCD() {
       cancel any order, even after acceptance.
       <br />
       <br />
-      Suryakantham Sahajahara has complete right to accept or reject an order
-      placed online. No act or omission of Suryakantham Sahajahara prior to
-      actual dispatch of the product(s) ordered will constitute an acceptance of
-      your offer. You agree not to dispute the decision of Suryakantham
-      Sahajahara in this regard.
+      EAngadi has complete right to accept or reject an order placed online. No
+      act or omission of EAngadi prior to actual dispatch of the product(s)
+      ordered will constitute an acceptance of your offer. You agree not to
+      dispute the decision of Suryakantham Sahajahara in this regard.
       <br />
       <br />
       <b>10) Delivery/Shipment of Product:</b>
@@ -425,21 +420,20 @@ function TCD() {
       <br />
       Copyright: All Content included on the website and application, such as
       text, graphics, logos, button icons, images, audio clips, digital
-      downloads, data compilations, and software, is the property of
-      Suryakantham Sahajahara , its affiliates or its content suppliers and is
-      protected by the Intellectual Property Laws of India.
+      downloads, data compilations, and software, is the property of EAngadi ,
+      its affiliates or its content suppliers and is protected by the
+      Intellectual Property Laws of India.
       <br />
       <br />
-      Trademarks: The trademark Suryakantham Sahajahara , its logo and all
-      products and logos denoted with TM are trademarks owned or registered
-      trademarks of Suryakantham Sahajahara or its affiliates.
+      Trademarks: The trademark EAngadi , its logo and all products and logos
+      denoted with TM are trademarks owned or registered trademarks of EAngadi
+      or its affiliates.
       <br />
       <br />
-      Intellectual Property Claims: Suryakantham Sahajahara and its affiliates
-      or its content suppliers respect the intellectual property of others. If
-      you believe that your intellectual property rights have been used in a way
-      that gives rise to concerns of infringement, please write to us with your
-      concerns.
+      Intellectual Property Claims: EAngadi and its affiliates or its content
+      suppliers respect the intellectual property of others. If you believe that
+      your intellectual property rights have been used in a way that gives rise
+      to concerns of infringement, please write to us with your concerns.
       <br />
       <br />
       <b>12) Disclaimer:</b>
@@ -469,13 +463,13 @@ function TCD() {
       <b>14) Amendments:</b>
       <br />
       <br />
-      Suryakantham Sahajahara reserves its right to amend the Website and
-      application, Policies, Conditions or Terms of use and at any time without
-      prior notice. All such updates and amendments shall be posted on the
-      Website and application and will be effective from the time of its posting
-      on the Website and application. You are advised to regularly check for any
-      amendments or updates to the terms and conditions contained in this User
-      Agreement, Terms and Policies.
+      EAngadi reserves its right to amend the Website and application, Policies,
+      Conditions or Terms of use and at any time without prior notice. All such
+      updates and amendments shall be posted on the Website and application and
+      will be effective from the time of its posting on the Website and
+      application. You are advised to regularly check for any amendments or
+      updates to the terms and conditions contained in this User Agreement,
+      Terms and Policies.
       <br />
       <br />
       <b>15) Indemnification:</b>
@@ -493,12 +487,12 @@ function TCD() {
       party.
       <br />
       <br />
-      You hereby expressly release Suryakantham Sahajahara and/or its affiliates
-      and/or any of its officers and representatives from any cost, damage,
-      liability or other consequence of any of the actions/inactions of the
-      Manufacturers/Brand owners of the Products purchased through the website
-      and application and specifically waiver any claims or demands that you may
-      have in this behalf under any statute, contract or otherwise.
+      You hereby expressly release EAngadi and/or its affiliates and/or any of
+      its officers and representatives from any cost, damage, liability or other
+      consequence of any of the actions/inactions of the Manufacturers/Brand
+      owners of the Products purchased through the website and application and
+      specifically waiver any claims or demands that you may have in this behalf
+      under any statute, contract or otherwise.
       <br />
       <br />
       This clause shall survive the expiry or termination of this Agreement.
@@ -516,11 +510,10 @@ function TCD() {
       <br />
       <br />
       Without prejudice to the generality of this section the total liability of
-      Suryakantham Sahajahara to you for all liabilities arising out of this
-      User Agreement be it in tort or contract is limited to the value of the
-      product ordered by you. However, in case of missing a delivery in transit,
-      Our liability is limited only to delivery at a later agreed time at no
-      additional charge.
+      EAngadi to you for all liabilities arising out of this User Agreement be
+      it in tort or contract is limited to the value of the product ordered by
+      you. However, in case of missing a delivery in transit, Our liability is
+      limited only to delivery at a later agreed time at no additional charge.
       <br />
       <br />
       <br />
@@ -532,17 +525,17 @@ function TCD() {
       <br />
       <br />
       Prices and taxes thereon in respect of all products are subject to change
-      from time to time, without prior notice by Suryakantham Sahajahara . We
-      strive to provide you with the best prices possible on our Website and
-      application. All the products listed on the Website and application will
-      be sold at Indian Rupees either at Maximum Retail Price (MRP) (inclusive
-      of all taxes) or at an Offer/discounted price with taxes, unless otherwise
-      specified. The prices mentioned at the time of ordering will be the prices
-      charged to you on the date of delivery. Although prices of most of the
-      products do not fluctuate on a daily basis but some of the commodities and
-      fresh food products prices do change on a daily basis. In case of products
-      such as Fresh Food, Vegetables and Fruits etc. the delivered weight may
-      have variance and product will be billed accordingly on the actual weight.
+      from time to time, without prior notice by EAngadi . We strive to provide
+      you with the best prices possible on our Website and application. All the
+      products listed on the Website and application will be sold at Indian
+      Rupees either at Maximum Retail Price (MRP) (inclusive of all taxes) or at
+      an Offer/discounted price with taxes, unless otherwise specified. The
+      prices mentioned at the time of ordering will be the prices charged to you
+      on the date of delivery. Although prices of most of the products do not
+      fluctuate on a daily basis but some of the commodities and fresh food
+      products prices do change on a daily basis. In case of products such as
+      Fresh Food, Vegetables and Fruits etc. the delivered weight may have
+      variance and product will be billed accordingly on the actual weight.
       <br />
       <br />
       There may be cases where M.R.P. of the product delivered is different from
@@ -570,9 +563,9 @@ function TCD() {
       <b>2) Payment Policy:</b>
       <br />
       <br />
-      Suryakantham Sahajahara offers you multiple payment options both online
-      and offline however Suryakantham Sahajahara reserves its right to add or
-      delete any mode of payment without any prior notice.
+      EAngadi offers you multiple payment options both online and offline
+      however EAngadi reserves its right to add or delete any mode of payment
+      without any prior notice.
       <br />
       <br />
       <b>A. Offline Payment Mode:</b>
@@ -583,8 +576,8 @@ function TCD() {
       delivery location
       <br />
       <br />
-      For CoD Payment option, maximum order value is Rs 20,000/- However
-      Suryakantham Sahajahara can change this limit without further notice.
+      For CoD Payment option, maximum order value is Rs 20,000/- However EAngadi
+      can change this limit without further notice.
       <br />
       <br />
       In cases where payment is attempted but remains unsuccessful and a
@@ -593,11 +586,11 @@ function TCD() {
       a payment confirmation sms from your bank, the amount generally gets
       reversed in the same account. You may raise the incident with customer
       care number on the back of card to reverse the amount in case of
-      unreasonable delay, Suryakantham Sahajahara will not be responsible for
-      such failed attempts due to any network or technical reasons. We on our
-      part, upon request of customer, after due verification with our back-end
-      team may give a written confirmation of the non-receipt of payment for you
-      to appropriately take up with card issuing bank.
+      unreasonable delay, EAngadi will not be responsible for such failed
+      attempts due to any network or technical reasons. We on our part, upon
+      request of customer, after due verification with our back-end team may
+      give a written confirmation of the non-receipt of payment for you to
+      appropriately take up with card issuing bank.
       <br />
       <br />
       <b>B. Online Payment Mode:</b>
@@ -619,12 +612,11 @@ function TCD() {
       <br />
       <br />
       We accept payments made by most of the major credit/debit cards issued in
-      India. Acceptance of card payment is at the sole discretion of
-      Suryakantham Sahajahara and you may be asked to submit copy of photo
-      identity proof too. However Suryakantham Sahajahara reserves its right to
-      deny acceptance of card payment without any prior notice. We don't accept
-      internationally issued credit/debit cards and certain cards issued by
-      banks in India too.
+      India. Acceptance of card payment is at the sole discretion of EAngadi and
+      you may be asked to submit copy of photo identity proof too. However
+      EAngadi reserves its right to deny acceptance of card payment without any
+      prior notice. We don't accept internationally issued credit/debit cards
+      and certain cards issued by banks in India too.
       <br />
       <br />
       <b>Order:</b>
@@ -638,9 +630,9 @@ function TCD() {
       <br />
       <br />
       Orders will be processed for shipment/delivery upon selection of your
-      preferred delivery location, date and time and confirmation by us.
-      Suryakantham Sahajahara may change maximum order value of COD and
-      items/locations available for COD without prior intimation.
+      preferred delivery location, date and time and confirmation by us. EAngadi
+      may change maximum order value of COD and items/locations available for
+      COD without prior intimation.
       <br />
       <br />
       <b>Payment:</b>
@@ -665,10 +657,9 @@ function TCD() {
       iv. Decline of transaction for any other reason/s
       <br />
       <br />
-      Suryakantham Sahajahara reserves its right to change the price of any
-      product in the Website and application any time without any notice. Prices
-      stated at the time of an order is placed shall apply in respect to that
-      order.
+      EAngadi reserves its right to change the price of any product in the
+      Website and application any time without any notice. Prices stated at the
+      time of an order is placed shall apply in respect to that order.
       <br />
       <br />
       All payments made against the purchases of products on Website and
@@ -689,32 +680,29 @@ function TCD() {
       <br />
       In case of payment made through online, before shipping / delivering your
       order to you, we may request you to provide copy of photo identity proof
-      document as acceptable to Suryakantham Sahajahara to establish your
-      ownership of the payment instrument used by you for your purchase. This is
-      done in the interest of providing a safe online shopping environment to
-      our users.
+      document as acceptable to EAngadi to establish your ownership of the
+      payment instrument used by you for your purchase. This is done in the
+      interest of providing a safe online shopping environment to our users.
       <br />
       <br />
-      Suryakantham Sahajahara reserves the right to impose limits on the number
-      of transactions which Suryakantham Sahajahara may receive from an
-      individual valid credit/debit/ valid bank account and reserves the right
-      to refuse to process transactions exceeding such limit.
+      EAngadi reserves the right to impose limits on the number of transactions
+      which EAngadi may receive from an individual valid credit/debit/ valid
+      bank account and reserves the right to refuse to process transactions
+      exceeding such limit.
       <br />
       <br />
-      Suryakantham Sahajahara reserves its right to refuse to process
-      transactions by buyers with a prior history of questionable charges
-      including without limitation breach of any agreements by buyer with
-      Suryakantham Sahajahara or breach/violation of any law or any charges
-      imposed by bank or breach of any policy. Suryakantham Sahajahara may do
+      EAngadi reserves its right to refuse to process transactions by buyers
+      with a prior history of questionable charges including without limitation
+      breach of any agreements by buyer with EAngadi or breach/violation of any
+      law or any charges imposed by bank or breach of any policy. EAngadi may do
       such checks as it deems fit before approving the buyer's order ) for
-      security or other reasons at the discretion of Suryakantham Sahajahara .
-      As a result of such check if Suryakantham Sahajahara is not satisfied with
-      the creditability of the Buyer or genuineness of the transaction, it will
-      have the right to reject such order. Suryakantham Sahajahara may delay
-      dispatch or cancel any transaction at its sole discretion, if Suryakantham
-      Sahajahara is suspicious of any Buyer's authenticity or activity or if the
-      Buyer is conducting high transaction volumes, to ensure safety of the
-      transaction.
+      security or other reasons at the discretion of EAngadi . As a result of
+      such check if EAngadi is not satisfied with the creditability of the Buyer
+      or genuineness of the transaction, it will have the right to reject such
+      order. EAngadi may delay dispatch or cancel any transaction at its sole
+      discretion, if Suryakantham Sahajahara is suspicious of any Buyer's
+      authenticity or activity or if the Buyer is conducting high transaction
+      volumes, to ensure safety of the transaction.
       <br />
       <br />
       In cases where the payment of an online order does not get successfully
@@ -728,10 +716,9 @@ function TCD() {
       there be any unreasonable delay in refund.
       <br />
       <br />
-      Buyer acknowledges that Suryakantham Sahajahara will not be liable for any
-      damages, interests, claims etc. resulting from not processing a
-      transaction or any delay in processing a transaction which is beyond
-      control of Suryakantham Sahajahara .
+      Buyer acknowledges that EAngadi will not be liable for any damages,
+      interests, claims etc. resulting from not processing a transaction or any
+      delay in processing a transaction which is beyond control of EAngadi .
       <br />
       <br />
       For Credit Card:
@@ -896,16 +883,15 @@ function TCD() {
       <br />
       <br />
       iii. Subject to availability of the ordered product at the Delivery Point
-      on the delivery day, Suryakantham Sahajahara shall deliver the product to
-      You as per schedule, failing which Suryakantham Sahajahara shall inform
-      You with a revised schedule for delivery of the Product. You may ask for
-      cancellation/modification of Order on account of this.
+      on the delivery day, EAngadi shall deliver the product to You as per
+      schedule, failing which EAngadi shall inform You with a revised schedule
+      for delivery of the Product. You may ask for cancellation/modification of
+      Order on account of this.
       <br />
       <br />
       iv. It is your responsibility to count and check all the products while
       accepting the Products as per your Order. No dispute will be entertained
-      by Suryakantham Sahajahara once you accept the products at the Delivery
-      Point.
+      by EAngadi once you accept the products at the Delivery Point.
       <br />
       <br />
       v. You shall accept the product without demur in the following
@@ -928,8 +914,8 @@ function TCD() {
       <br />
       <br />
       Delivery charge of Rs. 25/- will be leviable for each delivery. However
-      Suryakantham Sahajahara may run certain promotions / offers or prescribe
-      minimum order value for each transaction to waive the delivery charges.
+      EAngadi may run certain promotions / offers or prescribe minimum order
+      value for each transaction to waive the delivery charges.
       <br />
       <br />
       <b>7) Order-Splitting:</b>
@@ -956,24 +942,23 @@ function TCD() {
       <b>SPECIAL PROMOTIONS</b>
       <br />
       <br />
-      Suryakantham Sahajahara may at its sole discretion run certain Special
-      Promotions form time to time under additional specific terms and
-      conditions which shall be published on our website and application. The
-      participation in such promotions is absolutely voluntary. Certain benefits
-      of such promotions including cash back in customers store credit wallet
-      shall have limited validity at the sole discretion of Suryakantham
-      Sahajahara and maximum up to 6 months from the date of transaction. Any
-      dispute regarding the non receipt of promotion benefit must be brought to
-      notice of Suryakantham Sahajahara within 60 days from the date of end of
-      offer / promotion.
+      EAngadi may at its sole discretion run certain Special Promotions form
+      time to time under additional specific terms and conditions which shall be
+      published on our website and application. The participation in such
+      promotions is absolutely voluntary. Certain benefits of such promotions
+      including cash back in customers store credit wallet shall have limited
+      validity at the sole discretion of Suryakantham Sahajahara and maximum up
+      to 6 months from the date of transaction. Any dispute regarding the non
+      receipt of promotion benefit must be brought to notice of EAngadi within
+      60 days from the date of end of offer / promotion.
       <br />
       <br />
       Without prejudice to the generality of this section the total liability of
-      Suryakantham Sahajahara to you for all liabilities arising out of such
-      promotions be it in tort or contract is limited to the maximum value of
-      the benefit / discount applicable to the specific promotion. However in
-      case of missing a delivery in transit, Our liability is limited only to
-      delivery at a later agreed time at no additional charge.
+      EAngadi to you for all liabilities arising out of such promotions be it in
+      tort or contract is limited to the maximum value of the benefit / discount
+      applicable to the specific promotion. However in case of missing a
+      delivery in transit, Our liability is limited only to delivery at a later
+      agreed time at no additional charge.
       <br />
       <br />
       <br />
@@ -1018,9 +1003,9 @@ function TCD() {
       regarding the Website and application and its contents.
       <br />
       <br />
-      Reserved Rights of Suryakantham Sahajahara : We may discontinue this
-      Website and application at any time and for any reason, without notice.
-      All rights not expressly granted herein are hereby reserved to us.
+      Reserved Rights of EAngadi : We may discontinue this Website and
+      application at any time and for any reason, without notice. All rights not
+      expressly granted herein are hereby reserved to us.
       <br />
       <br />
       Applicable Law: Any dispute arising out of these terms and conditions,
@@ -1041,25 +1026,24 @@ function TCD() {
       any warranties or guarantees and in an "As Is" and "where is" basis. You
       must bear the risks associated with the use of the Site. This Website and
       application provides content from other Internet sites or resources and
-      while Suryakantham Sahajahara and its software support service provider
-      tries to ensure that material included on the Website and application is
-      correct, reputable and of high quality, it cannot accept responsibility if
-      this is not the case. Suryakantham Sahajahara and its affiliates shall not
-      be held responsible for any errors or omissions or for the results
-      obtained from the use of such information or for any technical problems
-      you may experience with the Website and application. Suryakantham
-      Sahajahara , its affiliates or its associates and technology partners make
-      no representations or warranties about the accuracy, reliability,
-      completeness, correctness and/or timeliness of any content, information,
-      software, text, graphics, links or communications provided on or through
-      the use of the Website and application or that the operation of the
-      Website and application will be error free and/or uninterrupted.
-      Consequently, Suryakantham Sahajahara and its affiliates/associates
-      assumes no liability whatsoever for any monetary or other damage suffered
-      by you on account of the delay, failure, interruption, or corruption of
-      any data or other information transmitted in connection with use of the
-      Website and application; and/or any interruption or errors in the
-      operation of the Website and application.
+      while EAngadiand its software support service provider tries to ensure
+      that material included on the Website and application is correct,
+      reputable and of high quality, it cannot accept responsibility if this is
+      not the case. EAngadiand its affiliates shall not be held responsible for
+      any errors or omissions or for the results obtained from the use of such
+      information or for any technical problems you may experience with the
+      Website and application. Suryakantham Sahajahara , its affiliates or its
+      associates and technology partners make no representations or warranties
+      about the accuracy, reliability, completeness, correctness and/or
+      timeliness of any content, information, software, text, graphics, links or
+      communications provided on or through the use of the Website and
+      application or that the operation of the Website and application will be
+      error free and/or uninterrupted. Consequently, EAngadiand its
+      affiliates/associates assumes no liability whatsoever for any monetary or
+      other damage suffered by you on account of the delay, failure,
+      interruption, or corruption of any data or other information transmitted
+      in connection with use of the Website and application; and/or any
+      interruption or errors in the operation of the Website and application.
     </div>
   );
 }

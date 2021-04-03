@@ -19,6 +19,8 @@ import Footer from "./home/Footer";
 import SpecialProducts from "./product/SpecialProducts";
 import TC from "./home/TC";
 import AboutUs from "./home/AboutUs";
+import Shipping from "./home/Shipping";
+import RC from "./home/RC";
 
 class PublicRoutes extends Component {
   render() {
@@ -43,6 +45,8 @@ class PublicRoutes extends Component {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/account" component={Account} />
           <Route exact path="/terms-and-conditions" component={TC} />
+          <Route exact path="/shipping-policy" component={Shipping} />
+          <Route exact path="/refunds" component={RC} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route path="/404" component={PageNotFound} />
           <Redirect to="/404" />

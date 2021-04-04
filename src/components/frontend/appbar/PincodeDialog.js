@@ -188,59 +188,74 @@ function PincodeDialog(props) {
           </DialogTitle>
           <DialogContent>
             <DialogContentText className={classes.contentText}>
-              {contentText}
+              {props.auth.uid
+                ? "Our delivery service is available at your location"
+                : contentText}
             </DialogContentText>
 
-            <SignInBtn handleSignIn={handleClose} />
+            {!props.auth.uid && (
+              <>
+                <SignInBtn handleSignIn={handleClose} />
+                <OrDivider />
 
-            <OrDivider />
-
-            <TextField
-              autoFocus
-              margin="dense"
-              id="pincode"
-              label="Pincode"
-              fullWidth
-              value={pincode}
-              error={err}
-              helperText={errMsg}
-              className={classes.pincodeText}
-              onChange={handlePincodeChange}
-            />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="pincode"
+                  label="Pincode"
+                  fullWidth
+                  value={pincode}
+                  error={err}
+                  helperText={errMsg}
+                  className={classes.pincodeText}
+                  onChange={handlePincodeChange}
+                />
+              </>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button
-              disabled={!props.locations}
-              onClick={handlePincodeCheck}
-              color="primary"
-            >
-              Check
-            </Button>
+            {!props.auth.uid && (
+              <Button
+                disabled={!props.locations}
+                onClick={handlePincodeCheck}
+                color="primary"
+              >
+                Check
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       </Hidden>
       <Hidden smUp>
         <Drawer anchor={"bottom"} open={props.open} onClose={handleClose}>
           <span className={classes.titlesm}> {title} </span>
-          <span className={classes.contentTextSm}>{contentText} </span>
-          <SignInBtn handleSignIn={handleClose} />
-          <OrDivider />
-          <div className={classes.centerDiv}>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="pincode"
-              label="Pincode"
-              value={pincode}
-              error={err}
-              helperText={errMsg}
-              className={classes.pincodeText}
-              onChange={handlePincodeChange}
-            />
-          </div>
+          <span className={classes.contentTextSm}>
+            {props.auth.uid
+              ? "Our delivery service is available at your location"
+              : contentText}{" "}
+          </span>
+          {!props.auth.uid && (
+            <>
+              <SignInBtn handleSignIn={handleClose} />
+              <OrDivider />
+              <div className={classes.centerDiv}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="pincode"
+                  label="Pincode"
+                  value={pincode}
+                  error={err}
+                  helperText={errMsg}
+                  className={classes.pincodeText}
+                  onChange={handlePincodeChange}
+                />
+              </div>
+            </>
+          )}
           <div className={classes.actions}>
             <Grid container justify="flex-end" spacing={1}>
               <Grid item>
@@ -248,11 +263,13 @@ function PincodeDialog(props) {
                   Cancel
                 </Button>
               </Grid>
-              <Grid item>
-                <Button onClick={handlePincodeCheck} color="primary">
-                  Check
-                </Button>
-              </Grid>
+              {!props.auth.uid && (
+                <Grid item>
+                  <Button onClick={handlePincodeCheck} color="primary">
+                    Check
+                  </Button>
+                </Grid>
+              )}
             </Grid>
           </div>
         </Drawer>
@@ -265,6 +282,7 @@ const mapStateToProps = (state) => {
   return {
     locations: state.firestore.ordered.locations,
     open: state.location.openCheck,
+    auth: state.firebase.auth,
   };
 };
 

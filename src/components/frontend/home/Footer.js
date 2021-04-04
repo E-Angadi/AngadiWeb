@@ -151,7 +151,7 @@ function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Email
+                {configs.contactInfo.email}
               </a>
             </span>
           </Grid>

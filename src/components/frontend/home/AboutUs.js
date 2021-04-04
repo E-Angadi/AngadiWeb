@@ -65,7 +65,7 @@ function AboutUs() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Email
+                  {configs.contactInfo.email}
                 </a>
                 <br />
                 <br />

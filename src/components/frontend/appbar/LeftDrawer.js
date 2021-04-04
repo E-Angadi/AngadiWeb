@@ -181,7 +181,7 @@ function LeftDrawer(props) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Email
+              {configs.contactInfo.email}
             </a>
           </span>
           <h3 className={classes.headingFooter}>Download App</h3>

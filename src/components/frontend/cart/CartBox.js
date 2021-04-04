@@ -5,6 +5,7 @@ import { Grid, Divider, IconButton } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
 import { addItem, removeItem } from "../../../store/actions/cartActions";
 import { Link } from "react-router-dom";
+import { titleToId } from "../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -139,7 +140,10 @@ function CartBox(props) {
         <div className={classes.topSpacer} />
         {props.cart.map((product) => (
           <div key={product.id} className={classes.item}>
-            <Link className={classes.title} to={"/product/" + product.id}>
+            <Link
+              className={classes.title}
+              to={"/product/" + titleToId(product.title)}
+            >
               {truncateString(product.title, 50) + " "}
               <span className={classes.variant}>{product.unit}</span>
             </Link>

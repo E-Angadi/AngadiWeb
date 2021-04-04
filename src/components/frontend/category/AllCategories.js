@@ -6,6 +6,7 @@ import RouterLink from "react-router-dom/Link";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,7 @@ function AllCategories(props) {
 
   return (
     <div className={classes.root}>
+      <ScrollToTop />
       <div className={classes.divRoot}>
         <Hidden xsDown>
           <Breadcrumbs separator="›" aria-label="breadcrumb">

@@ -12,6 +12,7 @@ import {
 } from "../../../store/actions/locationActions";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { configs } from "../../../config/configs";
+import { titleToId } from "../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -202,7 +203,7 @@ function ProductCard(props) {
 
   return (
     <div className={fullwidth ? classes.fullwidthroot : classes.root}>
-      <Link to={"/product/" + productData.id}>
+      <Link to={"/product/" + titleToId(productData.title)}>
         <div className={classes.imgDiv}>
           {!imgLoaded && (
             <Skeleton

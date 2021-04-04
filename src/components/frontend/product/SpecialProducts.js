@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import { loadSpecials } from "../../../store/actions/productActions";
 import CartBox from "../cart/CartBox";
+import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +56,7 @@ function SpecialProducts(props) {
 
   return (
     <div className={classes.root}>
+      <ScrollToTop />
       <Grid container spacing={2}>
         <Hidden smDown>
           <Grid item md={2}>

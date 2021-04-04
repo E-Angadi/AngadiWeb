@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { search } from "../../../store/actions/searchActions";
 import CartBox from "../cart/CartBox";
 import { configs } from "../../../config/configs";
+import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +63,7 @@ function SearchProduct(props) {
 
   return (
     <div className={classes.root}>
+      <ScrollToTop />
       <Grid container spacing={2}>
         <Hidden smDown>
           <Grid item md={2}>

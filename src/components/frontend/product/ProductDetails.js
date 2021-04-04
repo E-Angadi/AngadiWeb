@@ -17,6 +17,9 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { addItem, removeItem } from "../../../store/actions/cartActions";
+import { getTitlefromId } from "../../common/utils";
+import ScrollToTopOnMount from "../../common/ScrollToTopOnMount";
+import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -241,6 +244,7 @@ function ProductDetails(props) {
 
   return (
     <div className={classes.root}>
+      <ScrollToTop />
       <div className={classes.root2}>
         <Grid container spacing={1}>
           <Grid
@@ -403,7 +407,8 @@ export default compose(
     return [
       {
         collection: "products",
-        doc: props.match.params.productId,
+        where: [["title", "==", getTitlefromId(props.match.params.productId)]],
+        limit: 1,
       },
     ];
   })

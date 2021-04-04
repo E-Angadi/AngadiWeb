@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import { addItem, removeItem } from "../../../store/actions/cartActions";
 import { connect } from "react-redux";
+import { titleToId } from "../../common/utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -153,7 +154,10 @@ function ProductHCard(props) {
       <Grid container>
         <Grid item xs={12} container>
           <Grid item>
-            <Link to={"/product/" + props.item.id} className={classes.title}>
+            <Link
+              to={"/product/" + titleToId(props.item.title)}
+              className={classes.title}
+            >
               <img
                 className={classes.img}
                 src={props.item ? props.item.imageURL : "/imgs/default.jpg"}
@@ -163,7 +167,10 @@ function ProductHCard(props) {
           </Grid>
           <Grid item xs>
             <div className={classes.details}>
-              <Link to={"/product/" + props.item.id} className={classes.title}>
+              <Link
+                to={"/product/" + titleToId(props.item.title)}
+                className={classes.title}
+              >
                 {props.item.title}
               </Link>
               <div className={classes.priceBox}>

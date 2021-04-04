@@ -8,6 +8,7 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { configs } from "../../../config/configs";
 import { useSelector } from "react-redux";
+import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,6 +102,7 @@ function CategoryProducts(props) {
 
   return (
     <div className={classes.root}>
+      <ScrollToTop />
       <Grid container spacing={2}>
         <Hidden smDown>
           <Grid item md={2}>

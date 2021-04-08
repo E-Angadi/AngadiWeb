@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
   center: {
     textAlign: "center",
+    fontWeight: 900,
+  },
+  address: {
+    textAlign: "center",
+    marginTop: 10,
   },
   image: {
     width: "100%",
@@ -48,6 +53,9 @@ function AboutUs() {
                 </Grid>
                 <Grid className={classes.center} item xs={12}>
                   {configs.aboutus}
+                </Grid>
+                <Grid className={classes.address} item xs={12}>
+                  {"Office Address: " + configs.address}
                 </Grid>
               </Grid>
             </Grid>

@@ -188,7 +188,7 @@ function PincodeDialog(props) {
           </DialogTitle>
           <DialogContent>
             <DialogContentText className={classes.contentText}>
-              {props.auth.uid
+              {props.auth.uid && !props.profile.isGuest
                 ? "Our delivery service is available at your location"
                 : contentText}
             </DialogContentText>
@@ -197,7 +197,11 @@ function PincodeDialog(props) {
               <>
                 <SignInBtn handleSignIn={handleClose} />
                 <OrDivider />
+              </>
+            )}
 
+            {(!props.auth.uid || props.profile.isGuest) && (
+              <>
                 <TextField
                   autoFocus
                   margin="dense"
@@ -217,7 +221,7 @@ function PincodeDialog(props) {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            {!props.auth.uid && (
+            {(!props.auth.uid || props.profile.isGuest) && (
               <Button
                 disabled={!props.locations}
                 onClick={handlePincodeCheck}
@@ -237,10 +241,16 @@ function PincodeDialog(props) {
               ? "Our delivery service is available at your location"
               : contentText}{" "}
           </span>
+
           {!props.auth.uid && (
             <>
               <SignInBtn handleSignIn={handleClose} />
               <OrDivider />
+            </>
+          )}
+
+          {(!props.auth.uid || props.profile.isGuest) && (
+            <>
               <div className={classes.centerDiv}>
                 <TextField
                   autoFocus
@@ -263,7 +273,7 @@ function PincodeDialog(props) {
                   Cancel
                 </Button>
               </Grid>
-              {!props.auth.uid && (
+              {(!props.auth.uid || props.profile.isGuest) && (
                 <Grid item>
                   <Button onClick={handlePincodeCheck} color="primary">
                     Check
@@ -283,6 +293,7 @@ const mapStateToProps = (state) => {
     locations: state.firestore.ordered.locations,
     open: state.location.openCheck,
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 

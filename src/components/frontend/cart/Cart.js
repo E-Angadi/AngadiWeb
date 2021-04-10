@@ -47,6 +47,22 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  noItemsContainer: {
+    marginTop: 30,
+    textAlign: "center",
+    textColor: theme.palette.primary.main,
+  },
+  noItemsText: {
+    textAlign: "center",
+    color: theme.palette.primary.main,
+    marginBottom: theme.spacing(1),
+  },
+  noItemsTextHeading: {
+    fontWeight: 700,
+    textAlign: "center",
+    marginBottom: theme.spacing(1),
+    color: theme.palette.primary.main,
+  },
 }));
 
 function Cart(props) {
@@ -64,15 +80,48 @@ function Cart(props) {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} lg={8}>
-          <span className={classes.cartTitle}>
-            My Cart({props.cart.length})
-          </span>
-          <div className={classes.root1}>
-            {props.cart &&
-              props.cart.map((item, idx) => (
-                <ProductCard key={idx} item={item} />
-              ))}
-          </div>
+          {props.cart.length > 0 && (
+            <>
+              <span className={classes.cartTitle}>
+                My Cart({props.cart.length})
+              </span>
+              <div className={classes.root1}>
+                {props.cart &&
+                  props.cart.map((item, idx) => (
+                    <ProductCard key={idx} item={item} />
+                  ))}
+              </div>
+            </>
+          )}
+          {props.cart.length === 0 && (
+            <>
+              <Grid
+                container
+                justify="center"
+                className={classes.noItemsContainer}
+              >
+                <Grid item xs="auto">
+                  <div className={classes.noItemsTextHeading}>
+                    No Items in Cart
+                  </div>
+                  <div className={classes.noItemsText}>
+                    Explore the wide range of our products and have them
+                    delivered to your doorstep
+                  </div>
+                  <Button
+                    component={Link}
+                    className={classes.btn}
+                    to="/deals"
+                    variant="outlined"
+                    color="primary"
+                    alignItems="center"
+                  >
+                    Explore Our Products
+                  </Button>
+                </Grid>
+              </Grid>
+            </>
+          )}
         </Grid>
         <Grid item xs={12} lg={4}>
           <CheckoutStepper activeStep={0} />

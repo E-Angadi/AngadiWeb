@@ -180,7 +180,7 @@ function Payment(props) {
   const handleClose = () => {
     setOpenM(false);
     if (!props.status && props.msg === "SUCCESS") {
-      history.push("/");
+      history.push("/account#orders");
       props.resetPaymentState();
     }
   };

@@ -6,6 +6,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { addItem, removeItem } from "../../../store/actions/cartActions";
 import { Link } from "react-router-dom";
 import { titleToId } from "../../common/utils";
+import AddShoppingCartOutlinedIcon from "@material-ui/icons/AddShoppingCartOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     color: "rgba(111,114,132,.75)",
     marginTop: theme.spacing(2),
+    textAlign: "center",
   },
   proceed: {
     position: "absolute",
@@ -181,14 +183,17 @@ function CartBox(props) {
         {props.cart.length === 0 && (
           <Grid className={classes.noitems} container justify="center">
             <Grid item xs="auto">
-              No items in the cart
+              <b>No items in the cart</b>
+              <br />
+              <br />
+              <AddShoppingCartOutlinedIcon fontSize="large" />
             </Grid>
           </Grid>
         )}
       </div>
       {props.cart.length > 0 && (
         <Link to="/checkout/review">
-          <div className={classes.proceed}>Proceed to Review</div>
+          <div className={classes.proceed}>Continue to Checkout</div>
         </Link>
       )}
     </div>

@@ -9,9 +9,10 @@ configs.aboutus =
 configs.address =
   "#000, xyz street, near xyz complex, but it is in Hyderabad, love Hyderabad";
 
+// provide contact number with country code
 configs.contactInfo = {
   email: "example@gmail.com",
-  watsappNum: "9999999999",
+  watsappNum: "919966529191",
   androidAppLink: "#",
   iosAppLink: "#",
 };

@@ -136,6 +136,7 @@ function AddressForm(props) {
               value={values.name}
               onChange={handleInputChange}
               error={errors.name}
+              autoFocus
             />
           </Grid>
           <Grid item xs={6}>

@@ -160,7 +160,9 @@ function Footer() {
       <Divider />
       <Grid container justify="center" alignItems="center">
         <Grid item>
-          <span className={classes.copyright}>&#169; {configs.title}</span>
+          <span className={classes.copyright}>
+            &#169; 2021, {configs.title}, All Rights Reserved
+          </span>
         </Grid>
       </Grid>
     </footer>

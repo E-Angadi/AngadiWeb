@@ -95,10 +95,10 @@ const useStyles = makeStyles((theme) => ({
 const getItems = (cart) => {
   const items = [];
   if (!cart) return items;
-  const citems = cart.split(",");
+  const citems = cart.split("|");
   citems.forEach((c) => {
     const sc = c.split(";");
-    if (sc.length === 4)
+    if (sc.length === 5)
       items.push({
         name: sc[0],
         quantity: parseInt(sc[1]),

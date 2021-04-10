@@ -24,6 +24,17 @@ app.options("*", cors()); // enables pre-flight options
 
 app.use(bp.json());
 
+const deSerializeItems = (order_data) => {
+  const items = [];
+  if (!order_data) return items;
+  const citems = order_data.split("|");
+  citems.forEach((c) => {
+    const sc = c.split(";");
+    items.push({ id: sc[4], price: sc[2], quantity: sc[1] });
+  });
+  return items;
+};
+
 app.get("/", async (req, res) => res.send("Hello World!"));
 
 app.post("/create_order", async (req, res) => {
@@ -36,15 +47,29 @@ app.post("/create_order", async (req, res) => {
   var pnum = req.body.pnum;
   var cod = req.body.cod;
 
-  // Price Validation
-  let validate = await validatePrice(order_data);
-  if (!validate) {
-    res.json({
-      code: 400,
-      msg: "Error - Order request failed in price validation",
-    });
-    return;
+  // Price Validation ----- start
+  let promises = [];
+  let items = deSerializeItems(order_data);
+  for (let i = 0; i < items.length; i++) {
+    let item = items[i];
+    promises.push(admin.firestore().collection("products").doc(item.id).get());
   }
+
+  let responses = await Promise.all(promises);
+
+  let total = 0;
+  for (let i = 0; i < responses.length; i++) {
+    let res = responses[i].data();
+    total += items[i].quantity * res.totalPrice;
+  }
+  if (total !== amount) {
+    return res.json({
+      code: 401,
+      msg: "Failed -  Failed in price validation",
+    });
+  }
+
+  // Price Validation ----- end
 
   // Cash On delivery
   if (cod) {
@@ -151,37 +176,6 @@ async function get_order(order_id) {
     .catch((e) => console.log(e));
 
   return data;
-}
-
-const deSerializeItems = (order_data) => {
-  const items = [];
-  if (!order_data) return items;
-  const citems = order_data.split("|");
-  citems.forEach((c) => {
-    const sc = c.split(";");
-    if (sc.length === 2) items.push({ id: sc[4], price: sc[2] });
-  });
-  return items;
-};
-
-async function validatePrice(order_data) {
-  let items = deSerializeItems(order_data);
-  let i = 0,
-    j = 0;
-  items.forEach(async (item) => {
-    await admin
-      .firestore()
-      .collection("products")
-      .doc(item.id)
-      .get()
-      .then((res) => {
-        i++;
-        let obj = items.find((o) => o.id === res.data().id);
-        if (obj.price === res.data().totalPrice) j++;
-        if (i + 1 === items.length && j + 1 === items.length) return true;
-        else return false;
-      });
-  });
 }
 
 app.post("/verify_order", async (req, res) => {

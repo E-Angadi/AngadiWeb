@@ -46,6 +46,6 @@ configs.openPincodeEmptyCart = false;
 
 // Firebase functions base_url
 configs.functionsURL =
-  "https://us-central1-angadi-6266d.cloudfunctions.net/payment";
+  "https://us-central1-suryakantham-a7982.cloudfunctions.net/payment";
 
 configs.usingAlgoliaFree = true;

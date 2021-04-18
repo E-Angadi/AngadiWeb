@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { loadCartItems } from "../../../store/actions/cartActions";
+import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,6 +79,7 @@ function Cart(props) {
 
   return (
     <div className={classes.root}>
+      <ScrollToTop />
       <Grid container spacing={3}>
         <Grid item xs={12} lg={8}>
           {props.cart.length > 0 && (

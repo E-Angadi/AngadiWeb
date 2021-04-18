@@ -21,6 +21,7 @@ import {
 } from "../../../store/actions/paymentActions";
 import { configs } from "../../../config/configs";
 import { Link } from "react-router-dom";
+import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -187,6 +188,7 @@ function Payment(props) {
 
   return (
     <div className={classes.root}>
+      <ScrollToTop />
       <Grid container justify="center">
         <Grid item xs={12} lg={4}>
           <CheckoutStepper activeStep={2} />

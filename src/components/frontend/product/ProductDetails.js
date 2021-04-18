@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { addItem, removeItem } from "../../../store/actions/cartActions";
-import { getTitlefromId } from "../../common/utils";
+import { getTitlefromId, titleToId } from "../../common/utils";
 import ScrollToTopOnMount from "../../common/ScrollToTopOnMount";
 import ScrollToTop from "../../common/ScrollToTop";
 
@@ -215,7 +215,9 @@ function ProductDetails(props) {
 
   useEffect(() => {
     if (loaded) {
-      var cartP = props.cart.find((x) => x.id === props.match.params.productId);
+      var cartP = props.cart.find(
+        (x) => titleToId(x.title) === props.match.params.productId
+      );
       if (cartP) {
         setCount(cartP.quantity);
       } else {

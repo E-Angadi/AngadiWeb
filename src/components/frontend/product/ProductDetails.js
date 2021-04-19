@@ -17,8 +17,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { addItem, removeItem } from "../../../store/actions/cartActions";
-import { getTitlefromId, titleToId } from "../../common/utils";
-import ScrollToTopOnMount from "../../common/ScrollToTopOnMount";
+import { getTitlefromId } from "../../common/utils";
 import ScrollToTop from "../../common/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
@@ -197,7 +196,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const url = "/imgs/default.jpg";
-const title = "Closeup Ever Fresh Red Hot Gel Toothpaste 150 g ( Pack of 2 )";
 
 function ProductDetails(props) {
   const classes = useStyles();
@@ -216,7 +214,7 @@ function ProductDetails(props) {
   useEffect(() => {
     if (loaded) {
       var cartP = props.cart.find(
-        (x) => titleToId(x.title) === props.match.params.productId
+        (x) => x.title === getTitlefromId(props.match.params.productId)
       );
       if (cartP) {
         setCount(cartP.quantity);
@@ -224,7 +222,7 @@ function ProductDetails(props) {
         setCount(0);
       }
     }
-  }, [props.cart, loaded]);
+  }, [props.cart, loaded, props.products]);
 
   const handleAdd = () => {
     if (loaded) {

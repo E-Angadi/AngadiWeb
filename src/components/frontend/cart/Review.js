@@ -12,6 +12,7 @@ import { loadCartItems } from "../../../store/actions/cartActions";
 
 import { Redirect } from "react-router-dom";
 import ScrollToTop from "../../common/ScrollToTop";
+import Hidden from "@material-ui/core/Hidden";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,15 +88,17 @@ function Review(props) {
           <CheckoutStepper activeStep={1} />
           <PaymentDetails />
           <div className={classes.proceedBtn}>
-            <Button
-              component={Link}
-              to="/checkout/cart"
-              className={classes.btn}
-              variant="contained"
-              color="primary"
-            >
-              Back
-            </Button>
+            <Hidden smDown>
+              <Button
+                component={Link}
+                to="/checkout/cart"
+                className={classes.btn}
+                variant="contained"
+                color="primary"
+              >
+                Back
+              </Button>
+            </Hidden>
             <Button
               component={Link}
               to="/checkout/payment"

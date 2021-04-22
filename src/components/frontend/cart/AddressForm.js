@@ -10,6 +10,7 @@ import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 import { updateUserInfo } from "../../../store/actions/authActions";
+import Hidden from "@material-ui/core/Hidden";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -130,14 +131,25 @@ function AddressForm(props) {
       <Form onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={6}>
-            <Controls.Input
-              name="name"
-              label="Name"
-              value={values.name}
-              onChange={handleInputChange}
-              error={errors.name}
-              autoFocus
-            />
+            <Hidden smDown>
+              <Controls.Input
+                name="name"
+                label="Name"
+                value={values.name}
+                onChange={handleInputChange}
+                error={errors.name}
+                autoFocus
+              />
+            </Hidden>
+            <Hidden mdUp>
+              <Controls.Input
+                name="name"
+                label="Name"
+                value={values.name}
+                onChange={handleInputChange}
+                error={errors.name}
+              />
+            </Hidden>
           </Grid>
           <Grid item xs={6}>
             <Controls.Input

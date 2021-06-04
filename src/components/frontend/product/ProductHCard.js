@@ -177,12 +177,15 @@ function ProductHCard(props) {
                 <span className={classes.aprice}>
                   {"₹ " + props.item.totalPrice}
                 </span>
-                <span> </span>
-                <span className={classes.dprice}>
-                  {"₹ " + props.item.taxedPrice}
-                </span>
+                <span>   </span>
 
+                {props.item.discount > 0 && (
+                 <span className={classes.dprice}>
+                 {"₹ " + props.item.taxedPrice}
+               </span>
+                )}
                 <span className={classes.variant}>{props.item.unit}</span>
+
                 {props.item.discount > 0 && (
                   <span className={classes.save}>
                     save ₹ {props.item.taxedPrice - props.item.totalPrice}

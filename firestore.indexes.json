@@ -5,15 +5,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "cancelled",
-          "order": "ASCENDING"
-        },
-        {
           "fieldPath": "completed",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "deliverd",
           "order": "ASCENDING"
         },
         {

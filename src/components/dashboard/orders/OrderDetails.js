@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.dark,
     marginButton: theme.spacing(1),
   },
+  cancelled: {
+    color: "red",
+    textAlign: "center",
+  },
+  delivered: {
+    color: "green",
+    textAlign: "center",
+  },
 }));
 
 const getItems = (cart) => {
@@ -39,12 +47,13 @@ const getItems = (cart) => {
   const citems = cart.split("|");
   citems.forEach((c) => {
     const sc = c.split(";");
-    if (sc.length === 4)
+    if (sc.length === 5)
       items.push({
         title: sc[0],
         quantity: parseInt(sc[1]),
         price: sc[2],
         variant: sc[3],
+        productId: sc[4],
       });
   });
   return items;
@@ -151,32 +160,46 @@ function OrderDetails(props) {
         </Grid>
       </div>
       <div className={classes.metadate}>
-        <Grid container>
-          <Grid item xs={6}>
-            <Grid item container justify="center">
-              <Grid item>
-                <ActionButton
-                  deliver={true}
-                  handleDelivery={handleDeliver}
-                  handleCancel={handleCancel}
-                  id={props.order.id}
-                />
+        {props.order.cancelled === false &&
+          props.order.completed === true &&
+          props.order.deliverd === false && (
+            <Grid container>
+              <Grid item xs={6}>
+                <Grid item container justify="center">
+                  <Grid item>
+                    <ActionButton
+                      deliver={true}
+                      handleDelivery={handleDeliver}
+                      handleCancel={handleCancel}
+                      id={props.order.id}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={6}>
+                <Grid item container justify="center">
+                  <Grid item>
+                    <ActionButton
+                      deliver={false}
+                      handleDelivery={handleDeliver}
+                      handleCancel={handleCancel}
+                      id={props.order.id}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={6}>
-            <Grid item container justify="center">
-              <Grid item>
-                <ActionButton
-                  deliver={false}
-                  handleDelivery={handleDeliver}
-                  handleCancel={handleCancel}
-                  id={props.order.id}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+          )}
+        {props.order.cancelled === true &&
+          props.order.completed === true &&
+          props.order.deliverd === false && (
+            <div className={classes.cancelled}>Cancelled</div>
+          )}
+        {props.order.cancelled === false &&
+          props.order.completed === true &&
+          props.order.deliverd === true && (
+            <div className={classes.delivered}>Delivered</div>
+          )}
       </div>
       {getItemsCount(props.order.cart) > 0 &&
         getItems(props.order.cart).map((product) => (

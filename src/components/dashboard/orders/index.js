@@ -88,12 +88,9 @@ export default compose(
     return [
       {
         collection: "orders",
-        where: [
-          ["completed", "==", true],
-          ["deliverd", "==", false],
-          ["cancelled", "==", false],
-        ],
+        where: [["completed", "==", true]],
         orderBy: ["time", "desc"],
+        limit: 200,
       },
     ];
   })

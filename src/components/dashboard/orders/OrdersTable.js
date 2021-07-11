@@ -28,7 +28,7 @@ const headCells = [
   { id: "orderId", label: "Order ID", disableSorting: true },
   { id: "date", label: "Date", disableSorting: true },
   { id: "amount", label: "Amount" },
-  { id: "pincode", label: "Pincode" },
+  { id: "status", label: "Status" },
   { id: "view", label: "View", disableSorting: true },
 ];
 
@@ -60,12 +60,8 @@ function OrdersTable({ orders, orderSelected, changeOrderSelected }) {
     setRecords(orders);
   }, [orders]);
 
-  const {
-    TblContainer,
-    TblHead,
-    TblPagination,
-    recordsAfterPagingAndSorting,
-  } = useTable(records, headCells, filterFn);
+  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
+    useTable(records, headCells, filterFn);
 
   const handleSearch = (e) => {
     let target = e.target;
@@ -108,7 +104,17 @@ function OrdersTable({ orders, orderSelected, changeOrderSelected }) {
                 <TableCell style={wrapStyle}>{item.id} </TableCell>
                 <TableCell>{getDate(item.time)} </TableCell>
                 <TableCell>{item.amount} </TableCell>
-                <TableCell>{item.pincode} </TableCell>
+                <TableCell>
+                  {item.cancelled === false && item.deliverd === false && (
+                    <>ToDo</>
+                  )}
+                  {item.cancelled === true && item.deliverd === false && (
+                    <>Cancelled</>
+                  )}
+                  {item.cancelled === false && item.deliverd === true && (
+                    <>Delivered</>
+                  )}
+                </TableCell>
                 <TableCell>
                   <IconButton
                     color="primary"

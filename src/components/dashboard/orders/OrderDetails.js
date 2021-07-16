@@ -60,7 +60,7 @@ const getItems = (cart) => {
 };
 
 const getItemsCount = (cart) => {
-  return cart.split(",").length;
+  return cart.split("|").length;
 };
 
 const getTime = (time) => {

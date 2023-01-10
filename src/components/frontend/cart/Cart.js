@@ -82,7 +82,7 @@ function Cart(props) {
       <ScrollToTop />
       <Grid container spacing={3}>
         <Grid item xs={12} lg={8}>
-          {props.cart.length > 0 && (
+          {props.cart.length > 0 ? 
             <>
               <span className={classes.cartTitle}>
                 My Cart({props.cart.length})
@@ -94,36 +94,35 @@ function Cart(props) {
                   ))}
               </div>
             </>
-          )}
-          {props.cart.length === 0 && (
+            :
             <>
-              <Grid
-                container
-                justify="center"
-                className={classes.noItemsContainer}
-              >
-                <Grid item xs="auto">
-                  <div className={classes.noItemsTextHeading}>
-                    No Items in Cart
-                  </div>
-                  <div className={classes.noItemsText}>
-                    Explore the wide range of our products and have them
-                    delivered to your doorstep
-                  </div>
-                  <Button
-                    component={Link}
-                    className={classes.btn}
-                    to="/deals"
-                    variant="outlined"
-                    color="primary"
-                    alignItems="center"
-                  >
-                    Explore Our Products
-                  </Button>
-                </Grid>
+            <Grid
+              container
+              justify="center"
+              className={classes.noItemsContainer}
+            >
+              <Grid item xs="auto">
+                <div className={classes.noItemsTextHeading}>
+                  oops cart is empty
+                </div>
+                <div className={classes.noItemsText}>
+                  Explore the wide range of our products and have them
+                  delivered to your doorstep
+                </div>
+                <Button
+                  component={Link}
+                  className={classes.btn}
+                  to="/deals"
+                  variant="outlined"
+                  color="primary"
+                  alignItems="center"
+                >
+                  Explore Our Products
+                </Button>
               </Grid>
-            </>
-          )}
+            </Grid>
+          </>
+          }
         </Grid>
         <Grid item xs={12} lg={4}>
           <CheckoutStepper activeStep={0} />

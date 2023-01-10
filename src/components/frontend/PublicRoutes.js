@@ -21,6 +21,7 @@ import TC from "./home/TC";
 import AboutUs from "./home/AboutUs";
 import Shipping from "./home/Shipping";
 import RC from "./home/RC";
+import Wishlist from "./wishlist/Wishlist";
 
 class PublicRoutes extends Component {
   render() {
@@ -35,6 +36,7 @@ class PublicRoutes extends Component {
           <Route exact path="/checkout/review" component={Review} />
           <Route exact path="/checkout/payment" component={Payment} />
           <Route exact path="/product/:productId" component={ProductDetails} />
+          <Route exact path="/wishlist" component={Wishlist} />
           <Route
             exact
             path="/category/:categoryId"

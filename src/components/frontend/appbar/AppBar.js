@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { Search, Person, ShoppingCart } from "@material-ui/icons";
+import { Search, Person, ShoppingCart,FavoriteBorderIcon  } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import { Link, useHistory } from "react-router-dom";
@@ -198,11 +198,41 @@ function MyAppBar(props) {
                       </Badge>
                     </IconButton>
                     <Hidden smDown>
-                      <p>My Cart</p>
+                      {/* <p>My Cart</p> */}
                     </Hidden>
                   </div>
                 </Link>
               </Grid>
+
+              {/* my change in for adding wishlist */}
+              <Grid item>
+                <Link to="/wishlist" className={classes.link}>
+                  <div className={classes.actionDiv}>
+                    <IconButton aria-label="wishlist">
+                      {/* <Badge
+                        badgeContent={props.cart.length}
+                        color="primary"
+                        anchorOrigin={{
+                          vertical: "top",
+                          horizontal: "left",
+                        }}
+                      > */}
+                        <FavoriteBorderIcon
+                          onChange={handleSearchChange}
+                          onSubmit={handleSearch}
+                          value={searchText}
+                          className={classes.menuButton}
+                        />
+                      {/* </Badge> */}
+                    </IconButton>
+                    <Hidden smDown>
+                      {/* <p>My wislist</p> */}
+                    </Hidden>
+                  </div>
+                </Link>
+              </Grid>
+                    
+
             </Grid>
           </Grid>
         </Toolbar>

@@ -13,6 +13,7 @@ import {
 import Skeleton from "@material-ui/lab/Skeleton";
 import { configs } from "../../../config/configs";
 import { titleToId } from "../../common/utils";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -255,8 +256,9 @@ function ProductCard(props) {
       <div className={classes.change}>
         {count < 1 && productData.visibility && (
           <div className={classes.addBtn} onClick={handleAdd}>
-            <span>Add to My Cart</span>
+            <span>Add to Cart</span>
             <span className={classes.iconAddBtn}></span>
+            <span><FavoriteBorderIcon/></span>
           </div>
         )}
         {!productData.visibility && (

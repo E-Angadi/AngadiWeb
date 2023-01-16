@@ -50,3 +50,8 @@ configs.functionsURL =
   "https://us-central1-suryakantham-a7982.cloudfunctions.net/payment";
 
 configs.usingAlgoliaFree = true;
+
+// PayPal 
+configs.paypal={
+  client_id:process.env.REACT_APP_PAYPAL_CLIENT_ID
+}

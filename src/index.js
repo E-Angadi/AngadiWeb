@@ -8,6 +8,9 @@ import rootReducer from "./store/reducers/RootReducer";
 import { createStore, applyMiddleware } from "redux";
 import { Provider, useSelector } from "react-redux";
 import thunk from "redux-thunk";
+import {PayPalScriptProvider} from "@paypal/react-paypal-js"
+import AlertTemplate from 'react-alert-template-basic';
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import {
   reduxFirestore,
   getFirestore,
@@ -21,6 +24,7 @@ import {
 import firebase, { firebaseConfig } from "./config/firebaseConfig";
 import { composeWithDevTools } from "redux-devtools-extension";
 import Loading from "./components/frontend/Loading";
+import { configs } from "./config/configs";
 
 const store = createStore(
   rootReducer,
@@ -29,6 +33,8 @@ const store = createStore(
     reduxFirestore(firebase, firebaseConfig)
   )
 );
+
+
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector((state) => state.firebase.auth);
@@ -50,16 +56,28 @@ const rrfProps = {
   createFirestoreInstance,
 };
 
+const options = {
+  position: positions.BOTTOM_CENTER,
+  timeout: 5000,
+  offset: '30px',
+  transition: transitions.SCALE
+}
+
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <PayPalScriptProvider options={{"client-id":configs.paypal.client_id}}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <BrowserRouter>
           <AuthIsLoaded>
+            <AlertProvider template={AlertTemplate}{...options}>
             <App />
+            </AlertProvider>
           </AuthIsLoaded>
         </BrowserRouter>
       </ReactReduxFirebaseProvider>
+      </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

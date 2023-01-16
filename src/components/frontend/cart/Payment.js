@@ -22,6 +22,7 @@ import {
 import { configs } from "../../../config/configs";
 import { Link } from "react-router-dom";
 import ScrollToTop from "../../common/ScrollToTop";
+import PaypalCheckoutButton from "./PaypalCheckoutButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +86,7 @@ function Payment(props) {
     var success = !props.status && props.msg === "SUCCESS";
     return (
       <div style={modalStyle} className={classes.paper}>
-        <Grid container justify="center">
+        <Grid container justify = "center">
           <Grid item xs={12}>
             <h2 className={classes.confirmMsg}>
               {success ? "Order Placed" : "Failure Placing Order"}
@@ -183,7 +184,12 @@ function Payment(props) {
     if (!props.status && props.msg === "SUCCESS") {
       history.push("/account#orders");
       props.resetPaymentState();
-    }
+    } 
+  };
+  
+  const product = {
+    description : configs.description,
+    price:calcTPrice(props.cart) * 100
   };
 
   return (
@@ -193,6 +199,19 @@ function Payment(props) {
         <Grid item xs={12} lg={4}>
           <CheckoutStepper activeStep={2} />
           <PaymentDetails />
+
+{/*--------------------PayPal CheckOut Button For payment--------------------*/}
+
+          <div className="paypal">
+            <p className="checkout-title">PAY WITH PAYPAL</p>
+            <div className="paypal-button-container">
+
+              <PaypalCheckoutButton product ={ product }/>
+
+            </div>
+         </div>
+
+
           <div className={classes.paymentType}>
             <FormControl component="fieldset">
               <FormGroup aria-label="position" row>

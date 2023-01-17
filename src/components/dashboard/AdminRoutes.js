@@ -17,24 +17,25 @@ function AdminRoutes(props) {
   const [authenticate, setAuth] = useState(false);
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (props.profile.isLoaded) {
-  //     if (props.auth.uid && props.profile.isAdmin) {
-  //       setAuth(true);
-  //     } else {
-  //       // history.push("/");
-  //     }
-  //   }
-  // }, [props.profile, props.auth]);
   useEffect(() => {
     if (props.profile.isLoaded) {
-      if (props.auth.uid ) {
+      if (props.auth.uid && props.profile.isAdmin) {
         setAuth(true);
       } else {
         history.push("/");
       }
     }
   }, [props.profile, props.auth]);
+  
+  // useEffect(() => {
+  //   if (props.profile.isLoaded) {
+  //     if (props.auth.uid ) {
+  //       setAuth(true);
+  //     } else {
+  //       history.push("/");
+  //     }
+  //   }
+  // }, [props.profile, props.auth]);
 
   if (!authenticate) return <div> Please wait while Authenticating.... </div>;
 

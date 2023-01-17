@@ -26,6 +26,16 @@ function AdminRoutes(props) {
       }
     }
   }, [props.profile, props.auth]);
+  
+  // useEffect(() => {
+  //   if (props.profile.isLoaded) {
+  //     if (props.auth.uid ) {
+  //       setAuth(true);
+  //     } else {
+  //       history.push("/");
+  //     }
+  //   }
+  // }, [props.profile, props.auth]);
 
   if (!authenticate) return <div> Please wait while Authenticating.... </div>;
 

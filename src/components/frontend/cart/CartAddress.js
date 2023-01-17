@@ -87,6 +87,7 @@ function CartAddress(props) {
   const getPincodeIndex = (pincode) => {
     if (props.locations) {
       var locations = props.locations[0].locations.split(",");
+      
       var idx = locations.findIndex((e) => e === pincode);
       return idx + 1;
     } else return 0;

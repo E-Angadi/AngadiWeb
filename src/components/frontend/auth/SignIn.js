@@ -141,7 +141,7 @@ function SignIn(props) {
     props.anonymousSignup();
   };
 
-  if (props.auth.uid) return <Redirect to="/" />;
+  if (props.auth.uid) return <Redirect to="/dashboard" />;
 
   return (
     <div className={classes.root}>

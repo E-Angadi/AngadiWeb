@@ -17,9 +17,18 @@ function AdminRoutes(props) {
   const [authenticate, setAuth] = useState(false);
   const history = useHistory();
 
+  // useEffect(() => {
+  //   if (props.profile.isLoaded) {
+  //     if (props.auth.uid && props.profile.isAdmin) {
+  //       setAuth(true);
+  //     } else {
+  //       // history.push("/");
+  //     }
+  //   }
+  // }, [props.profile, props.auth]);
   useEffect(() => {
     if (props.profile.isLoaded) {
-      if (props.auth.uid && props.profile.isAdmin) {
+      if (props.auth.uid ) {
         setAuth(true);
       } else {
         history.push("/");
